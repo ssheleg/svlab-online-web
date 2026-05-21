@@ -2,8 +2,8 @@
 const stats = [
   { label: "// FOUNDED", value: "2024" },
   { label: "// HQ", value: "Warsaw, PL" },
-  { label: "// FOCUS", value: "AI products" },
-  { label: "// MODEL", value: "Build · ship · scale" },
+  { label: "// MODE", value: "Solo operator" },
+  { label: "// SHIPPED", value: "11+ products" },
 ];
 ---
 
@@ -11,18 +11,19 @@ const stats = [
   <div class="container-page grid">
     <div class="copy">
       <span class="mono-label">// ABOUT</span>
-      <h2>Small lab. Sharp surface area.</h2>
+      <h2>Solo. Operator. Sharp surface area.</h2>
       <p>
-        SV Lab is an independent AI product studio out of Poland. We don't
-        consult — we build and operate. Every line we ship runs in production
-        on at least one of our own products, on real customers, on
-        real revenue.
+        SV Lab is the individual entrepreneurship of <strong>Siarhei Sheleh</strong>
+        — also known as Sergey Sheleg. I'm based in Warsaw and I build, market,
+        and operate AI products on my own. Twelve years of shipping. Three live
+        products. One inbox: <a href="mailto:contact@svlab.online">contact@svlab.online</a>.
       </p>
       <p>
-        Our edge is depth in three layers most teams treat as separate:
-        <strong>agentic systems</strong>, <strong>data interfaces</strong>,
-        and <strong>growth engineering</strong>. We wire them into one stack
-        so AI products feel inevitable instead of duct-taped.
+        My edge is owning the full stack a product needs to exist: <strong>research</strong>,
+        <strong>engineering</strong>, <strong>go-to-market</strong>,
+        <strong>marketing</strong>, and <strong>operations</strong>. Most teams
+        treat these as separate roles. As a solo operator, I treat them as one
+        loop — and ship faster because of it.
       </p>
     </div>
 
@@ -79,6 +80,17 @@ const stats = [
   .copy strong {
     color: #fff;
     font-weight: 500;
+  }
+
+  .copy a {
+    color: #67e8f9;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(103, 232, 249, 0.4);
+    transition: border-color 200ms ease;
+  }
+
+  .copy a:hover {
+    border-bottom-color: #67e8f9;
   }
 
   .grid-stats {

@@ -6,39 +6,39 @@ export type Capability = {
 
 export const capabilities: Capability[] = [
   {
-    title: "Agentic systems",
+    title: "Go-to-market",
     description:
-      "Multi-tool LLM agents with planners, memory, evaluators, and human-in-the-loop checkpoints — production-grade, not prototypes.",
-    icon: "agent",
-  },
-  {
-    title: "Natural-language data",
-    description:
-      "Conversational interfaces over Postgres, MySQL, ClickHouse, and document stores. Codebase-aware NL-to-SQL that respects your schema.",
-    icon: "data",
-  },
-  {
-    title: "Market intelligence",
-    description:
-      "Pipelines that scrape, normalize, and synthesize SEO, ads, reviews, pricing, and funnel data into board-ready strategy.",
+      "Positioning, pricing, launch, distribution, first 1,000 users. I run GTM as the same loop as the build, not a phase after it.",
     icon: "intel",
   },
   {
-    title: "AI cloud platforms",
+    title: "Full-stack engineering",
     description:
-      "Managed runtimes for AI agents: dedicated VMs, instant provisioning, billing, observability, and one-click integrations.",
-    icon: "cloud",
+      "TypeScript end to end: agents, data pipelines, payments, infra. I write the code that ships, not just the spec.",
+    icon: "agent",
   },
   {
-    title: "Privacy & guardrails",
+    title: "Research & discovery",
     description:
-      "Token budgets, loop detection, prompt-injection defense, audit logs. AI you can ship to enterprise without surprises.",
+      "Customer interviews, competitive teardowns, technical spikes. I validate before I build, then keep validating after.",
+    icon: "data",
+  },
+  {
+    title: "Marketing & content",
+    description:
+      "Landing pages, SEO, AI-search optimization, organic distribution, paid funnels. Every product I run gets its own growth engine.",
+    icon: "growth",
+  },
+  {
+    title: "Operations & org",
+    description:
+      "Stripe billing, support, legal, vendor stack, analytics. The boring infrastructure that keeps a one-person company compounding.",
     icon: "shield",
   },
   {
-    title: "Growth engineering",
+    title: "AI products",
     description:
-      "Stripe billing, conversion-tuned funnels, Cloudflare-grade infrastructure, SEO + AI-search optimization wired in from day one.",
-    icon: "growth",
+      "Agentic systems, NL-to-SQL interfaces, managed cloud for agents — the layer where SV Lab's three live products live today.",
+    icon: "cloud",
   },
 ];

@@ -1,10 +1,11 @@
 export const site = {
   name: "SV Lab",
   legalName: "SV Lab — Siarhei Sheleh",
+  alternateFounderName: "Sergey Sheleg",
   founder: "Siarhei Sheleh",
   tagline: "An AI product lab from Poland.",
   description:
-    "SV Lab is a Poland-based studio building agentic, data-native, and growth-ready AI products. Founded by Siarhei Sheleh.",
+    "SV Lab is the solo studio of Siarhei Sheleh — a Poland-based operator building AI products end to end: research, engineering, go-to-market, and growth.",
   url: "https://svlab.online",
   email: "contact@svlab.online",
   location: "Warsaw, Poland",
@@ -12,4 +13,14 @@ export const site = {
   established: 2024,
   github: "https://github.com/ssheleg",
   social: [] as { label: string; href: string }[],
+  legal: {
+    entity: "SV Lab — Siarhei Sheleh (Sergey Sheleg)",
+    streetAddress: "Rajmunda 35",
+    postalCode: "03-606",
+    city: "Warsaw",
+    country: "Poland",
+    countryCode: "PL",
+    nip: "5223265821",
+    vat: "PL5223265821",
+  },
 } as const;

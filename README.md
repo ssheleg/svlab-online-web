@@ -1,7 +1,7 @@
 # SV Lab — svlab.online
 
-Marketing site for **SV Lab**, an AI product lab from Poland.
-Public single-page site that doubles as the portfolio for the lab's three live products (Prowl, CheckMyData, PrivateClawd) and the front door for [contact@svlab.online](mailto:contact@svlab.online).
+Marketing site for **SV Lab**, the solo AI product lab of **Siarhei Sheleh** (Sergey Sheleg) from Warsaw, Poland.
+Public single-page site that doubles as the portfolio for the lab's three live products (Prowl, CheckMyData, PrivateClawd), the career track record, and the front door for [contact@svlab.online](mailto:contact@svlab.online).
 
 - **Stack:** [Astro 6](https://astro.build) · TypeScript · Tailwind CSS v4
 - **Hosting:** GitHub Pages (static) on the apex domain `svlab.online`
@@ -36,12 +36,14 @@ src/
   components/
     Nav.astro · Hero.astro · About.astro
     Projects.astro · ProjectCard.astro
+    TrackRecord.astro           # career timeline (rows)
     Capabilities.astro · Marquee.astro
     Contact.astro · Footer.astro
     GradientMesh.astro · GridBg.astro · Logo.astro
   data/
-    site.ts                     # name, email, founder, location
-    projects.ts                 # SINGLE source of truth for portfolio cards
+    site.ts                     # name, email, founder, legal block (NIP/VAT/address)
+    projects.ts                 # SOT for live SV Lab products (3 cards)
+    track-record.ts             # SOT for career projects (8 rows)
     capabilities.ts             # capability tiles
   styles/global.css             # Tailwind v4 @theme tokens, design system
 public/

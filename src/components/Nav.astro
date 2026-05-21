@@ -4,6 +4,7 @@ import { site } from "@/data/site";
 
 const links = [
   { label: "Products", href: "#products" },
+  { label: "Track record", href: "#track-record" },
   { label: "Capabilities", href: "#capabilities" },
   { label: "Contact", href: "#contact" },
 ];
@@ -48,7 +49,8 @@ const links = [
   .links {
     display: none;
     margin-left: auto;
-    gap: 1.75rem;
+    gap: 1.4rem;
+    white-space: nowrap;
   }
 
   .links a {
@@ -110,7 +112,7 @@ const links = [
     color: #67e8f9;
   }
 
-  @media (min-width: 800px) {
+  @media (min-width: 860px) {
     .links {
       display: inline-flex;
     }
@@ -119,7 +121,7 @@ const links = [
     }
   }
 
-  @media (max-width: 540px) {
+  @media (max-width: 720px) {
     .cta-mono {
       display: none;
     }

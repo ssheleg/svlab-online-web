@@ -1,0 +1,302 @@
+---
+import { trackRecord, formatTrackYears } from "@/data/track-record";
+
+const total = trackRecord.length;
+const live = trackRecord.filter((t) => t.yearEnd === "present").length;
+---
+
+<section class="tr" id="track-record">
+  <div class="container-page inner">
+    <header class="head reveal">
+      <span class="mono-label">// TRACK RECORD · 12+ YEARS</span>
+      <h2>Things I've shipped before SV Lab.</h2>
+      <p>
+        {total} builds across consumer, AI, fintech, travel, and Web3 — {live}
+        of them still live and operating. Newest first.
+      </p>
+    </header>
+
+    <ol class="rows" aria-label="Career projects">
+      {trackRecord.map((t, i) => (
+        <li class="row reveal" data-slug={t.slug}>
+          {t.url ? (
+            <a
+              class="row-inner is-link"
+              href={t.url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span class="idx mono-label">/{String(i + 1).padStart(2, "0")}</span>
+              <span class="years mono-label">{formatTrackYears(t)}</span>
+              <div class="body">
+                <div class="title-line">
+                  <span class="name">{t.name}</span>
+                  {t.domain && <span class="dom mono-label">{t.domain}</span>}
+                  {t.yearEnd === "present" ? (
+                    <span class="status live">
+                      <span class="dot"></span>LIVE
+                    </span>
+                  ) : (
+                    <span class="status archived">ARCHIVED</span>
+                  )}
+                </div>
+                <p class="blurb">{t.blurb}</p>
+                <div class="meta-row">
+                  <span class="role mono-label">{t.role}</span>
+                  <span class="tags">
+                    {t.tags.map((tag) => <span class="tag">{tag}</span>)}
+                  </span>
+                </div>
+              </div>
+              <span class="arrow" aria-hidden="true">↗</span>
+            </a>
+          ) : (
+            <div class="row-inner is-static">
+              <span class="idx mono-label">/{String(i + 1).padStart(2, "0")}</span>
+              <span class="years mono-label">{formatTrackYears(t)}</span>
+              <div class="body">
+                <div class="title-line">
+                  <span class="name">{t.name}</span>
+                  {t.domain && <span class="dom mono-label">{t.domain}</span>}
+                  {t.yearEnd === "present" ? (
+                    <span class="status live">
+                      <span class="dot"></span>LIVE
+                    </span>
+                  ) : (
+                    <span class="status archived">ARCHIVED</span>
+                  )}
+                </div>
+                <p class="blurb">{t.blurb}</p>
+                <div class="meta-row">
+                  <span class="role mono-label">{t.role}</span>
+                  <span class="tags">
+                    {t.tags.map((tag) => <span class="tag">{tag}</span>)}
+                  </span>
+                </div>
+              </div>
+            </div>
+          )}
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .tr {
+    position: relative;
+    padding-block: clamp(4rem, 9vw, 7rem);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .head {
+    max-width: 60ch;
+  }
+
+  .head h2 {
+    margin-top: 0.85rem;
+    font-size: clamp(1.9rem, 3.6vw, 2.8rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .head p {
+    margin-top: 1rem;
+    color: var(--color-fg-muted);
+    line-height: 1.6;
+  }
+
+  .rows {
+    margin-top: 2.5rem;
+    list-style: none;
+    padding: 0;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .row {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .row:last-child {
+    border-bottom: none;
+  }
+
+  .row-inner {
+    display: grid;
+    grid-template-columns: auto auto 1fr auto;
+    align-items: start;
+    gap: 1.25rem;
+    padding: 1.4rem 1rem;
+    text-decoration: none;
+    color: inherit;
+    transition: background 200ms ease, transform 200ms ease;
+  }
+
+  .row-inner.is-link:hover {
+    background: linear-gradient(
+      90deg,
+      rgba(34, 211, 238, 0.04),
+      rgba(163, 230, 53, 0.04)
+    );
+  }
+
+  .row-inner.is-link:hover .arrow {
+    transform: translate(2px, -2px);
+    color: #67e8f9;
+  }
+
+  .row-inner.is-link:hover .name {
+    color: #fff;
+  }
+
+  .idx {
+    color: var(--color-fg-subtle);
+    padding-top: 0.25rem;
+    min-width: 2.5rem;
+  }
+
+  .years {
+    color: var(--color-fg);
+    padding-top: 0.25rem;
+    min-width: 9.5rem;
+    font-feature-settings: "tnum";
+  }
+
+  .body {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .title-line {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.6rem;
+  }
+
+  .name {
+    color: #f3f6fb;
+    font-size: 1.08rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    transition: color 200ms ease;
+  }
+
+  .dom {
+    color: var(--color-fg-subtle);
+  }
+
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+  }
+
+  .status.live {
+    background: rgba(52, 211, 153, 0.1);
+    border: 1px solid rgba(52, 211, 153, 0.3);
+    color: #6ee7b7;
+  }
+
+  .status.archived {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--color-border-strong);
+    color: var(--color-fg-muted);
+  }
+
+  .status .dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 999px;
+    background: #34d399;
+    box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.18);
+  }
+
+  .blurb {
+    color: var(--color-fg-muted);
+    line-height: 1.55;
+    font-size: 0.95rem;
+    margin: 0;
+  }
+
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .role {
+    color: var(--color-fg-subtle);
+  }
+
+  .tags {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.06em;
+    padding: 0.15rem 0.45rem;
+    border-radius: 0.35rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--color-border);
+    color: var(--color-fg-muted);
+  }
+
+  .arrow {
+    font-family: var(--font-mono);
+    color: var(--color-fg-subtle);
+    padding-top: 0.2rem;
+    transition: transform 220ms ease, color 220ms ease;
+  }
+
+  @media (max-width: 700px) {
+    .row-inner {
+      grid-template-columns: 1fr auto;
+      grid-template-areas:
+        "idx arrow"
+        "years arrow"
+        "body body";
+      gap: 0.4rem;
+      padding: 1.25rem 0.5rem;
+    }
+
+    .idx {
+      grid-area: idx;
+    }
+
+    .years {
+      grid-area: years;
+      min-width: 0;
+    }
+
+    .body {
+      grid-area: body;
+      margin-top: 0.45rem;
+    }
+
+    .arrow {
+      grid-area: arrow;
+      align-self: start;
+    }
+  }
+</style>
