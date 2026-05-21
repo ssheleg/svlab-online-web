@@ -1,0 +1,255 @@
+---
+import type { Project } from "@/data/projects";
+import { formatYears } from "@/data/projects";
+
+interface Props {
+  project: Project;
+  index: number;
+}
+
+const { project, index } = Astro.props;
+const years = formatYears(project);
+---
+
+<article
+  class:list={["card", "project", `accent-${project.accent}`]}
+  data-slug={project.slug}
+>
+  <div class="head">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">
+        <span class="mark-letter">{project.name.charAt(0)}</span>
+      </div>
+      <div class="brand-text">
+        <h3 class="name">{project.name}</h3>
+        <span class="domain mono-label">{project.domain}</span>
+      </div>
+    </div>
+
+    <div class="meta">
+      <span class="pill">
+        <span class="pill-dot"></span>
+        {project.status === "live" ? "LIVE" : project.status}
+      </span>
+      <span class="years mono-label">{years}</span>
+    </div>
+  </div>
+
+  <p class="tagline">{project.tagline}</p>
+
+  <p class="description">{project.description}</p>
+
+  <ul class="highlights">
+    {project.highlights.map((h) => (
+      <li>
+        <span class="bullet" aria-hidden="true">▹</span>
+        {h}
+      </li>
+    ))}
+  </ul>
+
+  <div class="stack">
+    {project.stack.map((s) => <span class="tag">{s}</span>)}
+  </div>
+
+  <div class="foot">
+    <span class="mono-label">// {String(index + 1).padStart(2, "0")} · {project.category}</span>
+    <a class="visit" href={project.url} target="_blank" rel="noopener noreferrer">
+      Visit
+      <span aria-hidden="true">↗</span>
+    </a>
+  </div>
+</article>
+
+<style>
+  .project {
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .project::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+      circle at top right,
+      var(--accent-glow, rgba(34, 211, 238, 0.18)) 0%,
+      transparent 55%
+    );
+    opacity: 0.6;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .accent-cyan {
+    --accent: #22d3ee;
+    --accent-glow: rgba(34, 211, 238, 0.22);
+  }
+
+  .accent-lime {
+    --accent: #a3e635;
+    --accent-glow: rgba(163, 230, 53, 0.2);
+  }
+
+  .accent-violet {
+    --accent: #a78bfa;
+    --accent-glow: rgba(167, 139, 250, 0.22);
+  }
+
+  .head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-width: 0;
+  }
+
+  .brand-mark {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    border-radius: 0.7rem;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.06),
+      rgba(255, 255, 255, 0.02)
+    );
+    border: 1px solid var(--color-border-strong);
+    color: var(--accent, #22d3ee);
+    box-shadow: 0 0 0 1px var(--accent-glow, transparent);
+  }
+
+  .mark-letter {
+    font-family: var(--font-mono);
+    font-size: 1.05rem;
+    font-weight: 600;
+  }
+
+  .brand-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    min-width: 0;
+  }
+
+  .name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: -0.01em;
+  }
+
+  .domain {
+    color: var(--color-fg-subtle);
+  }
+
+  .meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+    text-align: right;
+  }
+
+  .meta .pill {
+    background: color-mix(in oklab, var(--accent) 12%, transparent);
+    border-color: color-mix(in oklab, var(--accent) 35%, transparent);
+    color: color-mix(in oklab, var(--accent) 80%, white);
+  }
+
+  .years {
+    color: var(--color-fg-muted);
+  }
+
+  .tagline {
+    color: #fff;
+    font-size: 1.05rem;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .description {
+    color: var(--color-fg-muted);
+    line-height: 1.6;
+    font-size: 0.96rem;
+  }
+
+  .highlights {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .highlights li {
+    display: flex;
+    gap: 0.55rem;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    color: #d8dde6;
+  }
+
+  .bullet {
+    color: var(--accent, #22d3ee);
+    font-family: var(--font-mono);
+  }
+
+  .stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+    padding: 0.25rem 0.55rem;
+    border-radius: 0.4rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--color-border);
+    color: var(--color-fg-muted);
+  }
+
+  .foot {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding-top: 0.9rem;
+    border-top: 1px dashed rgba(255, 255, 255, 0.08);
+  }
+
+  .visit {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent, #22d3ee);
+    text-decoration: none;
+    transition: transform 200ms ease;
+  }
+
+  .visit:hover {
+    transform: translateX(2px);
+  }
+</style>

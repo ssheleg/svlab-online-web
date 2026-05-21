@@ -1,0 +1,52 @@
+---
+interface Props {
+  fade?: "top" | "bottom" | "both" | "none";
+}
+const { fade = "both" } = Astro.props;
+---
+
+<div
+  class:list={["grid-bg", `fade-${fade}`]}
+  aria-hidden="true"
+></div>
+
+<style>
+  .grid-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+    background-size: 56px 56px;
+    background-position: -1px -1px;
+  }
+
+  .fade-top {
+    mask-image: linear-gradient(to bottom, transparent, black 18%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black 18%);
+  }
+
+  .fade-bottom {
+    mask-image: linear-gradient(to top, transparent, black 18%);
+    -webkit-mask-image: linear-gradient(to top, transparent, black 18%);
+  }
+
+  .fade-both {
+    mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      black 14%,
+      black 86%,
+      transparent
+    );
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      black 14%,
+      black 86%,
+      transparent
+    );
+  }
+</style>

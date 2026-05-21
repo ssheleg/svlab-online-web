@@ -1,0 +1,28 @@
+{
+  "name": "svlab-online-web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Marketing site for SV Lab — an AI product lab from Poland.",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "prebuild": "node scripts/build-og.mjs",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/sitemap": "^3.6.0",
+    "@fontsource-variable/geist": "^5.2.6",
+    "@fontsource-variable/geist-mono": "^5.2.6",
+    "@tailwindcss/postcss": "4.2.4",
+    "astro": "^6.3.6",
+    "tailwindcss": "4.2.4",
+    "typescript": "^5.7.3"
+  },
+  "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2"
+  }
+}

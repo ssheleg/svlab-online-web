@@ -1,0 +1,86 @@
+---
+const items = [
+  "AI Agents",
+  "NL → SQL",
+  "Open-source",
+  "Cloud Platforms",
+  "MCP",
+  "Stripe",
+  "Cloudflare",
+  "Postgres",
+  "TypeScript",
+  "Astro",
+  "Next.js",
+  "Docker",
+  "OpenAI",
+  "Anthropic",
+  "Browser Automation",
+  "Privacy-first",
+];
+const loop = [...items, ...items];
+---
+
+<section class="marquee" aria-hidden="true">
+  <div class="track">
+    {loop.map((it) => (
+      <span class="chip">{it}</span>
+    ))}
+  </div>
+</section>
+
+<style>
+  .marquee {
+    position: relative;
+    overflow: hidden;
+    padding-block: 1.6rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    background:
+      radial-gradient(
+        ellipse at center,
+        rgba(34, 211, 238, 0.04),
+        transparent 70%
+      ),
+      rgba(7, 10, 18, 0.4);
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 10%,
+      black 90%,
+      transparent
+    );
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 10%,
+      black 90%,
+      transparent
+    );
+  }
+
+  .track {
+    display: flex;
+    gap: 1.25rem;
+    width: max-content;
+    animation: marquee 40s linear infinite;
+  }
+
+  .chip {
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.45rem 0.9rem;
+    border-radius: 999px;
+    border: 1px solid var(--color-border);
+    background: rgba(255, 255, 255, 0.02);
+    color: var(--color-fg-muted);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .track {
+      animation: none;
+    }
+  }
+</style>

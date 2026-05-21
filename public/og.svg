@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#070a12"/>
+      <stop offset="100%" stop-color="#0b101c"/>
+    </linearGradient>
+    <radialGradient id="glow1" cx="180" cy="120" r="380" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx="1080" cy="180" r="420" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#a78bfa" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#a78bfa" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow3" cx="700" cy="640" r="500" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#a3e635" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#a3e635" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="title" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="40%" stop-color="#c4f1f9"/>
+      <stop offset="70%" stop-color="#67e8f9"/>
+      <stop offset="100%" stop-color="#a3e635"/>
+    </linearGradient>
+    <linearGradient id="markGrad" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#22d3ee"/>
+      <stop offset="50%" stop-color="#a78bfa"/>
+      <stop offset="100%" stop-color="#a3e635"/>
+    </linearGradient>
+    <pattern id="grid" x="0" y="0" width="56" height="56" patternUnits="userSpaceOnUse">
+      <path d="M 56 0 L 0 0 0 56" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <rect width="1200" height="630" fill="url(#glow1)"/>
+  <rect width="1200" height="630" fill="url(#glow2)"/>
+  <rect width="1200" height="630" fill="url(#glow3)"/>
+
+  <g transform="translate(80, 80)">
+    <rect x="0" y="0" width="64" height="64" rx="14" fill="#0f1524" stroke="url(#markGrad)" stroke-width="2"/>
+    <path d="M20 23C20 19.134 23.134 16 27 16H35C38.866 16 42 19.134 42 23C42 26.866 38.866 30 35 30H27C23.134 30 20 33.134 20 37V41C20 44.866 23.134 48 27 48H37C40.866 48 44 44.866 44 41"
+          stroke="url(#markGrad)" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+    <text x="84" y="32" fill="#ffffff" font-family="ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600" letter-spacing="-0.02em">SV Lab</text>
+    <text x="84" y="56" fill="#5b6577" font-family="ui-monospace, monospace" font-size="14" letter-spacing="0.06em">/ svlab.online</text>
+  </g>
+
+  <text x="80" y="280" fill="#9aa3b2" font-family="ui-monospace, monospace" font-size="20" letter-spacing="0.18em">// AN AI PRODUCT LAB · WARSAW, PL</text>
+
+  <text x="80" y="370" fill="url(#title)" font-family="ui-sans-serif, system-ui, sans-serif" font-size="86" font-weight="600" letter-spacing="-0.03em">An AI product lab</text>
+  <text x="80" y="460" fill="#ffffff" font-family="ui-sans-serif, system-ui, sans-serif" font-size="86" font-weight="600" letter-spacing="-0.03em">from Poland.</text>
+
+  <g transform="translate(80, 530)">
+    <rect x="0" y="0" width="220" height="44" rx="22" fill="rgba(34,211,238,0.08)" stroke="rgba(34,211,238,0.28)"/>
+    <circle cx="22" cy="22" r="5" fill="#34d399"/>
+    <text x="40" y="28" fill="#67e8f9" font-family="ui-monospace, monospace" font-size="13" letter-spacing="0.16em">3 LIVE PRODUCTS</text>
+  </g>
+
+  <g transform="translate(320, 530)">
+    <rect x="0" y="0" width="320" height="44" rx="22" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.12)"/>
+    <text x="20" y="28" fill="#c9d2e0" font-family="ui-monospace, monospace" font-size="13" letter-spacing="0.12em">PROWL · CHECKMYDATA · PRIVATECLAWD</text>
+  </g>
+
+  <text x="80" y="600" fill="#5b6577" font-family="ui-monospace, monospace" font-size="14" letter-spacing="0.08em">contact@svlab.online · est. 2024</text>
+</svg>

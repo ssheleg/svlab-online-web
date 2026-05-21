@@ -1,0 +1,126 @@
+---
+import GradientMesh from "./GradientMesh.astro";
+import { site } from "@/data/site";
+
+const subject = encodeURIComponent("Hello SV Lab");
+const body = encodeURIComponent(
+  "Hi Siarhei,\n\nI'd like to talk about ...\n\n— ",
+);
+---
+
+<section class="contact" id="contact">
+  <GradientMesh variant="section" />
+  <div class="container-page inner reveal">
+    <span class="mono-label">// CONTACT</span>
+    <h2 class="title">
+      Let's build something<br />
+      <span class="gradient-text">worth shipping.</span>
+    </h2>
+
+    <p class="body">
+      Whether it's an AI agent, a data product, or a 0→1 build, drop a line.
+      We read every email and reply within one business day.
+    </p>
+
+    <div class="actions">
+      <a
+        class="btn-primary"
+        href={`mailto:${site.email}?subject=${subject}&body=${body}`}
+      >
+        contact@svlab.online
+        <span aria-hidden="true">→</span>
+      </a>
+      <a
+        class="btn-secondary"
+        href={`mailto:${site.email}?subject=${encodeURIComponent("Book a call · SV Lab")}`}
+      >
+        Book a call
+      </a>
+    </div>
+
+    <dl class="meta">
+      <div>
+        <dt class="mono-label">// LOCATION</dt>
+        <dd>{site.location}</dd>
+      </div>
+      <div>
+        <dt class="mono-label">// HOURS</dt>
+        <dd>Mon–Fri · 09:00–18:00 CET</dd>
+      </div>
+      <div>
+        <dt class="mono-label">// FOR</dt>
+        <dd>Founders · operators · agencies</dd>
+      </div>
+    </dl>
+  </div>
+</section>
+
+<style>
+  .contact {
+    position: relative;
+    padding-block: clamp(5rem, 10vw, 8rem);
+    overflow: hidden;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .inner {
+    position: relative;
+    z-index: 1;
+    max-width: 760px;
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .title {
+    margin-top: 0.85rem;
+    font-size: clamp(2rem, 5vw, 3.6rem);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .body {
+    margin-top: 1.25rem;
+    margin-inline: auto;
+    max-width: 56ch;
+    color: var(--color-fg-muted);
+    font-size: 1.05rem;
+    line-height: 1.6;
+  }
+
+  .actions {
+    margin-top: 2rem;
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+  }
+
+  .meta {
+    margin-top: 3rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    padding-top: 1.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  @media (min-width: 700px) {
+    .meta {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .meta div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    align-items: center;
+  }
+
+  .meta dd {
+    color: #fff;
+    font-size: 0.96rem;
+  }
+</style>

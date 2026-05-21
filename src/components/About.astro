@@ -1,0 +1,116 @@
+---
+const stats = [
+  { label: "// FOUNDED", value: "2024" },
+  { label: "// HQ", value: "Warsaw, PL" },
+  { label: "// FOCUS", value: "AI products" },
+  { label: "// MODEL", value: "Build · ship · scale" },
+];
+---
+
+<section class="about reveal" id="about">
+  <div class="container-page grid">
+    <div class="copy">
+      <span class="mono-label">// ABOUT</span>
+      <h2>Small lab. Sharp surface area.</h2>
+      <p>
+        SV Lab is an independent AI product studio out of Poland. We don't
+        consult — we build and operate. Every line we ship runs in production
+        on at least one of our own products, on real customers, on
+        real revenue.
+      </p>
+      <p>
+        Our edge is depth in three layers most teams treat as separate:
+        <strong>agentic systems</strong>, <strong>data interfaces</strong>,
+        and <strong>growth engineering</strong>. We wire them into one stack
+        so AI products feel inevitable instead of duct-taped.
+      </p>
+    </div>
+
+    <aside class="grid-stats" aria-label="Lab profile">
+      {stats.map((s) => (
+        <div class="stat-cell">
+          <span class="mono-label">{s.label}</span>
+          <span class="stat-val">{s.value}</span>
+        </div>
+      ))}
+    </aside>
+  </div>
+</section>
+
+<style>
+  .about {
+    position: relative;
+    padding-block: clamp(4rem, 8vw, 7rem);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    align-items: start;
+  }
+
+  @media (min-width: 900px) {
+    .grid {
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 4rem;
+    }
+  }
+
+  .copy h2 {
+    margin-top: 1rem;
+    font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-weight: 600;
+    color: #fff;
+    max-width: 18ch;
+  }
+
+  .copy p {
+    margin-top: 1.2rem;
+    color: var(--color-fg-muted);
+    line-height: 1.65;
+    max-width: 60ch;
+    font-size: 1rem;
+  }
+
+  .copy strong {
+    color: #fff;
+    font-weight: 500;
+  }
+
+  .grid-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    border: 1px solid var(--color-border);
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    overflow: hidden;
+  }
+
+  .stat-cell {
+    padding: 1.4rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    border-right: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .stat-cell:nth-child(2n) {
+    border-right: none;
+  }
+
+  .stat-cell:nth-last-child(-n + 2) {
+    border-bottom: none;
+  }
+
+  .stat-val {
+    font-size: 1.25rem;
+    color: #fff;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+</style>

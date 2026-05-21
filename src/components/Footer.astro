@@ -1,0 +1,134 @@
+---
+import Logo from "./Logo.astro";
+import { site } from "@/data/site";
+import { projects } from "@/data/projects";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container-page top">
+    <div class="brand-col">
+      <Logo />
+      <p class="tagline">
+        AI product lab from Poland. Building agentic, data-native, growth-ready
+        AI products.
+      </p>
+    </div>
+
+    <nav class="col" aria-label="Site sections">
+      <span class="mono-label">// LAB</span>
+      <a href="#products">Products</a>
+      <a href="#capabilities">Capabilities</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <nav class="col" aria-label="Products">
+      <span class="mono-label">// PRODUCTS</span>
+      {projects.map((p) => (
+        <a href={p.url} target="_blank" rel="noopener noreferrer">
+          {p.name}
+          <span class="ext" aria-hidden="true">↗</span>
+        </a>
+      ))}
+    </nav>
+
+    <div class="col">
+      <span class="mono-label">// CONTACT</span>
+      <a href={`mailto:${site.email}`}>{site.email}</a>
+      <span class="muted">{site.location}</span>
+      <a href={site.github} target="_blank" rel="noopener noreferrer">
+        GitHub
+        <span class="ext" aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="container-page legal">
+    <span>
+      © {year} {site.legalName}, Poland. All rights reserved.
+    </span>
+    <span class="mono-label">// SVLAB.ONLINE · v1</span>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    position: relative;
+    padding-top: 3rem;
+    padding-bottom: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    background:
+      linear-gradient(to bottom, rgba(7, 10, 18, 0), rgba(7, 10, 18, 0.6));
+  }
+
+  .top {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    padding-bottom: 2.25rem;
+  }
+
+  @media (min-width: 760px) {
+    .top {
+      grid-template-columns: 1.6fr repeat(3, 1fr);
+      gap: 2rem;
+    }
+  }
+
+  .brand-col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    max-width: 30ch;
+  }
+
+  .tagline {
+    color: var(--color-fg-muted);
+    line-height: 1.5;
+    font-size: 0.92rem;
+  }
+
+  .col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+
+  .col a {
+    color: var(--color-fg);
+    font-size: 0.92rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    transition: color 200ms ease;
+  }
+
+  .col a:hover {
+    color: #67e8f9;
+  }
+
+  .col .muted {
+    color: var(--color-fg-muted);
+    font-size: 0.92rem;
+  }
+
+  .ext {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-fg-subtle);
+  }
+
+  .legal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    color: var(--color-fg-subtle);
+    font-size: 0.84rem;
+  }
+</style>

@@ -1,0 +1,89 @@
+---
+interface Props {
+  size?: number;
+  showWordmark?: boolean;
+}
+const { size = 28, showWordmark = true } = Astro.props;
+---
+
+<a
+  href="/"
+  class="logo"
+  aria-label="SV Lab — Home"
+>
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 32 32"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    role="img"
+    aria-hidden="true"
+  >
+    <defs>
+      <linearGradient id="lg-mark" x1="0" y1="0" x2="32" y2="32">
+        <stop offset="0%" stop-color="#22d3ee" />
+        <stop offset="50%" stop-color="#a78bfa" />
+        <stop offset="100%" stop-color="#a3e635" />
+      </linearGradient>
+    </defs>
+    <rect
+      x="1"
+      y="1"
+      width="30"
+      height="30"
+      rx="8"
+      fill="rgba(15, 21, 36, 0.9)"
+      stroke="url(#lg-mark)"
+      stroke-width="1.5"
+    />
+    <path
+      d="M10 11.5C10 9.567 11.567 8 13.5 8H17.5C19.433 8 21 9.567 21 11.5V11.5C21 13.433 19.433 15 17.5 15H13.5C11.567 15 10 16.567 10 18.5V20.5C10 22.433 11.567 24 13.5 24H18.5C20.433 24 22 22.433 22 20.5"
+      stroke="url(#lg-mark)"
+      stroke-width="1.75"
+      stroke-linecap="round"
+    />
+  </svg>
+  {showWordmark && (
+    <span class="wordmark">
+      <span class="brand">SV Lab</span>
+      <span class="brand-sub">/svlab.online</span>
+    </span>
+  )}
+</a>
+
+<style>
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .wordmark {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+
+  .brand {
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: -0.01em;
+    color: #fff;
+  }
+
+  .brand-sub {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    color: var(--color-fg-subtle);
+  }
+
+  @media (max-width: 540px) {
+    .brand-sub {
+      display: none;
+    }
+  }
+</style>
