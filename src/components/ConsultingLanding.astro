@@ -1,0 +1,783 @@
+---
+import { site } from "@/data/site";
+import {
+  type ConsultingService,
+  getProductsForService,
+  getTrackRecordForService,
+} from "@/data/consulting";
+import { formatYears } from "@/data/projects";
+import { formatTrackYears } from "@/data/track-record";
+import GradientMesh from "./GradientMesh.astro";
+import GridBg from "./GridBg.astro";
+
+interface Props {
+  service: ConsultingService;
+}
+
+const { service } = Astro.props;
+const products = getProductsForService(service);
+const tracks = getTrackRecordForService(service);
+
+const mailto = `mailto:${site.email}?subject=${encodeURIComponent(service.cta.subject)}&body=${encodeURIComponent(service.cta.body)}`;
+---
+
+<section class="cl-hero">
+  <GradientMesh variant="hero" />
+  <GridBg fade="bottom" />
+
+  <div class="container-page hero-inner">
+    <span class="kicker mono-label">
+      <span class="dot"></span>
+      {service.kicker} · WARSAW, PL
+    </span>
+
+    <h1 class="hero-title reveal">
+      <span class="gradient-text">{service.hero.headline}</span>
+    </h1>
+
+    <p class="hero-sub reveal">{service.hero.sub}</p>
+
+    <div class="hero-actions reveal">
+      <a class="btn-primary" href={mailto}>
+        Book a consultation
+        <span aria-hidden="true">→</span>
+      </a>
+      <a class="btn-secondary" href="#proofs">See proofs ↓</a>
+    </div>
+  </div>
+</section>
+
+<section class="cl-outcomes reveal" id="outcomes">
+  <div class="container-page">
+    <header class="head">
+      <span class="mono-label">// OUTCOMES</span>
+      <h2>What you walk away with.</h2>
+    </header>
+
+    <div class="grid">
+      {service.outcomes.map((o) => (
+        <article class="card cell">
+          <span class="cell-val">{o.value}</span>
+          <span class="mono-label cell-label">{o.label}</span>
+          <p>{o.blurb}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="cl-proofs reveal" id="proofs">
+  <div class="container-page">
+    <header class="head">
+      <span class="mono-label">// PROOFS · WHY ME</span>
+      <h2>I don't pitch AI from a slide deck.</h2>
+      <p>
+        SV Lab runs three live AI products in production today, on top of a
+        12-year track record of shipping internet products end-to-end. Below:
+        the work most relevant to this engagement.
+      </p>
+    </header>
+
+    {products.length > 0 && (
+      <div class="proof-products">
+        {products.map((p) => (
+          <article class={`card proof-card accent-${p.accent}`}>
+            <div class="proof-head">
+              <h3>{p.name}</h3>
+              <span class="domain mono-label">{p.domain}</span>
+            </div>
+            <p class="tagline">{p.tagline}</p>
+            <p class="desc">{p.description}</p>
+            <div class="foot">
+              <span class="mono-label">{p.category} · {formatYears(p)}</span>
+              <a class="visit" href={p.url} target="_blank" rel="noopener noreferrer">
+                Visit
+                <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    )}
+
+    {tracks.length > 0 && (
+      <div class="proof-tracks">
+        <span class="mono-label">// PRIOR WORK</span>
+        <ol class="rows">
+          {tracks.map((t) => (
+            <li class="row">
+              {t.url ? (
+                <a class="row-inner is-link" href={t.url} target="_blank" rel="noopener noreferrer">
+                  <span class="years mono-label">{formatTrackYears(t)}</span>
+                  <div class="row-body">
+                    <div class="title-line">
+                      <span class="name">{t.name}</span>
+                      {t.domain && <span class="dom mono-label">{t.domain}</span>}
+                    </div>
+                    <p class="blurb">{t.blurb}</p>
+                  </div>
+                  <span class="arrow" aria-hidden="true">↗</span>
+                </a>
+              ) : (
+                <div class="row-inner is-static">
+                  <span class="years mono-label">{formatTrackYears(t)}</span>
+                  <div class="row-body">
+                    <div class="title-line">
+                      <span class="name">{t.name}</span>
+                    </div>
+                    <p class="blurb">{t.blurb}</p>
+                  </div>
+                </div>
+              )}
+            </li>
+          ))}
+        </ol>
+      </div>
+    )}
+  </div>
+</section>
+
+<section class="cl-process reveal" id="process">
+  <div class="container-page">
+    <header class="head">
+      <span class="mono-label">// PROCESS</span>
+      <h2>How it works.</h2>
+    </header>
+
+    <ol class="steps">
+      {service.process.map((s) => (
+        <li class="step">
+          <span class="mono-label step-tag">{s.step}</span>
+          <h3>{s.title}</h3>
+          <p>{s.body}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<section class="cl-faq reveal" id="faq">
+  <div class="container-page faq-inner">
+    <header class="head">
+      <span class="mono-label">// FAQ</span>
+      <h2>Common questions.</h2>
+    </header>
+
+    <div class="faq-list">
+      {service.faq.map((f) => (
+        <details class="faq-item">
+          <summary>
+            <span>{f.q}</span>
+            <span class="caret" aria-hidden="true">+</span>
+          </summary>
+          <p>{f.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="cl-cta">
+  <GradientMesh variant="section" />
+  <div class="container-page cta-inner reveal">
+    <span class="mono-label">// LET'S TALK</span>
+    <h2>
+      Ready to <span class="gradient-text">put AI to work?</span>
+    </h2>
+    <p>
+      One email and we're on a call within a week. I read every message and
+      reply within one business day.
+    </p>
+    <div class="actions">
+      <a class="btn-primary" href={mailto}>
+        Book a consultation
+        <span aria-hidden="true">→</span>
+      </a>
+      <a class="btn-secondary" href={`mailto:${site.email}`}>
+        {site.email}
+      </a>
+    </div>
+    <dl class="meta">
+      <div>
+        <dt class="mono-label">// LOCATION</dt>
+        <dd>{site.location}</dd>
+      </div>
+      <div>
+        <dt class="mono-label">// HOURS</dt>
+        <dd>Mon–Fri · 09:00–18:00 CET</dd>
+      </div>
+      <div>
+        <dt class="mono-label">// REPLY</dt>
+        <dd>Within 1 business day</dd>
+      </div>
+    </dl>
+  </div>
+</section>
+
+<style>
+  /* Hero */
+  .cl-hero {
+    position: relative;
+    overflow: hidden;
+    padding-top: clamp(3rem, 8vw, 6rem);
+    padding-bottom: clamp(4rem, 9vw, 7rem);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 999px;
+    border: 1px solid var(--color-border);
+    background: rgba(255, 255, 255, 0.02);
+    color: #c9d2e0;
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: #34d399;
+    box-shadow: 0 0 0 4px rgba(52, 211, 153, 0.18);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+
+  .hero-title {
+    margin-top: 1.4rem;
+    font-size: clamp(2.2rem, 5.6vw, 4.4rem);
+    line-height: 1.04;
+    letter-spacing: -0.03em;
+    font-weight: 600;
+    color: #fff;
+    max-width: 22ch;
+  }
+
+  .hero-sub {
+    margin-top: 1.4rem;
+    color: var(--color-fg-muted);
+    line-height: 1.6;
+    font-size: clamp(1rem, 1.4vw, 1.15rem);
+    max-width: 60ch;
+  }
+
+  .hero-actions {
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  /* Section heads */
+  .head {
+    max-width: 60ch;
+  }
+
+  .head h2 {
+    margin-top: 0.85rem;
+    font-size: clamp(1.9rem, 3.6vw, 2.6rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .head p {
+    margin-top: 1rem;
+    color: var(--color-fg-muted);
+    line-height: 1.6;
+  }
+
+  /* Outcomes */
+  .cl-outcomes {
+    padding-block: clamp(4rem, 8vw, 7rem);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .grid {
+    margin-top: 2.5rem;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 700px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .cell {
+    padding: 1.6rem 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .cell-val {
+    font-size: 1.85rem;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: -0.025em;
+    background: linear-gradient(120deg, #ffffff 0%, #67e8f9 60%, #a3e635 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .cell-label {
+    color: #c9d2e0;
+  }
+
+  .cell p {
+    color: var(--color-fg-muted);
+    line-height: 1.55;
+    font-size: 0.94rem;
+    margin-top: 0.2rem;
+  }
+
+  /* Proofs */
+  .cl-proofs {
+    padding-block: clamp(4rem, 8vw, 7rem);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .proof-products {
+    margin-top: 2.5rem;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 900px) {
+    .proof-products {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .proof-card {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    isolation: isolate;
+  }
+
+  .proof-card.accent-cyan {
+    --accent: #22d3ee;
+    --accent-glow: rgba(34, 211, 238, 0.18);
+  }
+  .proof-card.accent-lime {
+    --accent: #a3e635;
+    --accent-glow: rgba(163, 230, 53, 0.18);
+  }
+  .proof-card.accent-violet {
+    --accent: #a78bfa;
+    --accent-glow: rgba(167, 139, 250, 0.18);
+  }
+
+  .proof-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+      circle at top right,
+      var(--accent-glow, rgba(34, 211, 238, 0.18)) 0%,
+      transparent 55%
+    );
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .proof-head {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .proof-head h3 {
+    color: #fff;
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .domain {
+    color: var(--color-fg-subtle);
+  }
+
+  .tagline {
+    color: #fff;
+    font-size: 0.98rem;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .desc {
+    color: var(--color-fg-muted);
+    line-height: 1.55;
+    font-size: 0.92rem;
+  }
+
+  .foot {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding-top: 0.85rem;
+    border-top: 1px dashed rgba(255, 255, 255, 0.08);
+  }
+
+  .visit {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent, #22d3ee);
+    text-decoration: none;
+    transition: transform 200ms ease;
+  }
+
+  .visit:hover {
+    transform: translateX(2px);
+  }
+
+  .proof-tracks {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .rows {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .row {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .row:last-child {
+    border-bottom: none;
+  }
+
+  .row-inner {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: start;
+    gap: 1.25rem;
+    padding: 1.1rem 1rem;
+    text-decoration: none;
+    color: inherit;
+    transition: background 200ms ease;
+  }
+
+  .row-inner.is-link:hover {
+    background: linear-gradient(
+      90deg,
+      rgba(34, 211, 238, 0.04),
+      rgba(163, 230, 53, 0.04)
+    );
+  }
+
+  .row-inner.is-link:hover .arrow {
+    transform: translate(2px, -2px);
+    color: #67e8f9;
+  }
+
+  .row-inner.is-link:hover .name {
+    color: #fff;
+  }
+
+  .years {
+    color: var(--color-fg);
+    padding-top: 0.2rem;
+    min-width: 9rem;
+    font-feature-settings: "tnum";
+  }
+
+  .row-body {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .title-line {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.6rem;
+  }
+
+  .name {
+    color: #f3f6fb;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: color 200ms ease;
+  }
+
+  .dom {
+    color: var(--color-fg-subtle);
+  }
+
+  .blurb {
+    color: var(--color-fg-muted);
+    line-height: 1.5;
+    font-size: 0.92rem;
+    margin: 0;
+  }
+
+  .arrow {
+    font-family: var(--font-mono);
+    color: var(--color-fg-subtle);
+    padding-top: 0.2rem;
+    transition: transform 220ms ease, color 220ms ease;
+  }
+
+  @media (max-width: 700px) {
+    .row-inner {
+      grid-template-columns: 1fr auto;
+      grid-template-areas:
+        "years arrow"
+        "body body";
+      gap: 0.4rem;
+    }
+
+    .years {
+      grid-area: years;
+      min-width: 0;
+    }
+    .row-body {
+      grid-area: body;
+      margin-top: 0.4rem;
+    }
+    .arrow {
+      grid-area: arrow;
+      align-self: start;
+    }
+  }
+
+  /* Process */
+  .cl-process {
+    padding-block: clamp(4rem, 8vw, 7rem);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .steps {
+    margin-top: 2.5rem;
+    list-style: none;
+    padding: 0;
+    counter-reset: step;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 800px) {
+    .steps {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .steps {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .step {
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.04),
+      rgba(255, 255, 255, 0.01)
+    );
+    border: 1px solid var(--color-border);
+    border-radius: 1.1rem;
+    padding: 1.4rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    transition: border-color 240ms ease, transform 240ms ease;
+  }
+
+  .step:hover {
+    border-color: var(--color-border-strong);
+    transform: translateY(-2px);
+  }
+
+  .step-tag {
+    color: #67e8f9;
+  }
+
+  .step h3 {
+    color: #fff;
+    font-size: 1.05rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+
+  .step p {
+    color: var(--color-fg-muted);
+    line-height: 1.55;
+    font-size: 0.94rem;
+  }
+
+  /* FAQ */
+  .cl-faq {
+    padding-block: clamp(4rem, 8vw, 6.5rem);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .faq-inner {
+    max-width: 880px;
+  }
+
+  .faq-list {
+    margin-top: 2.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .faq-item {
+    border: 1px solid var(--color-border);
+    border-radius: 0.85rem;
+    background: rgba(255, 255, 255, 0.02);
+    overflow: hidden;
+    transition: border-color 200ms ease;
+  }
+
+  .faq-item[open] {
+    border-color: var(--color-border-strong);
+    background: rgba(255, 255, 255, 0.035);
+  }
+
+  .faq-item summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+    list-style: none;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .caret {
+    font-family: var(--font-mono);
+    color: var(--color-fg-muted);
+    font-size: 1.1rem;
+    transition: transform 220ms ease, color 220ms ease;
+  }
+
+  .faq-item[open] .caret {
+    transform: rotate(45deg);
+    color: #67e8f9;
+  }
+
+  .faq-item p {
+    margin: 0;
+    padding: 0 1.25rem 1.1rem;
+    color: var(--color-fg-muted);
+    line-height: 1.65;
+    font-size: 0.96rem;
+  }
+
+  /* CTA */
+  .cl-cta {
+    position: relative;
+    padding-block: clamp(4rem, 9vw, 7rem);
+    overflow: hidden;
+  }
+
+  .cta-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 760px;
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .cl-cta h2 {
+    margin-top: 0.85rem;
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .cl-cta p {
+    margin-top: 1.25rem;
+    margin-inline: auto;
+    max-width: 56ch;
+    color: var(--color-fg-muted);
+    font-size: 1.02rem;
+    line-height: 1.6;
+  }
+
+  .actions {
+    margin-top: 2rem;
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+  }
+
+  .meta {
+    margin-top: 3rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    padding-top: 1.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  @media (min-width: 700px) {
+    .meta {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .meta div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    align-items: center;
+  }
+
+  .meta dd {
+    color: #fff;
+    font-size: 0.94rem;
+    margin: 0;
+  }
+</style>

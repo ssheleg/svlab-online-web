@@ -1,0 +1,153 @@
+---
+import type { ConsultingService } from "@/data/consulting";
+
+interface Props {
+  service: ConsultingService;
+  href: string;
+  accent: "cyan" | "lime" | "violet";
+}
+
+const { service, href, accent } = Astro.props;
+---
+
+<a class={`card hub-card accent-${accent}`} href={href} aria-label={`${service.title} — read more`}>
+  <span class="mono-label kicker">{service.kicker}</span>
+
+  <h3>{service.hero.headline}</h3>
+  <p class="sub">{service.hero.sub}</p>
+
+  <ul class="outcomes">
+    {service.outcomes.slice(0, 3).map((o) => (
+      <li>
+        <span class="bullet" aria-hidden="true">▹</span>
+        <span class="o-val">{o.value}</span>
+        <span class="o-label">{o.label.replace(/^\/\/\s*/, "")}</span>
+      </li>
+    ))}
+  </ul>
+
+  <span class="more">
+    Read more
+    <span aria-hidden="true">→</span>
+  </span>
+</a>
+
+<style>
+  .hub-card {
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.95rem;
+    text-decoration: none;
+    color: inherit;
+    isolation: isolate;
+    overflow: hidden;
+  }
+
+  .hub-card.accent-cyan {
+    --accent: #22d3ee;
+    --accent-glow: rgba(34, 211, 238, 0.22);
+  }
+  .hub-card.accent-lime {
+    --accent: #a3e635;
+    --accent-glow: rgba(163, 230, 53, 0.2);
+  }
+  .hub-card.accent-violet {
+    --accent: #a78bfa;
+    --accent-glow: rgba(167, 139, 250, 0.22);
+  }
+
+  .hub-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+      circle at top right,
+      var(--accent-glow, rgba(34, 211, 238, 0.18)) 0%,
+      transparent 55%
+    );
+    opacity: 0.55;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .hub-card:hover {
+    border-color: color-mix(in oklab, var(--accent) 50%, transparent);
+  }
+
+  .hub-card:hover .more {
+    transform: translateX(2px);
+    color: #fff;
+  }
+
+  .kicker {
+    color: color-mix(in oklab, var(--accent) 75%, white);
+  }
+
+  .hub-card h3 {
+    color: #fff;
+    font-size: clamp(1.3rem, 2.4vw, 1.7rem);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  .sub {
+    color: var(--color-fg-muted);
+    line-height: 1.6;
+    font-size: 0.98rem;
+  }
+
+  .outcomes {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .outcomes li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.55rem;
+    font-size: 0.92rem;
+    line-height: 1.45;
+    color: #d8dde6;
+  }
+
+  .bullet {
+    color: var(--accent, #22d3ee);
+    font-family: var(--font-mono);
+  }
+
+  .o-val {
+    color: #fff;
+    font-weight: 500;
+  }
+
+  .o-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    color: var(--color-fg-muted);
+    text-transform: uppercase;
+  }
+
+  .more {
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px dashed rgba(255, 255, 255, 0.08);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent, #22d3ee);
+    transition: transform 200ms ease, color 200ms ease;
+  }
+</style>

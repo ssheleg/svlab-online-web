@@ -25,6 +25,17 @@ const stats = [
         treat these as separate roles. As a solo operator, I treat them as one
         loop — and ship faster because of it.
       </p>
+
+      <div class="about-actions">
+        <a class="about-cta primary" href="/consulting">
+          Book a consultation
+          <span aria-hidden="true">→</span>
+        </a>
+        <a class="about-cta secondary" href="/about">
+          Read more about me
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
     </div>
 
     <aside class="grid-stats" aria-label="Lab profile">
@@ -90,6 +101,53 @@ const stats = [
   }
 
   .copy a:hover {
+    border-bottom-color: #67e8f9;
+  }
+
+  .copy .about-actions {
+    margin-top: 1.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 1.4rem;
+    align-items: center;
+  }
+
+  .copy a.about-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-bottom: none;
+    transition: transform 200ms ease, color 200ms ease, filter 200ms ease,
+      border-color 200ms ease;
+  }
+
+  .copy a.about-cta.primary {
+    color: #04121a;
+    background: linear-gradient(135deg, #67e8f9, #22d3ee 50%, #a3e635);
+    padding: 0.6rem 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 12px 40px -16px rgba(34, 211, 238, 0.55);
+  }
+
+  .copy a.about-cta.primary:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.05);
+    border-bottom-color: transparent;
+  }
+
+  .copy a.about-cta.secondary {
+    color: #67e8f9;
+    border-bottom: 1px solid rgba(103, 232, 249, 0.4);
+    padding-bottom: 1px;
+  }
+
+  .copy a.about-cta.secondary:hover {
+    transform: translateX(2px);
     border-bottom-color: #67e8f9;
   }
 

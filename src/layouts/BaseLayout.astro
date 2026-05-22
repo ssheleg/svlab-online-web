@@ -10,6 +10,7 @@ interface Props {
   description?: string;
   ogImage?: string;
   canonical?: string;
+  extraSchemas?: Record<string, unknown>[];
 }
 
 const {
@@ -17,6 +18,7 @@ const {
   description = site.description,
   ogImage = "/og.png",
   canonical,
+  extraSchemas = [],
 } = Astro.props;
 
 const canonicalUrl = canonical ?? new URL(Astro.url.pathname, site.url).toString();
@@ -107,6 +109,13 @@ const productSchemas = projects.map((p) => ({
       set:html={JSON.stringify(orgSchema)}
     />
     {productSchemas.map((schema) => (
+      <script
+        is:inline
+        type="application/ld+json"
+        set:html={JSON.stringify(schema)}
+      />
+    ))}
+    {extraSchemas.map((schema) => (
       <script
         is:inline
         type="application/ld+json"

@@ -1,0 +1,55 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Nav from "@/components/Nav.astro";
+import Footer from "@/components/Footer.astro";
+import AboutPage from "@/components/AboutPage.astro";
+import { site } from "@/data/site";
+import { projects } from "@/data/projects";
+
+const title = `About · ${site.founder} — ${site.name}`;
+const description = `${site.founder} (Sergey Sheleg) — founder of SV Lab. Solo AI operator from Warsaw, Poland. 12+ years of shipping. Three live AI products. Available for AI advisory and AI transformation engagements.`;
+
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: site.founder,
+  alternateName: site.alternateFounderName,
+  jobTitle: "Founder · AI product operator",
+  description,
+  url: new URL("/about", site.url).toString(),
+  image: new URL("/about/portrait.svg", site.url).toString(),
+  email: site.email,
+  worksFor: {
+    "@type": "Organization",
+    name: site.name,
+    url: site.url,
+  },
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: site.legal.streetAddress,
+    postalCode: site.legal.postalCode,
+    addressLocality: site.legal.city,
+    addressCountry: site.legal.countryCode,
+  },
+  sameAs: [site.github, ...projects.map((p) => p.url)],
+  knowsAbout: [
+    "AI product development",
+    "AI agents",
+    "Go-to-market strategy",
+    "Full-stack engineering",
+    "AI transformation",
+  ],
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  extraSchemas={[personSchema]}
+>
+  <Nav />
+  <main id="main">
+    <AboutPage />
+  </main>
+  <Footer />
+</BaseLayout>

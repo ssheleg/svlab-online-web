@@ -1,0 +1,383 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Nav from "@/components/Nav.astro";
+import Footer from "@/components/Footer.astro";
+import GradientMesh from "@/components/GradientMesh.astro";
+import GridBg from "@/components/GridBg.astro";
+import ConsultingHubCard from "@/components/ConsultingHubCard.astro";
+import { site } from "@/data/site";
+import { consultingServices } from "@/data/consulting";
+
+const advisory = consultingServices["ai-advisory"];
+const transformation = consultingServices["ai-transformation"];
+
+const title = `Consulting · ${site.name}`;
+const description = `AI advisory and AI transformation engagements with Siarhei Sheleh — solo AI operator from Warsaw. Apply AI where it moves the business, in weeks, not quarters.`;
+
+const hubMailto = `mailto:${site.email}?subject=${encodeURIComponent("Consulting · SV Lab")}&body=${encodeURIComponent(
+  [
+    "Hi Siarhei,",
+    "",
+    "I'd like to discuss a consulting engagement.",
+    "",
+    "Company:",
+    "Role:",
+    "What we're trying to solve:",
+    "Rough timeline:",
+    "",
+    "— ",
+  ].join("\n"),
+)}`;
+
+const offerSchema = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: `${site.name} — Consulting`,
+  description,
+  url: new URL("/consulting", site.url).toString(),
+  provider: {
+    "@type": "Organization",
+    name: site.name,
+    url: site.url,
+  },
+  areaServed: "Worldwide",
+  serviceType: ["AI advisory", "AI transformation"],
+  email: site.email,
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "Consulting services",
+    itemListElement: [
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: advisory.title,
+          url: new URL("/consulting/ai-advisory", site.url).toString(),
+        },
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: transformation.title,
+          url: new URL("/consulting/ai-transformation", site.url).toString(),
+        },
+      },
+    ],
+  },
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  extraSchemas={[offerSchema]}
+>
+  <Nav />
+  <main id="main">
+    <section class="hub-hero">
+      <GradientMesh variant="hero" />
+      <GridBg fade="bottom" />
+
+      <div class="container-page hero-inner">
+        <span class="kicker mono-label">
+          <span class="dot"></span>
+          // CONSULTING · SV LAB
+        </span>
+
+        <h1 class="hero-title reveal">
+          Outside operator on your<br />
+          <span class="gradient-text">AI roadmap.</span>
+        </h1>
+
+        <p class="hero-sub reveal">
+          Two ways to work together. <strong>Advisory</strong> for teams that
+          need to apply AI to a specific use case fast. <strong>Transformation</strong>
+          for operators rewiring entire processes and orgs around AI. Both
+          deliver working systems — not slide decks.
+        </p>
+
+        <div class="hero-actions reveal">
+          <a class="btn-primary" href={hubMailto}>
+            Book a consultation
+            <span aria-hidden="true">→</span>
+          </a>
+          <a class="btn-secondary" href="#services">See services ↓</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="hub-services" id="services">
+      <div class="container-page">
+        <header class="head reveal">
+          <span class="mono-label">// SERVICES</span>
+          <h2>Pick the depth that matches the problem.</h2>
+        </header>
+
+        <div class="cards reveal">
+          <ConsultingHubCard
+            service={advisory}
+            href="/consulting/ai-advisory"
+            accent="cyan"
+          />
+          <ConsultingHubCard
+            service={transformation}
+            href="/consulting/ai-transformation"
+            accent="violet"
+          />
+        </div>
+      </div>
+    </section>
+
+    <section class="hub-why reveal">
+      <div class="container-page">
+        <header class="head">
+          <span class="mono-label">// WHY ME</span>
+          <h2>I ship AI products for a living.</h2>
+          <p>
+            SV Lab runs three live AI products in production today on top of a
+            12-year track record. Most consultants advise from PowerPoint. I
+            advise from the same code I deploy on Monday morning.
+          </p>
+        </header>
+
+        <div class="why-grid">
+          <article class="why-cell">
+            <span class="why-num">3</span>
+            <span class="mono-label">// LIVE AI PRODUCTS</span>
+            <p>Prowl, CheckMyData, PrivateClawd — all running in production for paying customers.</p>
+          </article>
+          <article class="why-cell">
+            <span class="why-num">11+</span>
+            <span class="mono-label">// PRODUCTS SHIPPED</span>
+            <p>Across consumer, AI, fintech, travel, and Web3 — most still operating today.</p>
+          </article>
+          <article class="why-cell">
+            <span class="why-num">12+</span>
+            <span class="mono-label">// YEARS</span>
+            <p>Of building, marketing, and operating internet products end to end.</p>
+          </article>
+          <article class="why-cell">
+            <span class="why-num">1</span>
+            <span class="mono-label">// OPERATOR</span>
+            <p>Solo. No layers, no handoffs. You talk to the person writing the code.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="hub-cta">
+      <GradientMesh variant="section" />
+      <div class="container-page cta-inner reveal">
+        <span class="mono-label">// LET'S TALK</span>
+        <h2>
+          Not sure which one fits?<br />
+          <span class="gradient-text">Just send a sketch.</span>
+        </h2>
+        <p>
+          Drop a paragraph about what you're trying to do — I'll reply within
+          one business day with a recommended path (advisory, transformation,
+          or "you don't need either yet").
+        </p>
+        <div class="actions">
+          <a class="btn-primary" href={hubMailto}>
+            Book a consultation
+            <span aria-hidden="true">→</span>
+          </a>
+          <a class="btn-secondary" href={`mailto:${site.email}`}>
+            {site.email}
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .hub-hero {
+    position: relative;
+    overflow: hidden;
+    padding-top: clamp(3rem, 8vw, 6rem);
+    padding-bottom: clamp(4rem, 9vw, 7rem);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 999px;
+    border: 1px solid var(--color-border);
+    background: rgba(255, 255, 255, 0.02);
+    color: #c9d2e0;
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: #34d399;
+    box-shadow: 0 0 0 4px rgba(52, 211, 153, 0.18);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+
+  .hero-title {
+    margin-top: 1.4rem;
+    font-size: clamp(2.4rem, 6vw, 4.8rem);
+    line-height: 1.04;
+    letter-spacing: -0.03em;
+    font-weight: 600;
+    color: #fff;
+    max-width: 18ch;
+  }
+
+  .hero-sub {
+    margin-top: 1.4rem;
+    color: var(--color-fg-muted);
+    line-height: 1.6;
+    font-size: clamp(1rem, 1.4vw, 1.15rem);
+    max-width: 60ch;
+  }
+
+  .hero-sub strong {
+    color: #fff;
+    font-weight: 500;
+  }
+
+  .hero-actions {
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .hub-services {
+    padding-block: clamp(4rem, 8vw, 7rem);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .head {
+    max-width: 60ch;
+  }
+
+  .head h2 {
+    margin-top: 0.85rem;
+    font-size: clamp(1.9rem, 3.6vw, 2.6rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .head p {
+    margin-top: 1rem;
+    color: var(--color-fg-muted);
+    line-height: 1.6;
+  }
+
+  .cards {
+    margin-top: 2.5rem;
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 900px) {
+    .cards {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .hub-why {
+    padding-block: clamp(4rem, 8vw, 6.5rem);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .why-grid {
+    margin-top: 2.5rem;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 1000px) {
+    .why-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .why-cell {
+    border: 1px solid var(--color-border);
+    border-radius: 1.1rem;
+    background: rgba(255, 255, 255, 0.02);
+    padding: 1.4rem 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+
+  .why-num {
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    background: linear-gradient(120deg, #ffffff 0%, #67e8f9 60%, #a3e635 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .why-cell p {
+    color: var(--color-fg-muted);
+    line-height: 1.55;
+    font-size: 0.92rem;
+  }
+
+  .hub-cta {
+    position: relative;
+    padding-block: clamp(4rem, 9vw, 7rem);
+    overflow: hidden;
+  }
+
+  .cta-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 760px;
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .hub-cta h2 {
+    margin-top: 0.85rem;
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .hub-cta p {
+    margin-top: 1.25rem;
+    margin-inline: auto;
+    max-width: 56ch;
+    color: var(--color-fg-muted);
+    font-size: 1.02rem;
+    line-height: 1.6;
+  }
+
+  .actions {
+    margin-top: 2rem;
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+  }
+</style>
