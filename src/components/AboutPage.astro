@@ -75,8 +75,10 @@ const aboutCtaBody = encodeURIComponent(
         <a
           class="btn-secondary"
           href={`mailto:${site.email}?subject=${aboutCtaSubject}&body=${aboutCtaBody}`}
+          aria-label={`Email ${site.email}`}
         >
           Email me
+          <span class="sr-only">at contact@svlab.online</span>
         </a>
       </div>
 
@@ -236,6 +238,7 @@ const aboutCtaBody = encodeURIComponent(
       <a
         class="btn-secondary"
         href={`mailto:${site.email}?subject=${aboutCtaSubject}&body=${aboutCtaBody}`}
+        aria-label={`Email ${site.email}`}
       >
         {site.email}
       </a>

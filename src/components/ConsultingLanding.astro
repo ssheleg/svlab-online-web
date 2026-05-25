@@ -19,31 +19,106 @@ const products = getProductsForService(service);
 const tracks = getTrackRecordForService(service);
 
 const mailto = `mailto:${site.email}?subject=${encodeURIComponent(service.cta.subject)}&body=${encodeURIComponent(service.cta.body)}`;
+const ctaAria = `Book a consultation — opens email to ${site.email}`;
+
+const accent = service.slug === "ai-advisory" ? "cyan" : "violet";
+
+const iconPaths: Record<NonNullable<ConsultingService["outcomes"][number]["icon"]>, string> = {
+  clock: "M12 7v5l3 2 M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z",
+  target: "M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z M17 12a5 5 0 1 1-10 0 5 5 0 0 1 10 0Z M13 12a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z",
+  "trend-down": "M3 7l6 6 4-4 8 8 M21 17v4h-4",
+  shield: "M12 3l8 4v6c0 5-3.5 8-8 8s-8-3-8-8V7l8-4z M9 12l2.5 2.5L16 9.5",
+  layers: "M12 3l9 5-9 5-9-5z M3 13l9 5 9-5 M3 18l9 5 9-5",
+  cube: "M12 3l9 5v8l-9 5-9-5V8z M12 12v9 M3 8l9 5 9-5",
+  users: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M22 21v-2a4 4 0 0 0-3-3.87 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M16 11a4 4 0 0 0 0-8",
+  spark: "M12 3v4 M12 17v4 M3 12h4 M17 12h4 M5.6 5.6l2.8 2.8 M15.6 15.6l2.8 2.8 M5.6 18.4l2.8-2.8 M15.6 8.4l2.8-2.8",
+};
+
+const isNumeric = (s: string) => /\d/.test(s);
 ---
 
-<section class="cl-hero">
+<section class={`cl-hero accent-${accent}`}>
   <GradientMesh variant="hero" />
   <GridBg fade="bottom" />
 
-  <div class="container-page hero-inner">
-    <span class="kicker mono-label">
-      <span class="dot"></span>
-      {service.kicker} · WARSAW, PL
-    </span>
+  <div class="container-page hero-grid">
+    <div class="hero-copy">
+      <span class="kicker mono-label">
+        <span class="dot"></span>
+        {service.kicker} · WARSAW, PL
+      </span>
 
-    <h1 class="hero-title reveal">
-      <span class="gradient-text">{service.hero.headline}</span>
-    </h1>
+      <h1 class="hero-title reveal">
+        <span class="gradient-text">{service.hero.headline}</span>
+      </h1>
 
-    <p class="hero-sub reveal">{service.hero.sub}</p>
+      <p class="hero-sub reveal">{service.hero.sub}</p>
 
-    <div class="hero-actions reveal">
-      <a class="btn-primary" href={mailto}>
-        Book a consultation
-        <span aria-hidden="true">→</span>
-      </a>
-      <a class="btn-secondary" href="#proofs">See proofs ↓</a>
+      <div class="hero-actions reveal">
+        <a class="btn-primary" href={mailto} aria-label={ctaAria}>
+          Book a consultation
+          <span aria-hidden="true">→</span>
+          <span class="sr-only">contact@svlab.online</span>
+        </a>
+        <a class="btn-secondary" href="#proofs">See proofs ↓</a>
+      </div>
     </div>
+
+    <aside class="hero-mock reveal" aria-hidden="true">
+      {service.slug === "ai-advisory" && (
+        <div class="console">
+          <div class="console-bar">
+            <span class="dot d1"></span>
+            <span class="dot d2"></span>
+            <span class="dot d3"></span>
+            <span class="bar-label">svlab · advisory · sprint-1</span>
+          </div>
+          <div class="console-body">
+            <div class="line"><span class="prompt">$</span> svlab analyze --use-cases</div>
+            <div class="line muted">  ↳ scoring on roi · risk · time-to-value</div>
+            <div class="line muted">  ↳ 12 candidates · 3 prototypes scoped</div>
+            <div class="spacer"></div>
+            <div class="line"><span class="cyan">→ selected:</span> support_triage_agent</div>
+            <div class="line"><span class="muted">  status</span> <span class="bar"><span class="bar-fill"></span></span> <span class="lime">shipped</span></div>
+            <div class="line"><span class="muted">  eval</span>   <span class="num">0.92</span> <span class="muted">/ 1.00</span></div>
+            <div class="line"><span class="muted">  ops cut</span> <span class="cyan">−68%</span></div>
+            <div class="spacer"></div>
+            <div class="line caret"><span class="prompt">$</span> _</div>
+          </div>
+        </div>
+      )}
+
+      {service.slug === "ai-transformation" && (
+        <div class="console">
+          <div class="console-bar">
+            <span class="dot d1"></span>
+            <span class="dot d2"></span>
+            <span class="dot d3"></span>
+            <span class="bar-label">svlab · transformation · plan</span>
+          </div>
+          <div class="console-body">
+            <div class="line"><span class="prompt">$</span> svlab map --process support</div>
+            <div class="spacer"></div>
+            <div class="pipeline">
+              <span class="node done">AUDIT<small>wk 1–2</small></span>
+              <span class="connector"></span>
+              <span class="node active">PILOT<small>wk 3–6</small></span>
+              <span class="connector"></span>
+              <span class="node">ROLLOUT<small>wk 7–10</small></span>
+              <span class="connector"></span>
+              <span class="node">LOOP<small>wk 11+</small></span>
+            </div>
+            <div class="spacer"></div>
+            <div class="line"><span class="muted">  process</span> <span class="violet">3 redesigned</span></div>
+            <div class="line"><span class="muted">  data   </span> <span class="cyan">2 pipelines live</span></div>
+            <div class="line"><span class="muted">  org    </span> <span class="lime">1 owner / wkflow</span></div>
+            <div class="line"><span class="muted">  adopt  </span> <span class="num">73%</span> <span class="muted">/ 90-day target</span></div>
+            <div class="spacer"></div>
+            <div class="line caret"><span class="prompt">$</span> _</div>
+          </div>
+        </div>
+      )}
+    </aside>
   </div>
 </section>
 
@@ -56,9 +131,27 @@ const mailto = `mailto:${site.email}?subject=${encodeURIComponent(service.cta.su
 
     <div class="grid">
       {service.outcomes.map((o) => (
-        <article class="card cell">
-          <span class="cell-val">{o.value}</span>
-          <span class="mono-label cell-label">{o.label}</span>
+        <article class={`card cell ${isNumeric(o.value) ? "cell-numeric" : "cell-label"}`}>
+          <div class="cell-icon" aria-hidden="true">
+            <svg
+              viewBox="0 0 24 24"
+              width="22"
+              height="22"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d={iconPaths[o.icon]}></path>
+            </svg>
+          </div>
+          {isNumeric(o.value) ? (
+            <span class="cell-val cell-val-numeric">{o.value}</span>
+          ) : (
+            <span class="cell-val cell-val-text">{o.value}</span>
+          )}
+          <span class="mono-label cell-label-text">{o.label}</span>
           <p>{o.blurb}</p>
         </article>
       ))}
@@ -144,12 +237,17 @@ const mailto = `mailto:${site.email}?subject=${encodeURIComponent(service.cta.su
       <h2>How it works.</h2>
     </header>
 
-    <ol class="steps">
-      {service.process.map((s) => (
-        <li class="step">
-          <span class="mono-label step-tag">{s.step}</span>
-          <h3>{s.title}</h3>
-          <p>{s.body}</p>
+    <ol class="timeline" style={`--steps:${service.process.length}`}>
+      {service.process.map((s, i) => (
+        <li class="t-step" style={`--i:${i}`}>
+          <div class="t-marker" aria-hidden="true">
+            <span class="t-num">{String(i + 1).padStart(2, "0")}</span>
+          </div>
+          <div class="t-body">
+            <span class="mono-label t-tag">{s.step}</span>
+            <h3>{s.title}</h3>
+            <p>{s.body}</p>
+          </div>
         </li>
       ))}
     </ol>
@@ -167,10 +265,17 @@ const mailto = `mailto:${site.email}?subject=${encodeURIComponent(service.cta.su
       {service.faq.map((f) => (
         <details class="faq-item">
           <summary>
-            <span>{f.q}</span>
-            <span class="caret" aria-hidden="true">+</span>
+            <span class="q-text">{f.q}</span>
+            <span class="caret" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+                <path d="M5 12h14"></path>
+                <path d="M12 5v14" class="caret-v"></path>
+              </svg>
+            </span>
           </summary>
-          <p>{f.a}</p>
+          <div class="faq-body">
+            <p>{f.a}</p>
+          </div>
         </details>
       ))}
     </div>
@@ -189,11 +294,12 @@ const mailto = `mailto:${site.email}?subject=${encodeURIComponent(service.cta.su
       reply within one business day.
     </p>
     <div class="actions">
-      <a class="btn-primary" href={mailto}>
+      <a class="btn-primary" href={mailto} aria-label={ctaAria}>
         Book a consultation
         <span aria-hidden="true">→</span>
+        <span class="sr-only">contact@svlab.online</span>
       </a>
-      <a class="btn-secondary" href={`mailto:${site.email}`}>
+      <a class="btn-secondary" href={`mailto:${site.email}`} aria-label={`Email ${site.email}`}>
         {site.email}
       </a>
     </div>
@@ -215,18 +321,40 @@ const mailto = `mailto:${site.email}?subject=${encodeURIComponent(service.cta.su
 </section>
 
 <style>
-  /* Hero */
+  /* ===================== Hero ===================== */
   .cl-hero {
     position: relative;
     overflow: hidden;
-    padding-top: clamp(3rem, 8vw, 6rem);
-    padding-bottom: clamp(4rem, 9vw, 7rem);
+    padding-top: clamp(3rem, 7vw, 5rem);
+    padding-bottom: clamp(3.5rem, 8vw, 6rem);
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   }
 
-  .hero-inner {
+  .cl-hero.accent-cyan {
+    --accent: #22d3ee;
+    --accent-fg: #67e8f9;
+    --accent-glow: rgba(34, 211, 238, 0.22);
+  }
+  .cl-hero.accent-violet {
+    --accent: #a78bfa;
+    --accent-fg: #c4b5fd;
+    --accent-glow: rgba(167, 139, 250, 0.22);
+  }
+
+  .hero-grid {
     position: relative;
     z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    align-items: center;
+  }
+
+  @media (min-width: 980px) {
+    .hero-grid {
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+      gap: 3.5rem;
+    }
   }
 
   .kicker {
@@ -235,8 +363,8 @@ const mailto = `mailto:${site.email}?subject=${encodeURIComponent(service.cta.su
     gap: 0.55rem;
     padding: 0.4rem 0.8rem;
     border-radius: 999px;
-    border: 1px solid var(--color-border);
-    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid color-mix(in oklab, var(--accent) 28%, var(--color-border));
+    background: color-mix(in oklab, var(--accent) 6%, rgba(255, 255, 255, 0.02));
     color: #c9d2e0;
   }
 
@@ -251,8 +379,8 @@ const mailto = `mailto:${site.email}?subject=${encodeURIComponent(service.cta.su
 
   .hero-title {
     margin-top: 1.4rem;
-    font-size: clamp(2.2rem, 5.6vw, 4.4rem);
-    line-height: 1.04;
+    font-size: clamp(2.1rem, 5.2vw, 4rem);
+    line-height: 1.05;
     letter-spacing: -0.03em;
     font-weight: 600;
     color: #fff;
@@ -263,8 +391,8 @@ const mailto = `mailto:${site.email}?subject=${encodeURIComponent(service.cta.su
     margin-top: 1.4rem;
     color: var(--color-fg-muted);
     line-height: 1.6;
-    font-size: clamp(1rem, 1.4vw, 1.15rem);
-    max-width: 60ch;
+    font-size: clamp(1rem, 1.4vw, 1.12rem);
+    max-width: 56ch;
   }
 
   .hero-actions {
@@ -274,7 +402,183 @@ const mailto = `mailto:${site.email}?subject=${encodeURIComponent(service.cta.su
     gap: 0.75rem;
   }
 
-  /* Section heads */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* ===================== Hero console mock ===================== */
+  .hero-mock {
+    position: relative;
+    width: 100%;
+    perspective: 1400px;
+  }
+
+  .console {
+    position: relative;
+    border-radius: 1rem;
+    background:
+      radial-gradient(circle at top right, var(--accent-glow), transparent 65%),
+      linear-gradient(180deg, rgba(11, 16, 28, 0.92), rgba(7, 10, 18, 0.96));
+    border: 1px solid var(--color-border-strong);
+    box-shadow:
+      0 30px 80px -30px var(--accent-glow),
+      0 0 0 1px color-mix(in oklab, var(--accent) 18%, transparent) inset;
+    overflow: hidden;
+    transform: rotateY(-3deg) rotateX(2deg);
+  }
+
+  @media (max-width: 980px) {
+    .console {
+      transform: none;
+    }
+  }
+
+  .console-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 0.85rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .console-bar .dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 999px;
+    box-shadow: none;
+    animation: none;
+  }
+  .console-bar .d1 { background: #ef4444; }
+  .console-bar .d2 { background: #eab308; }
+  .console-bar .d3 { background: #22c55e; }
+
+  .bar-label {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--color-fg-subtle);
+    letter-spacing: 0.06em;
+  }
+
+  .console-body {
+    padding: 1.1rem 1.2rem 1.3rem;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    line-height: 1.7;
+    color: #d8dde6;
+    min-height: 22rem;
+  }
+
+  .console-body .line {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .console-body .spacer {
+    height: 0.6rem;
+  }
+
+  .console-body .prompt {
+    color: var(--accent-fg);
+    font-weight: 600;
+  }
+
+  .console-body .muted { color: var(--color-fg-muted); }
+  .console-body .cyan { color: #67e8f9; }
+  .console-body .lime { color: #bef264; }
+  .console-body .violet { color: #c4b5fd; }
+  .console-body .num {
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .console-body .bar {
+    display: inline-block;
+    width: 9rem;
+    height: 6px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    overflow: hidden;
+  }
+
+  .console-body .bar-fill {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #22d3ee, #a3e635);
+    transform-origin: left center;
+    animation: barfill 2.6s ease-out forwards;
+  }
+
+  .console-body .caret .prompt {
+    animation: blink 1.1s steps(1) infinite;
+  }
+
+  /* Pipeline (transformation) */
+  .pipeline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0;
+  }
+
+  .pipeline .node {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.1rem;
+    padding: 0.45rem 0.65rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--color-border-strong);
+    background: rgba(255, 255, 255, 0.025);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--color-fg-muted);
+    min-width: 5.6rem;
+  }
+
+  .pipeline .node small {
+    color: var(--color-fg-subtle);
+    font-size: 0.62rem;
+    letter-spacing: 0.05em;
+    margin-top: 0.1rem;
+  }
+
+  .pipeline .node.done {
+    border-color: rgba(34, 211, 238, 0.45);
+    color: #67e8f9;
+    background: rgba(34, 211, 238, 0.08);
+  }
+
+  .pipeline .node.active {
+    border-color: rgba(167, 139, 250, 0.55);
+    color: #c4b5fd;
+    background: rgba(167, 139, 250, 0.1);
+    box-shadow: 0 0 0 4px rgba(167, 139, 250, 0.08);
+  }
+
+  .pipeline .connector {
+    flex: 1 1 0.6rem;
+    min-width: 0.6rem;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.04));
+  }
+
+  /* ===================== Section heads ===================== */
   .head {
     max-width: 60ch;
   }
@@ -294,7 +598,7 @@ const mailto = `mailto:${site.email}?subject=${encodeURIComponent(service.cta.su
     line-height: 1.6;
   }
 
-  /* Outcomes */
+  /* ===================== Outcomes ===================== */
   .cl-outcomes {
     padding-block: clamp(4rem, 8vw, 7rem);
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -320,24 +624,65 @@ const mailto = `mailto:${site.email}?subject=${encodeURIComponent(service.cta.su
   }
 
   .cell {
-    padding: 1.6rem 1.4rem;
+    padding: 1.5rem 1.35rem;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.55rem;
+    transition:
+      border-color 240ms ease,
+      transform 240ms ease,
+      box-shadow 240ms ease;
   }
 
-  .cell-val {
+  .cell:hover {
+    border-color: var(--color-border-strong);
+    transform: translateY(-3px);
+    box-shadow: 0 18px 40px -28px var(--accent-glow);
+  }
+
+  .cell-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 0.55rem;
+    display: grid;
+    place-items: center;
+    background:
+      linear-gradient(
+        135deg,
+        color-mix(in oklab, var(--accent) 14%, transparent),
+        rgba(255, 255, 255, 0.02)
+      );
+    border: 1px solid color-mix(in oklab, var(--accent) 22%, var(--color-border));
+    color: var(--accent-fg);
+  }
+
+  .cell-val-numeric {
+    margin-top: 0.25rem;
     font-size: 1.85rem;
     font-weight: 600;
-    color: #fff;
     letter-spacing: -0.025em;
+    line-height: 1;
     background: linear-gradient(120deg, #ffffff 0%, #67e8f9 60%, #a3e635 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
 
-  .cell-label {
+  .cell-val-text {
+    margin-top: 0.25rem;
+    align-self: flex-start;
+    padding: 0.28rem 0.6rem;
+    border-radius: 0.45rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #fff;
+    background: linear-gradient(135deg, rgba(34, 211, 238, 0.16), rgba(167, 139, 250, 0.16));
+    border: 1px solid color-mix(in oklab, var(--accent) 28%, var(--color-border-strong));
+  }
+
+  .cell-label-text {
     color: #c9d2e0;
   }
 
@@ -348,7 +693,7 @@ const mailto = `mailto:${site.email}?subject=${encodeURIComponent(service.cta.su
     margin-top: 0.2rem;
   }
 
-  /* Proofs */
+  /* ===================== Proofs ===================== */
   .cl-proofs {
     padding-block: clamp(4rem, 8vw, 7rem);
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -580,72 +925,147 @@ const mailto = `mailto:${site.email}?subject=${encodeURIComponent(service.cta.su
     }
   }
 
-  /* Process */
+  /* ===================== Process timeline ===================== */
   .cl-process {
     padding-block: clamp(4rem, 8vw, 7rem);
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   }
 
-  .steps {
-    margin-top: 2.5rem;
+  .timeline {
     list-style: none;
     padding: 0;
-    counter-reset: step;
+    margin: 2.75rem 0 0;
+    position: relative;
     display: grid;
-    gap: 1rem;
+    gap: 0;
+  }
+
+  /* Mobile / narrow: vertical with left rail */
+  .timeline {
     grid-template-columns: 1fr;
   }
 
-  @media (min-width: 800px) {
-    .steps {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media (min-width: 1200px) {
-    .steps {
-      grid-template-columns: repeat(4, 1fr);
-    }
-  }
-
-  .step {
+  .timeline::before {
+    content: "";
+    position: absolute;
+    left: 1.05rem;
+    top: 1.4rem;
+    bottom: 1.4rem;
+    width: 1px;
     background: linear-gradient(
       180deg,
-      rgba(255, 255, 255, 0.04),
-      rgba(255, 255, 255, 0.01)
+      rgba(34, 211, 238, 0.5) 0%,
+      rgba(167, 139, 250, 0.4) 55%,
+      rgba(163, 230, 53, 0.3) 100%
     );
-    border: 1px solid var(--color-border);
-    border-radius: 1.1rem;
-    padding: 1.4rem 1.5rem;
+  }
+
+  .t-step {
+    display: grid;
+    grid-template-columns: 2.4rem 1fr;
+    gap: 1.1rem;
+    padding: 0.6rem 0 1.6rem;
+    align-items: start;
+  }
+
+  .t-step:last-child {
+    padding-bottom: 0;
+  }
+
+  .t-marker {
+    position: relative;
+    z-index: 1;
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
+    background:
+      radial-gradient(circle at 30% 30%, rgba(34, 211, 238, 0.18), rgba(7, 10, 18, 0.95) 65%);
+    border: 1px solid rgba(34, 211, 238, 0.45);
+    box-shadow: 0 0 0 4px rgba(34, 211, 238, 0.06);
+  }
+
+  .t-num {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    color: #67e8f9;
+    font-weight: 600;
+  }
+
+  .t-body {
     display: flex;
     flex-direction: column;
-    gap: 0.55rem;
-    transition: border-color 240ms ease, transform 240ms ease;
+    gap: 0.4rem;
+    padding-top: 0.15rem;
   }
 
-  .step:hover {
-    border-color: var(--color-border-strong);
-    transform: translateY(-2px);
-  }
-
-  .step-tag {
+  .t-tag {
     color: #67e8f9;
   }
 
-  .step h3 {
+  .t-body h3 {
     color: #fff;
-    font-size: 1.05rem;
+    font-size: 1.1rem;
     font-weight: 500;
     letter-spacing: -0.01em;
   }
 
-  .step p {
+  .t-body p {
     color: var(--color-fg-muted);
-    line-height: 1.55;
-    font-size: 0.94rem;
+    line-height: 1.6;
+    font-size: 0.96rem;
+    max-width: 60ch;
   }
 
-  /* FAQ */
+  /* Desktop: horizontal rail */
+  @media (min-width: 1100px) {
+    .timeline {
+      grid-template-columns: repeat(var(--steps, 3), 1fr);
+      gap: 1.2rem;
+    }
+
+    .timeline::before {
+      left: 1.4rem;
+      right: 1.4rem;
+      top: 1.4rem;
+      bottom: auto;
+      height: 1px;
+      width: auto;
+      background: linear-gradient(
+        90deg,
+        rgba(34, 211, 238, 0.5) 0%,
+        rgba(167, 139, 250, 0.4) 55%,
+        rgba(163, 230, 53, 0.3) 100%
+      );
+    }
+
+    .t-step {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      padding: 0;
+    }
+
+    .t-marker {
+      justify-self: start;
+    }
+
+    .t-body {
+      padding: 0.75rem 1rem 1rem;
+      border: 1px solid var(--color-border);
+      border-radius: 0.85rem;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.005));
+      transition: border-color 220ms ease, transform 220ms ease;
+    }
+
+    .t-step:hover .t-body {
+      border-color: var(--color-border-strong);
+      transform: translateY(-2px);
+    }
+  }
+
+  /* ===================== FAQ ===================== */
   .cl-faq {
     padding-block: clamp(4rem, 8vw, 6.5rem);
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -659,20 +1079,20 @@ const mailto = `mailto:${site.email}?subject=${encodeURIComponent(service.cta.su
     margin-top: 2.25rem;
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
+    gap: 0.55rem;
   }
 
   .faq-item {
     border: 1px solid var(--color-border);
     border-radius: 0.85rem;
-    background: rgba(255, 255, 255, 0.02);
+    background: rgba(255, 255, 255, 0.018);
     overflow: hidden;
-    transition: border-color 200ms ease;
+    transition: border-color 220ms ease, background 220ms ease;
   }
 
   .faq-item[open] {
-    border-color: var(--color-border-strong);
-    background: rgba(255, 255, 255, 0.035);
+    border-color: rgba(103, 232, 249, 0.35);
+    background: linear-gradient(180deg, rgba(34, 211, 238, 0.05), rgba(255, 255, 255, 0.025));
   }
 
   .faq-item summary {
@@ -680,39 +1100,76 @@ const mailto = `mailto:${site.email}?subject=${encodeURIComponent(service.cta.su
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
-    padding: 1rem 1.25rem;
+    padding: 1rem 1.2rem;
     cursor: pointer;
     list-style: none;
-    color: #fff;
+    color: #f3f6fb;
     font-size: 1rem;
     font-weight: 500;
+    transition: color 200ms ease;
   }
 
   .faq-item summary::-webkit-details-marker {
     display: none;
   }
 
+  .faq-item summary:hover .q-text {
+    color: #fff;
+  }
+
+  .faq-item summary:focus-visible {
+    outline: 2px solid rgba(103, 232, 249, 0.6);
+    outline-offset: 2px;
+    border-radius: 0.5rem;
+  }
+
+  .q-text {
+    color: #e7ecf3;
+    transition: color 200ms ease;
+  }
+
   .caret {
-    font-family: var(--font-mono);
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--color-border);
+    background: rgba(255, 255, 255, 0.02);
     color: var(--color-fg-muted);
-    font-size: 1.1rem;
-    transition: transform 220ms ease, color 220ms ease;
+    transition: transform 240ms cubic-bezier(0.4, 0, 0.2, 1),
+      color 200ms ease, border-color 200ms ease, background 200ms ease;
   }
 
   .faq-item[open] .caret {
-    transform: rotate(45deg);
     color: #67e8f9;
+    border-color: rgba(103, 232, 249, 0.5);
+    background: rgba(34, 211, 238, 0.08);
   }
 
-  .faq-item p {
+  .caret-v {
+    transform-origin: center;
+    transition: transform 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .faq-item[open] .caret-v {
+    transform: rotate(90deg);
+  }
+
+  .faq-body {
+    padding: 0 1.2rem 1.1rem;
+    overflow: hidden;
+  }
+
+  .faq-body p {
     margin: 0;
-    padding: 0 1.25rem 1.1rem;
     color: var(--color-fg-muted);
     line-height: 1.65;
     font-size: 0.96rem;
   }
 
-  /* CTA */
+  /* ===================== CTA ===================== */
   .cl-cta {
     position: relative;
     padding-block: clamp(4rem, 9vw, 7rem);
@@ -779,5 +1236,33 @@ const mailto = `mailto:${site.email}?subject=${encodeURIComponent(service.cta.su
     color: #fff;
     font-size: 0.94rem;
     margin: 0;
+  }
+
+  /* ===================== Animations ===================== */
+  @keyframes barfill {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0.15; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .console-body .bar-fill {
+      animation: none;
+      transform: scaleX(1);
+    }
+    .console-body .caret .prompt {
+      animation: none;
+    }
+    .console {
+      transform: none;
+    }
   }
 </style>

@@ -26,6 +26,7 @@ const body = encodeURIComponent(
       <a
         class="btn-primary"
         href={`mailto:${site.email}?subject=${subject}&body=${body}`}
+        aria-label={`Email ${site.email}`}
       >
         contact@svlab.online
         <span aria-hidden="true">→</span>
@@ -33,8 +34,10 @@ const body = encodeURIComponent(
       <a
         class="btn-secondary"
         href={`mailto:${site.email}?subject=${encodeURIComponent("Book a call · SV Lab")}`}
+        aria-label={`Book a call — opens email to ${site.email}`}
       >
         Book a call
+        <span class="sr-only">at contact@svlab.online</span>
       </a>
     </div>
 

@@ -6,7 +6,12 @@ export type ConsultingService = {
   title: string;
   kicker: string;
   hero: { headline: string; sub: string };
-  outcomes: { value: string; label: string; blurb: string }[];
+  outcomes: {
+    value: string;
+    label: string;
+    blurb: string;
+    icon: "clock" | "target" | "trend-down" | "shield" | "layers" | "cube" | "users" | "spark";
+  }[];
   proofs: {
     products: ("prowl" | "checkmydata" | "privateclawd")[];
     trackRecord: string[];
@@ -35,24 +40,28 @@ export const consultingServices: Record<
         label: "TO FIRST WORKING PROTOTYPE",
         blurb:
           "From kickoff to a live, evaluated agent or copilot you can put in front of real users.",
+        icon: "clock",
       },
       {
         value: "3–5",
         label: "USE CASES PRIORITIZED",
         blurb:
           "Ranked by ROI, time-to-value, and risk — so you spend the budget on what compounds, not on demos.",
+        icon: "target",
       },
       {
         value: "60–80%",
         label: "TYPICAL OPS-COST CUT",
         blurb:
           "On routine workflows we automate end-to-end (support triage, data Q&A, reporting, lead qualification).",
+        icon: "trend-down",
       },
       {
         value: "Vendor-free",
         label: "INDEPENDENT POV",
         blurb:
           "I don't resell models, infra, or platforms. Recommendations are picked on merit, not commission.",
+        icon: "shield",
       },
     ],
     proofs: {
@@ -134,24 +143,28 @@ export const consultingServices: Record<
         label: "FROM AUDIT TO ROLLOUT",
         blurb:
           "End-to-end transformation cycle: audit, redesign, pilot, rollout, adoption — on a single accountable timeline.",
+        icon: "clock",
       },
       {
         value: "3 layers",
         label: "PROCESS · DATA · ORG",
         blurb:
           "Process redesign, data infrastructure, and org changes shipped together — that's the only combination that sticks.",
+        icon: "layers",
       },
       {
         value: "Real",
         label: "PRODUCTION SYSTEMS",
         blurb:
           "Agents, internal tools, and dashboards running on your stack — with evals, guardrails, observability, and budget caps.",
+        icon: "cube",
       },
       {
         value: "Adoption",
         label: "MEASURED, NOT ASSUMED",
         blurb:
           "Every workflow we transform ships with usage telemetry and a 90-day adoption target. If a tool isn't used, it didn't ship.",
+        icon: "users",
       },
     ],
     proofs: {

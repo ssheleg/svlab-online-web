@@ -2,26 +2,64 @@
 import Logo from "./Logo.astro";
 import { site } from "@/data/site";
 
-const links = [
-  { label: "Products", href: "/#products" },
-  { label: "Track record", href: "/#track-record" },
-  { label: "Consulting", href: "/consulting" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/#contact" },
+const path = Astro.url.pathname;
+const norm = (p: string) => (p.length > 1 && p.endsWith("/") ? p.slice(0, -1) : p);
+const here = norm(path);
+
+type Link = { label: string; href: string; match: (p: string) => boolean };
+
+const links: Link[] = [
+  {
+    label: "Products",
+    href: "/#products",
+    match: (p) => p === "" || p === "/",
+  },
+  {
+    label: "Track record",
+    href: "/#track-record",
+    match: (p) => p === "" || p === "/",
+  },
+  {
+    label: "Consulting",
+    href: "/consulting",
+    match: (p) => p === "/consulting" || p.startsWith("/consulting/"),
+  },
+  {
+    label: "About",
+    href: "/about",
+    match: (p) => p === "/about",
+  },
+  {
+    label: "Contact",
+    href: "/#contact",
+    match: () => false,
+  },
 ];
+
+const ctaAria = `Email ${site.email}`;
 ---
 
 <header class="nav-shell">
   <div class="container-page nav-row">
     <Logo />
     <nav class="links" aria-label="Primary">
-      {links.map((l) => (
-        <a href={l.href}>{l.label}</a>
-      ))}
+      {links.map((l) => {
+        const isActive = l.match(here);
+        return (
+          <a
+            href={l.href}
+            class:list={["nav-link", { "is-active": isActive }]}
+            aria-current={isActive ? "page" : undefined}
+          >
+            {l.label}
+          </a>
+        );
+      })}
     </nav>
-    <a class="cta" href={`mailto:${site.email}`}>
+    <a class="cta" href={`mailto:${site.email}`} aria-label={ctaAria}>
       <span class="cta-mono">contact@svlab.online</span>
-      <span class="cta-arrow">→</span>
+      <span class="cta-mono cta-mono-mobile" aria-hidden="true">EMAIL</span>
+      <span class="cta-arrow" aria-hidden="true">→</span>
     </a>
   </div>
 </header>
@@ -54,24 +92,25 @@ const links = [
     white-space: nowrap;
   }
 
-  .links a {
+  .nav-link {
     color: var(--color-fg-muted);
     font-size: 0.9rem;
     text-decoration: none;
     transition: color 200ms ease;
     position: relative;
+    padding-block: 0.25rem;
   }
 
-  .links a:hover {
+  .nav-link:hover {
     color: #fff;
   }
 
-  .links a::after {
+  .nav-link::after {
     content: "";
     position: absolute;
     left: 0;
     right: 0;
-    bottom: -6px;
+    bottom: -2px;
     height: 1px;
     background: linear-gradient(90deg, #22d3ee, #a3e635);
     transform: scaleX(0);
@@ -79,7 +118,15 @@ const links = [
     transition: transform 240ms ease;
   }
 
-  .links a:hover::after {
+  .nav-link:hover::after {
+    transform: scaleX(1);
+  }
+
+  .nav-link.is-active {
+    color: #fff;
+  }
+
+  .nav-link.is-active::after {
     transform: scaleX(1);
   }
 
@@ -108,6 +155,11 @@ const links = [
     letter-spacing: 0.04em;
   }
 
+  .cta-mono-mobile {
+    display: none;
+    letter-spacing: 0.16em;
+  }
+
   .cta-arrow {
     font-family: var(--font-mono);
     color: #67e8f9;
@@ -125,6 +177,9 @@ const links = [
   @media (max-width: 720px) {
     .cta-mono {
       display: none;
+    }
+    .cta-mono-mobile {
+      display: inline;
     }
   }
 </style>
