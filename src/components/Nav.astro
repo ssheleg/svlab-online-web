@@ -8,16 +8,20 @@ const here = norm(path);
 
 type Link = { label: string; href: string; match: (p: string) => boolean };
 
+// In-page anchor links (#products, #track-record, #contact) never get the
+// active underline — otherwise multiple links would all light up at once on
+// the home page and look "stuck". Only true page-level routes (Consulting,
+// About) get the active state.
 const links: Link[] = [
   {
     label: "Products",
     href: "/#products",
-    match: (p) => p === "" || p === "/",
+    match: () => false,
   },
   {
     label: "Track record",
     href: "/#track-record",
-    match: (p) => p === "" || p === "/",
+    match: () => false,
   },
   {
     label: "Consulting",
@@ -99,10 +103,7 @@ const ctaAria = `Email ${site.email}`;
     transition: color 200ms ease;
     position: relative;
     padding-block: 0.25rem;
-  }
-
-  .nav-link:hover {
-    color: #fff;
+    -webkit-tap-highlight-color: transparent;
   }
 
   .nav-link::after {
@@ -116,10 +117,24 @@ const ctaAria = `Email ${site.email}`;
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 240ms ease;
+    pointer-events: none;
   }
 
-  .nav-link:hover::after {
-    transform: scaleX(1);
+  /* Hover/focus underline only on devices that can actually hover. Touch
+     devices keep :hover stuck after a tap, so we avoid the rule there. */
+  @media (hover: hover) and (pointer: fine) {
+    .nav-link:hover {
+      color: #fff;
+    }
+    .nav-link:hover::after,
+    .nav-link:focus-visible::after {
+      transform: scaleX(1);
+    }
+  }
+
+  .nav-link:focus-visible {
+    color: #fff;
+    outline: none;
   }
 
   .nav-link.is-active {
@@ -142,11 +157,19 @@ const ctaAria = `Email ${site.email}`;
     text-decoration: none;
     color: #fff;
     transition: border-color 200ms ease, background 200ms ease;
+    -webkit-tap-highlight-color: transparent;
   }
 
-  .cta:hover {
-    border-color: rgba(34, 211, 238, 0.55);
-    background: rgba(34, 211, 238, 0.06);
+  @media (hover: hover) and (pointer: fine) {
+    .cta:hover {
+      border-color: rgba(34, 211, 238, 0.55);
+      background: rgba(34, 211, 238, 0.06);
+    }
+  }
+
+  .cta:focus-visible {
+    outline: 2px solid rgba(103, 232, 249, 0.6);
+    outline-offset: 2px;
   }
 
   .cta-mono {
