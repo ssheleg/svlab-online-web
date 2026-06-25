@@ -1,7 +1,7 @@
 # SV Lab — svlab.online
 
 Marketing site for **SV Lab**, the solo AI product lab of **Siarhei Sheleh** (Sergey Sheleg) from Warsaw, Poland.
-The site doubles as the portfolio for the lab's three live products (Prowl, CheckMyData, PrivateClawd), the career track record, the personal `/about` page, and the consulting front door at `/consulting` for AI advisory and AI transformation engagements. All inquiries land at [contact@svlab.online](mailto:contact@svlab.online).
+The site doubles as the portfolio for the lab's three live products (Prowl, CheckMyData, PrivateClawd), the career track record, the personal `/about` page, and the consulting front door at `/consulting` for AI advisory, AI transformation, and forward deployment engagements. All inquiries land at [contact@svlab.online](mailto:contact@svlab.online).
 
 - **Stack:** [Astro 6](https://astro.build) · TypeScript · Tailwind CSS v4
 - **Hosting:** GitHub Pages (static) on the apex domain `svlab.online`
@@ -25,7 +25,7 @@ npm run build      # type-check, regenerate per-page OG PNGs, build to ./dist
 npm run preview    # preview the production build locally
 ```
 
-The OG generator ([`scripts/build-og.mjs`](scripts/build-og.mjs)) is templated and emits one image per page (`og.png`, `og-about.png`, `og-consulting.png`, `og-consulting-ai-advisory.png`, `og-consulting-ai-transformation.png`) — add a new entry to the `pages` array to wire a new page.
+The OG generator ([`scripts/build-og.mjs`](scripts/build-og.mjs)) is templated and emits one image per page (`og.png`, `og-about.png`, `og-consulting.png`, `og-consulting-ai-advisory.png`, `og-consulting-ai-transformation.png`, `og-consulting-forward-deployment.png`) — add a new entry to the `pages` array to wire a new page.
 
 ## Routes
 
@@ -33,9 +33,10 @@ The OG generator ([`scripts/build-og.mjs`](scripts/build-og.mjs)) is templated a
 | ----------------------------------- | ------------------------------------------------------------ |
 | `/`                                 | Single-page lab overview: hero, about teaser, products, track record, capabilities, contact. |
 | `/about`                            | Personal page for Siarhei Sheleh — portrait, bio, disciplines, selected work, CTA. Emits a `Person` JSON-LD schema. |
-| `/consulting`                       | Consulting hub: positioning, two service cards, why-me strip, CTA. Emits a `ProfessionalService` JSON-LD schema. |
+| `/consulting`                       | Consulting hub: positioning, three service cards, forward-deployment callout, why-me strip, CTA. Emits a `ProfessionalService` JSON-LD schema. |
 | `/consulting/ai-advisory`           | Landing page for AI advisory engagements (apply AI to a specific use case fast). Emits `Service` + `FAQPage` JSON-LD schemas. |
 | `/consulting/ai-transformation`     | Landing page for AI transformation engagements (rewire processes, data, and org around AI). Emits `Service` + `FAQPage` JSON-LD schemas. |
+| `/consulting/forward-deployment`    | Landing page for forward deployment engagements (embedded engineer shipping production systems inside your team and stack). Emits `Service` + `FAQPage` JSON-LD schemas. |
 | `/404`                              | Themed not-found page.                                       |
 
 All "Book a consultation" buttons render as pre-filled `mailto:` links — no backend, deploys cleanly to GitHub Pages. Subject and body templates live in [`src/data/consulting.ts`](src/data/consulting.ts) (`service.cta`).
@@ -52,6 +53,7 @@ src/
       index.astro               # /consulting — hub, emits ProfessionalService JSON-LD
       ai-advisory.astro         # /consulting/ai-advisory — emits Service + FAQPage JSON-LD
       ai-transformation.astro   # /consulting/ai-transformation — emits Service + FAQPage JSON-LD
+      forward-deployment.astro  # /consulting/forward-deployment — emits Service + FAQPage JSON-LD
     404.astro                   # themed not-found
   components/
     Nav.astro · Hero.astro · About.astro       # home composition
@@ -68,7 +70,7 @@ src/
     projects.ts                 # SOT for live SV Lab products (3 cards)
     track-record.ts             # SOT for career projects (8 rows)
     capabilities.ts             # capability tiles
-    consulting.ts               # SOT for /consulting services (advisory + transformation): hero, outcomes, proofs, process, FAQ, CTA, meta
+    consulting.ts               # SOT for /consulting services (advisory + transformation + forward deployment): hero, outcomes, proofs, process, FAQ, CTA, meta
   styles/global.css             # Tailwind v4 @theme tokens, design system
 public/
   CNAME                         # svlab.online (required by GitHub Pages)
@@ -79,6 +81,7 @@ public/
   og-consulting.png             # OG for /consulting
   og-consulting-ai-advisory.png # OG for /consulting/ai-advisory
   og-consulting-ai-transformation.png # OG for /consulting/ai-transformation
+  og-consulting-forward-deployment.png # OG for /consulting/forward-deployment
   about/portrait.svg            # placeholder portrait used on /about (replace with real photo, see below)
   robots.txt
 scripts/build-og.mjs            # templated SVG → per-page PNG OG generator (resvg-js)
@@ -166,7 +169,7 @@ In the `svlab.online` zone:
 
 ## SEO + AI search
 
-- `<title>` and meta description tuned per page (home, about, consulting hub, advisory, transformation).
+- `<title>` and meta description tuned per page (home, about, consulting hub, advisory, transformation, forward deployment).
 - OpenGraph + Twitter cards point at a **per-page** OG image (`og-about.png`, `og-consulting.png`, etc.) generated by [`scripts/build-og.mjs`](scripts/build-og.mjs) at build time.
 - JSON-LD: `Organization` (layout) + one `SoftwareApplication` per portfolio entry + `Person` on `/about` + `ProfessionalService` on `/consulting` + `Service` and `FAQPage` on each consulting service page.
 - `robots.txt` allows everything and points at `sitemap-index.xml` (built by `@astrojs/sitemap`).
@@ -175,7 +178,7 @@ In the `svlab.online` zone:
 
 - Dark theme on `#070A12` with cyan / lime / violet accent gradient.
 - Typography: GeistVariable (display/body) + Geist Mono (labels and code mock).
-- Hero on each consulting service page uses an **inline SVG operator-console mock** — a fake terminal listing for AI advisory and a pipeline visual for AI transformation. Pure SVG, no images, GitHub-Pages-friendly.
+- Hero on each consulting service page uses an **inline SVG operator-console mock** — a fake terminal listing for AI advisory, a pipeline visual for AI transformation, and an embed/deploy console for forward deployment. Pure SVG, no images, GitHub-Pages-friendly.
 - Process step list renders as a **connected timeline** — horizontal connector + numbered nodes on ≥1100px, vertical rail on smaller screens.
 - Outcomes split numeric values (gradient text) from label values like "Vendor-free" (mono uppercase chip) so labels never break the gradient styling.
 - FAQ uses a custom rotating SVG caret with a focus-visible ring and an accent tint on the open state.

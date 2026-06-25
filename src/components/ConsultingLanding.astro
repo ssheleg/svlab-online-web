@@ -21,7 +21,12 @@ const tracks = getTrackRecordForService(service);
 const mailto = `mailto:${site.email}?subject=${encodeURIComponent(service.cta.subject)}&body=${encodeURIComponent(service.cta.body)}`;
 const ctaAria = `Book a consultation — opens email to ${site.email}`;
 
-const accent = service.slug === "ai-advisory" ? "cyan" : "violet";
+const accentBySlug: Record<ConsultingService["slug"], "cyan" | "violet" | "lime"> = {
+  "ai-advisory": "cyan",
+  "ai-transformation": "violet",
+  "forward-deployment": "lime",
+};
+const accent = accentBySlug[service.slug];
 
 const iconPaths: Record<NonNullable<ConsultingService["outcomes"][number]["icon"]>, string> = {
   clock: "M12 7v5l3 2 M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z",
@@ -113,6 +118,30 @@ const isNumeric = (s: string) => /\d/.test(s);
             <div class="line"><span class="muted">  data   </span> <span class="cyan">2 pipelines live</span></div>
             <div class="line"><span class="muted">  org    </span> <span class="lime">1 owner / wkflow</span></div>
             <div class="line"><span class="muted">  adopt  </span> <span class="num">73%</span> <span class="muted">/ 90-day target</span></div>
+            <div class="spacer"></div>
+            <div class="line caret"><span class="prompt">$</span> _</div>
+          </div>
+        </div>
+      )}
+
+      {service.slug === "forward-deployment" && (
+        <div class="console">
+          <div class="console-bar">
+            <span class="dot d1"></span>
+            <span class="dot d2"></span>
+            <span class="dot d3"></span>
+            <span class="bar-label">svlab · forward-deploy · client-acme</span>
+          </div>
+          <div class="console-body">
+            <div class="line"><span class="prompt">$</span> svlab embed --team platform</div>
+            <div class="line muted">  ↳ access: repo · ci · vpc · slack</div>
+            <div class="spacer"></div>
+            <div class="line"><span class="prompt">$</span> svlab deploy --env production</div>
+            <div class="line"><span class="muted">  on-site</span> <span class="lime">week 2</span></div>
+            <div class="line"><span class="muted">  ci     </span> <span class="bar"><span class="bar-fill"></span></span> <span class="lime">green</span></div>
+            <div class="line"><span class="muted">  deploy </span> <span class="cyan">your-vpc · live</span></div>
+            <div class="line"><span class="muted">  handoff</span> <span class="lime">runbooks ready</span></div>
+            <div class="line"><span class="muted">  owner  </span> <span class="num">1</span> <span class="muted">internal · trained</span></div>
             <div class="spacer"></div>
             <div class="line caret"><span class="prompt">$</span> _</div>
           </div>
@@ -339,6 +368,11 @@ const isNumeric = (s: string) => /\d/.test(s);
     --accent: #a78bfa;
     --accent-fg: #c4b5fd;
     --accent-glow: rgba(167, 139, 250, 0.22);
+  }
+  .cl-hero.accent-lime {
+    --accent: #a3e635;
+    --accent-fg: #bef264;
+    --accent-glow: rgba(163, 230, 53, 0.22);
   }
 
   .hero-grid {

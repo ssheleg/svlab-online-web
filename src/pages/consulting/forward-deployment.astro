@@ -1,0 +1,56 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Nav from "@/components/Nav.astro";
+import Footer from "@/components/Footer.astro";
+import ConsultingLanding from "@/components/ConsultingLanding.astro";
+import { site } from "@/data/site";
+import { consultingServices } from "@/data/consulting";
+
+const service = consultingServices["forward-deployment"];
+const url = new URL(`/consulting/${service.slug}`, site.url).toString();
+
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: service.title,
+  serviceType: "Forward deployed engineering",
+  description: service.meta.description,
+  url,
+  provider: {
+    "@type": "Organization",
+    name: site.name,
+    url: site.url,
+  },
+  areaServed: "Worldwide",
+  audience: {
+    "@type": "BusinessAudience",
+    audienceType: "Engineering leaders, CTOs, founders with in-house teams",
+  },
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: service.faq.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: f.a,
+    },
+  })),
+};
+---
+
+<BaseLayout
+  title={service.meta.title}
+  description={service.meta.description}
+  ogImage="/og-consulting-forward-deployment.png"
+  extraSchemas={[serviceSchema, faqSchema]}
+>
+  <Nav />
+  <main id="main">
+    <ConsultingLanding service={service} />
+  </main>
+  <Footer />
+</BaseLayout>

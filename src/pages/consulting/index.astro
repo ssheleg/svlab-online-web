@@ -11,9 +11,10 @@ import { projects } from "@/data/projects";
 
 const advisory = consultingServices["ai-advisory"];
 const transformation = consultingServices["ai-transformation"];
+const forwardDeployment = consultingServices["forward-deployment"];
 
 const title = `Consulting · ${site.name}`;
-const description = `AI advisory and AI transformation engagements with Siarhei Sheleh — solo AI operator from Warsaw. Apply AI where it moves the business, in weeks, not quarters.`;
+const description = `AI advisory, AI transformation, and forward deployment engagements with Siarhei Sheleh — solo AI operator from Warsaw. Apply AI where it moves the business, or embed an engineer in your team to ship it.`;
 
 const hubMailto = `mailto:${site.email}?subject=${encodeURIComponent("Consulting · SV Lab")}&body=${encodeURIComponent(
   [
@@ -43,7 +44,7 @@ const offerSchema = {
     url: site.url,
   },
   areaServed: "Worldwide",
-  serviceType: ["AI advisory", "AI transformation"],
+  serviceType: ["AI advisory", "AI transformation", "Forward deployment"],
   email: site.email,
   hasOfferCatalog: {
     "@type": "OfferCatalog",
@@ -63,6 +64,14 @@ const offerSchema = {
           "@type": "Service",
           name: transformation.title,
           url: new URL("/consulting/ai-transformation", site.url).toString(),
+        },
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: forwardDeployment.title,
+          url: new URL("/consulting/forward-deployment", site.url).toString(),
         },
       },
     ],
@@ -94,10 +103,12 @@ const offerSchema = {
         </h1>
 
         <p class="hero-sub reveal">
-          Two ways to work together. <strong>Advisory</strong> for teams that
+          Three ways to work together. <strong>Advisory</strong> for teams that
           need to apply AI to a specific use case fast. <strong>Transformation</strong>
-          for operators rewiring entire processes and orgs around AI. Both
-          deliver working systems — not slide decks.
+          for operators rewiring entire processes and orgs around AI.
+          <strong>Forward deployment</strong> when you want an engineer embedded
+          in your team, shipping in your own stack. All three deliver working
+          systems — not slide decks.
         </p>
 
         <div class="hero-actions reveal">
@@ -108,6 +119,28 @@ const offerSchema = {
           </a>
           <a class="btn-secondary" href="#services">See services ↓</a>
         </div>
+      </div>
+    </section>
+
+    <section class="hub-fde reveal">
+      <div class="container-page">
+        <a class="fde-strip" href="/consulting/forward-deployment">
+          <div class="fde-copy">
+            <span class="mono-label fde-kicker">// FORWARD DEPLOYMENT</span>
+            <h2>Building AI systems inside your org?</h2>
+            <p>
+              If you're after forward deployed engineering — an embedded
+              operator in your team and stack, shipping straight into your own
+              production environment with full handoff — that's a dedicated
+              track. One accountable engineer, in your repo and infrastructure,
+              not an outside advisor.
+            </p>
+          </div>
+          <span class="fde-more">
+            Forward deployment
+            <span aria-hidden="true">→</span>
+          </span>
+        </a>
       </div>
     </section>
 
@@ -128,6 +161,11 @@ const offerSchema = {
             service={transformation}
             href="/consulting/ai-transformation"
             accent="violet"
+          />
+          <ConsultingHubCard
+            service={forwardDeployment}
+            href="/consulting/forward-deployment"
+            accent="lime"
           />
         </div>
       </div>
@@ -197,7 +235,7 @@ const offerSchema = {
         <p>
           Drop a paragraph about what you're trying to do — I'll reply within
           one business day with a recommended path (advisory, transformation,
-          or "you don't need either yet").
+          forward deployment, or "you don't need any of them yet").
         </p>
         <div class="actions">
           <a class="btn-primary" href={hubMailto} aria-label={ctaAria}>
@@ -295,6 +333,87 @@ const offerSchema = {
     border: 0;
   }
 
+  .hub-fde {
+    padding-block: clamp(2.5rem, 5vw, 3.5rem);
+  }
+
+  .fde-strip {
+    --accent: #a3e635;
+    --accent-glow: rgba(163, 230, 53, 0.18);
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    border: 1px solid var(--color-border);
+    border-radius: 1.1rem;
+    text-decoration: none;
+    color: inherit;
+    isolation: isolate;
+    overflow: hidden;
+    position: relative;
+    background:
+      radial-gradient(circle at top right, var(--accent-glow), transparent 58%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.005));
+    transition: border-color 220ms ease, transform 220ms ease, box-shadow 220ms ease;
+  }
+
+  .fde-strip:hover {
+    border-color: color-mix(in oklab, var(--accent) 50%, transparent);
+    transform: translateY(-2px);
+    box-shadow: 0 22px 50px -32px var(--accent-glow);
+  }
+
+  .fde-strip:hover .fde-more {
+    transform: translateX(2px);
+    color: #fff;
+  }
+
+  .fde-kicker {
+    color: color-mix(in oklab, var(--accent) 75%, white);
+  }
+
+  .fde-copy h2 {
+    margin-top: 0.7rem;
+    font-size: clamp(1.5rem, 3vw, 2.1rem);
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .fde-copy p {
+    margin-top: 0.85rem;
+    max-width: 62ch;
+    color: var(--color-fg-muted);
+    line-height: 1.6;
+    font-size: 1rem;
+  }
+
+  .fde-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    transition: transform 200ms ease, color 200ms ease;
+  }
+
+  @media (min-width: 760px) {
+    .fde-strip {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2.5rem;
+    }
+
+    .fde-more {
+      flex: 0 0 auto;
+    }
+  }
+
   .hub-services {
     padding-block: clamp(4rem, 8vw, 7rem);
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -326,9 +445,15 @@ const offerSchema = {
     grid-template-columns: 1fr;
   }
 
-  @media (min-width: 900px) {
+  @media (min-width: 720px) {
     .cards {
       grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1040px) {
+    .cards {
+      grid-template-columns: repeat(3, 1fr);
     }
   }
 

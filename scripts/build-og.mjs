@@ -120,7 +120,7 @@ const pages = [
     kicker: "// CONSULTING · SV LAB",
     line1: "Outside operator on",
     line2: "your AI roadmap.",
-    footerLeft: { label: "ADVISORY · TRANSFORMATION", width: 320 },
+    footerLeft: { label: "ADVISORY · TRANSFORMATION · FORWARD DEPLOY", width: 470 },
     footerRight: { label: "BOOK A CONSULTATION → CONTACT@SVLAB.ONLINE", width: 530 },
     accent: "brand",
   },
@@ -141,6 +141,15 @@ const pages = [
     footerLeft: { label: "8-12 WEEK CYCLE", width: 220 },
     footerRight: { label: "PROCESS · DATA · ORG · ADOPTION", width: 410 },
     accent: "violet",
+  },
+  {
+    out: "og-consulting-forward-deployment.png",
+    kicker: "// CONSULTING · FORWARD DEPLOYMENT",
+    line1: "Embed an AI engineer",
+    line2: "in your team.",
+    footerLeft: { label: "ON-SITE + REMOTE", width: 240 },
+    footerRight: { label: "YOUR STACK · PROD DEPLOYS · HANDOFF", width: 450 },
+    accent: "lime",
   },
 ];
 

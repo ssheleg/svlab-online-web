@@ -2,7 +2,7 @@ import { projects } from "./projects";
 import { trackRecord } from "./track-record";
 
 export type ConsultingService = {
-  slug: "ai-advisory" | "ai-transformation";
+  slug: "ai-advisory" | "ai-transformation" | "forward-deployment";
   title: string;
   kicker: string;
   hero: { headline: string; sub: string };
@@ -105,6 +105,10 @@ export const consultingServices: Record<
       {
         q: "What if AI isn't actually the right answer?",
         a: "I'll tell you. Plenty of workflows are better solved with a script, an SQL view, or removing a step entirely. The first deliverable is the honest opportunity map — even if it ends with 'don't ship AI here yet'.",
+      },
+      {
+        q: "When is forward deployment a better fit?",
+        a: "If you'd rather have an engineer embedded in your team shipping into your own production environment than an outside advisor, look at forward deployment (/consulting/forward-deployment). Advisory often becomes the scoping phase for an embedded engagement.",
       },
     ],
     cta: {
@@ -218,6 +222,10 @@ export const consultingServices: Record<
         q: "Where are you based and how do you invoice?",
         a: "Warsaw, Poland. I invoice as a registered EU entity (NIP 5223265821 / VAT PL5223265821). Engagements are remote-first with on-site weeks when useful.",
       },
+      {
+        q: "Can you embed directly in our team instead?",
+        a: "Yes — that's the forward deployment model (/consulting/forward-deployment): I join your team and ship production systems inside your own stack and infrastructure, rather than running a separate transformation track from the outside.",
+      },
     ],
     cta: {
       subject: "Consulting · AI transformation · SV Lab",
@@ -241,11 +249,121 @@ export const consultingServices: Record<
         "End-to-end AI transformation by Siarhei Sheleh: process redesign, data infrastructure, and org rewiring shipped as production systems — not slides.",
     },
   },
+
+  "forward-deployment": {
+    slug: "forward-deployment",
+    title: "Forward deployment",
+    kicker: "// FORWARD DEPLOYMENT",
+    hero: {
+      headline: "Embed an AI engineer in your team — shipping in your own production environment.",
+      sub: "Forward deployed engineering, not slide decks: I join your Slack, your repo, and your CI, then build and deploy AI systems straight into your cloud or VPC. One accountable operator working shoulder-to-shoulder with your team — leaving behind runbooks, evals, and an in-house owner.",
+    },
+    outcomes: [
+      {
+        value: "On-site",
+        label: "EMBEDDED IN YOUR TEAM",
+        blurb:
+          "I work inside your rituals — standups, code review, on-call — with on-site weeks when proximity moves things faster than a call.",
+        icon: "users",
+      },
+      {
+        value: "Your stack",
+        label: "PROD IN YOUR INFRA",
+        blurb:
+          "Deploys land in your cloud, VPC, and pipelines — not a sandbox you can't keep. Your data never leaves your perimeter.",
+        icon: "cube",
+      },
+      {
+        value: "Handoff",
+        label: "RUNBOOKS + TEAM UPSKILL",
+        blurb:
+          "Every system ships with docs, evals, and a designated internal owner trained to run and extend it after I leave.",
+        icon: "layers",
+      },
+      {
+        value: "Solo",
+        label: "ONE ACCOUNTABLE OPERATOR",
+        blurb:
+          "Not a staffing agency or a rotating bench. You get one senior engineer who owns the outcome end-to-end.",
+        icon: "shield",
+      },
+    ],
+    proofs: {
+      products: ["privateclawd", "prowl"],
+      trackRecord: ["hyperlancer", "esimplus", "nicegram"],
+    },
+    process: [
+      {
+        step: "01 · WEEK 1",
+        title: "Embed & access",
+        body: "I onboard like a teammate: access to repo, CI, data, and tooling, plus a short security and environment review. We agree on the first thing to ship and how it reaches production.",
+      },
+      {
+        step: "02 · WEEKS 2–6",
+        title: "Ship in production",
+        body: "I build AI systems — agents, copilots, data pipelines, internal tools — and deploy them into your own infrastructure, with evals, guardrails, and observability wired in from day one.",
+      },
+      {
+        step: "03 · ONGOING",
+        title: "Transfer & sustain",
+        body: "I pair with your engineers, write the runbooks, and hand ownership to an internal owner. The systems keep running and improving on your stack after the engagement ends.",
+      },
+    ],
+    faq: [
+      {
+        q: "What is forward deployment exactly?",
+        a: "It's the forward deployed engineer (FDE) model: instead of advising from the outside, I embed in your team and ship production software inside your own environment. Think of it as a senior AI engineer on loan — in your repo, your CI, and your cloud — who owns delivery and then hands it off.",
+      },
+      {
+        q: "How is this different from advisory or transformation?",
+        a: "Advisory is a targeted sprint that ends in a prototype or decision memo. Transformation rewires whole processes and the org around them. Forward deployment is about where the work happens: deep inside your team and infrastructure, building and operating systems hands-on rather than from the outside.",
+      },
+      {
+        q: "On-site or remote?",
+        a: "Remote-first, with on-site weeks when proximity is worth it — kickoff, hard integration work, or training your team. I'm based in Warsaw, Poland and travel within the EU readily, further with notice.",
+      },
+      {
+        q: "Do you bring a team?",
+        a: "No. You get one senior operator who owns the outcome, not a rotating bench or a staffing contract. When specialised help is genuinely needed (design, niche data engineering) I bring a trusted partner in — and you stay accountable to one person.",
+      },
+      {
+        q: "What about security and access to our systems?",
+        a: "I work under NDA by default and follow your access policy — least-privilege credentials, your devices or VDI if required, deploys into your VPC so data never leaves your perimeter. I invoice as a registered EU entity (NIP 5223265821 / VAT PL5223265821) and sign DPAs.",
+      },
+      {
+        q: "How long is a typical engagement?",
+        a: "Usually 4–12 weeks of focused embedded work, sometimes a longer fractional arrangement (a couple of days a week). The goal is always to make myself unnecessary: working systems plus an internal owner who can carry them.",
+      },
+    ],
+    cta: {
+      subject: "Consulting · Forward deployment · SV Lab",
+      body: [
+        "Hi Siarhei,",
+        "",
+        "I'd like to discuss a forward deployment engagement.",
+        "",
+        "Company:",
+        "Role:",
+        "Stack & environment (cloud, repo, CI):",
+        "What we want to ship:",
+        "On-site availability:",
+        "Rough timeline / budget:",
+        "",
+        "— ",
+      ].join("\n"),
+    },
+    meta: {
+      title: "Forward deployment · SV Lab",
+      description:
+        "Forward deployed engineering by Siarhei Sheleh: an embedded AI engineer shipping production systems inside your own team, stack, and infrastructure — with full handoff to an internal owner.",
+    },
+  },
 };
 
 export const consultingServiceList: ConsultingService[] = [
   consultingServices["ai-advisory"],
   consultingServices["ai-transformation"],
+  consultingServices["forward-deployment"],
 ];
 
 export function getProductsForService(service: ConsultingService) {
