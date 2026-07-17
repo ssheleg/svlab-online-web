@@ -66,7 +66,7 @@ src/
     ConsultingHubCard.astro     # service card used on the /consulting hub
     GradientMesh.astro · GridBg.astro · Logo.astro
   data/
-    site.ts                     # name, email, founder, legal block (NIP/VAT/address)
+    site.ts                     # name, email, founder, legal entity (JSON-LD still uses address/NIP/VAT)
     projects.ts                 # SOT for live SV Lab products (3 cards)
     track-record.ts             # SOT for career projects (8 rows)
     capabilities.ts             # capability tiles
@@ -129,6 +129,8 @@ The card and JSON-LD `SoftwareApplication` entry are generated automatically.
 ---
 
 ## Deployment
+
+Canonical runbook: [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md).
 
 ### 1) GitHub Pages
 

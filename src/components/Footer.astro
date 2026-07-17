@@ -50,12 +50,7 @@ const year = new Date().getFullYear();
   <div class="container-page legal">
     <div class="legal-block">
       <span>
-        © {year} {site.legal.entity} · {site.legal.streetAddress},
-        {site.legal.postalCode} {site.legal.city}, {site.legal.country}.
-        All rights reserved.
-      </span>
-      <span class="mono-label legal-tax">
-        // NIP {site.legal.nip} · VAT {site.legal.vat} · {site.email}
+        © {year} {site.legal.entity}. All rights reserved.
       </span>
     </div>
     <span class="mono-label">// SVLAB.ONLINE · v1</span>
@@ -147,9 +142,5 @@ const year = new Date().getFullYear();
     flex-direction: column;
     gap: 0.35rem;
     max-width: 70ch;
-  }
-
-  .legal-tax {
-    font-size: 0.74rem;
   }
 </style>
