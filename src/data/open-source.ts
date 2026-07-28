@@ -79,7 +79,7 @@ export const platformProjects: PlatformProject[] = [
     name: "Nicegram",
     href: "https://nicegram.app",
     badge: "GPL-2.0",
-    role: "Co-creator · growth",
+    role: "Co-founder · growth",
     metric: "56M+",
     metricLabel: "organic installs",
     blurb:
@@ -95,7 +95,7 @@ export const platformProjects: PlatformProject[] = [
     name: "Nicegram Business",
     href: "https://business.nicegram.app",
     badge: "EARLY ACCESS",
-    role: "Co-creator · product",
+    role: "Co-founder · product",
     blurb:
       "Nicegram OS — the AI business layer for Telegram-native teams. Company-owned accounts, delegated access, retained chat history, approved AI agents with a controlled context layer, and CRM sync. Revoke a seat and the deals stay with the company.",
     links: [{ label: "business.nicegram.app", href: "https://business.nicegram.app" }],

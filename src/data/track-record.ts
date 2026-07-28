@@ -40,7 +40,7 @@ export const trackRecord: TrackItem[] = [
     url: "https://business.nicegram.app",
     yearStart: 2026,
     yearEnd: "present",
-    role: "Co-creator · product",
+    role: "Co-founder · product",
     blurb:
       "Nicegram OS — the AI business layer for Telegram-native teams: company-owned accounts, delegated access, retained chat history, approved AI agents, CRM sync. In early access.",
     tags: ["b2b", "ai-agents", "telegram"],
@@ -53,7 +53,7 @@ export const trackRecord: TrackItem[] = [
     url: "https://nicegram.app",
     yearStart: 2021,
     yearEnd: "present",
-    role: "Co-creator · growth",
+    role: "Co-founder · growth",
     blurb: "Privacy-first Telegram client with superior UX. Open source on iOS, Android, and desktop.",
     tags: ["messaging", "privacy", "open source"],
     metric: "56M+ organic installs",
