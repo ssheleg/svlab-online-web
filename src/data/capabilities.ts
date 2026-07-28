@@ -32,13 +32,13 @@ export const capabilities: Capability[] = [
   {
     title: "Operations & org",
     description:
-      "Stripe billing, support, legal, vendor stack, analytics. The boring infrastructure that keeps a one-person company compounding.",
+      "Stripe billing, support, legal, vendor stack, analytics. The boring infrastructure that keeps a product compounding after launch.",
     icon: "shield",
   },
   {
     title: "AI products",
     description:
-      "Agentic systems, NL-to-SQL interfaces, managed cloud for agents — the layer where SV Lab's three live products live today.",
+      "Agentic systems, NL-to-SQL interfaces, managed cloud for agents, and the open-source skills that keep agent output maintainable.",
     icon: "cloud",
   },
 ];

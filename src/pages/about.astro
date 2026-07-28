@@ -5,16 +5,17 @@ import Footer from "@/components/Footer.astro";
 import AboutPage from "@/components/AboutPage.astro";
 import { site } from "@/data/site";
 import { projects } from "@/data/projects";
+import { ledgerStats } from "@/data/ledger";
 
 const title = `About · ${site.founder} — ${site.name}`;
-const description = `${site.founder} (Sergey Sheleg) — founder of SV Lab. Solo AI operator from Warsaw, Poland. 12+ years of shipping. Three live AI products. Available for AI advisory and AI transformation engagements.`;
+const description = `${site.founder} (also Siarhei Sheleh) — product entrepreneur in Warsaw, Poland. ${site.yearsExperience} years shipping mobile, desktop, and web products. ${ledgerStats.live} live products and an open-source skill family for coding agents. Available for AI advisory, transformation, and forward deployment.`;
 
 const personSchema = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: site.founder,
-  alternateName: site.alternateFounderName,
-  jobTitle: "Founder · AI product operator",
+  alternateName: site.founderAlternate,
+  jobTitle: site.role,
   description,
   url: new URL("/about", site.url).toString(),
   image: new URL("/about/portrait.svg", site.url).toString(),
@@ -26,15 +27,14 @@ const personSchema = {
   },
   address: {
     "@type": "PostalAddress",
-    streetAddress: site.legal.streetAddress,
-    postalCode: site.legal.postalCode,
     addressLocality: site.legal.city,
     addressCountry: site.legal.countryCode,
   },
-  sameAs: [site.github, ...projects.map((p) => p.url)],
+  sameAs: [site.github, site.skills.repo, ...projects.map((p) => p.url)],
   knowsAbout: [
     "AI product development",
     "AI agents",
+    "Coding agent workflows",
     "Go-to-market strategy",
     "Full-stack engineering",
     "AI transformation",

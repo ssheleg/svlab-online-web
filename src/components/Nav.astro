@@ -8,19 +8,18 @@ const here = norm(path);
 
 type Link = { label: string; href: string; match: (p: string) => boolean };
 
-// In-page anchor links (#products, #track-record, #contact) never get the
-// active underline — otherwise multiple links would all light up at once on
-// the home page and look "stuck". Only true page-level routes (Consulting,
-// About) get the active state.
+// In-page anchor links (#skills, #work) never get the active underline —
+// otherwise several links light up at once on the home page and look "stuck".
+// Only true page-level routes (Consulting, About) get the active state.
 const links: Link[] = [
   {
-    label: "Products",
-    href: "/#products",
+    label: "Skills",
+    href: "/#skills",
     match: () => false,
   },
   {
-    label: "Track record",
-    href: "/#track-record",
+    label: "Work",
+    href: "/#products",
     match: () => false,
   },
   {
@@ -33,11 +32,6 @@ const links: Link[] = [
     href: "/about",
     match: (p) => p === "/about",
   },
-  {
-    label: "Contact",
-    href: "/#contact",
-    match: () => false,
-  },
 ];
 
 const ctaAria = `Email ${site.email}`;
@@ -46,6 +40,7 @@ const ctaAria = `Email ${site.email}`;
 <header class="nav-shell">
   <div class="container-page nav-row">
     <Logo />
+
     <nav class="links" aria-label="Primary">
       {links.map((l) => {
         const isActive = l.match(here);
@@ -60,12 +55,39 @@ const ctaAria = `Email ${site.email}`;
         );
       })}
     </nav>
+
+    <span class="status" title={site.availabilityDetail}>
+      <span class="status-dot" aria-hidden="true"></span>
+      <span class="status-text">{site.availability}</span>
+      <span class="sr-only">— {site.availabilityDetail}</span>
+    </span>
+
     <a class="cta" href={`mailto:${site.email}`} aria-label={ctaAria}>
-      <span class="cta-mono">contact@svlab.online</span>
+      <span class="cta-mono">{site.email}</span>
       <span class="cta-mono cta-mono-mobile" aria-hidden="true">EMAIL</span>
       <span class="cta-arrow" aria-hidden="true">→</span>
     </a>
   </div>
+
+  <!-- Below 900px the primary links don't fit next to the shield, status, and
+       email. Instead of hiding navigation behind a JS menu, they drop into a
+       scrollable strip that stays one tap away. -->
+  <nav class="links-mobile" aria-label="Sections">
+    <div class="container-page links-mobile-row">
+      {links.map((l) => {
+        const isActive = l.match(here);
+        return (
+          <a
+            href={l.href}
+            class:list={["nav-link", { "is-active": isActive }]}
+            aria-current={isActive ? "page" : undefined}
+          >
+            {l.label}
+          </a>
+        );
+      })}
+    </div>
+  </nav>
 </header>
 
 <style>
@@ -74,19 +96,15 @@ const ctaAria = `Email ${site.email}`;
     top: 0;
     z-index: 40;
     backdrop-filter: blur(12px);
-    background: linear-gradient(
-      to bottom,
-      rgba(7, 10, 18, 0.78),
-      rgba(7, 10, 18, 0.5)
-    );
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(7, 10, 18, 0.82);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   }
 
   .nav-row {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
-    padding-block: 0.85rem;
+    gap: 1rem;
+    padding-block: 0.75rem;
   }
 
   .links {
@@ -98,7 +116,10 @@ const ctaAria = `Email ${site.email}`;
 
   .nav-link {
     color: var(--color-fg-muted);
-    font-size: 0.9rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     text-decoration: none;
     transition: color 200ms ease;
     position: relative;
@@ -113,7 +134,7 @@ const ctaAria = `Email ${site.email}`;
     right: 0;
     bottom: -2px;
     height: 1px;
-    background: linear-gradient(90deg, #22d3ee, #a3e635);
+    background: var(--color-cyan);
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 240ms ease;
@@ -145,13 +166,37 @@ const ctaAria = `Email ${site.email}`;
     transform: scaleX(1);
   }
 
-  .cta {
+  .status {
     margin-left: auto;
     display: inline-flex;
     align-items: center;
+    gap: 0.45rem;
+    padding: 0.35rem 0.65rem;
+    border-radius: 0.4rem;
+    border: 1px solid rgba(52, 211, 153, 0.28);
+    background: rgba(52, 211, 153, 0.07);
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.16em;
+    color: #6ee7b7;
+    white-space: nowrap;
+  }
+
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: #34d399;
+    box-shadow: 0 0 0 4px rgba(52, 211, 153, 0.18);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+
+  .cta {
+    display: inline-flex;
+    align-items: center;
     gap: 0.5rem;
-    padding: 0.55rem 0.9rem;
-    border-radius: 0.5rem;
+    padding: 0.5rem 0.85rem;
+    border-radius: 0.4rem;
     border: 1px solid var(--color-border-strong);
     background: rgba(255, 255, 255, 0.02);
     text-decoration: none;
@@ -174,7 +219,7 @@ const ctaAria = `Email ${site.email}`;
 
   .cta-mono {
     font-family: var(--font-mono);
-    font-size: 0.78rem;
+    font-size: 0.76rem;
     letter-spacing: 0.04em;
   }
 
@@ -188,12 +233,40 @@ const ctaAria = `Email ${site.email}`;
     color: #67e8f9;
   }
 
-  @media (min-width: 860px) {
+  .links-mobile {
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .links-mobile::-webkit-scrollbar {
+    display: none;
+  }
+
+  .links-mobile-row {
+    display: flex;
+    gap: 1.25rem;
+    padding-block: 0.5rem;
+    width: max-content;
+    min-width: 100%;
+  }
+
+  @media (min-width: 900px) {
     .links {
       display: inline-flex;
     }
-    .cta {
-      margin-left: 0;
+    .status {
+      margin-left: 1.25rem;
+    }
+    .links-mobile {
+      display: none;
+    }
+  }
+
+  /* Below 900px the nav links collapse; the shield, status, and email stay. */
+  @media (max-width: 899px) {
+    .nav-row {
+      gap: 0.65rem;
     }
   }
 
@@ -203,6 +276,17 @@ const ctaAria = `Email ${site.email}`;
     }
     .cta-mono-mobile {
       display: inline;
+    }
+  }
+
+  /* Narrow phones: the status text is the first thing to go — the pulsing dot
+     alone still reads as "live", and the shield + email must not wrap. */
+  @media (max-width: 400px) {
+    .status-text {
+      display: none;
+    }
+    .status {
+      padding-inline: 0.45rem;
     }
   }
 </style>

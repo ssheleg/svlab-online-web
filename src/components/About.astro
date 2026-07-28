@@ -1,29 +1,39 @@
 ---
+import { site } from "@/data/site";
+import { ledgerStats } from "@/data/ledger";
+
 const stats = [
-  { label: "// FOUNDED", value: "2024" },
-  { label: "// HQ", value: "Warsaw, PL" },
-  { label: "// MODE", value: "Solo operator" },
-  { label: "// SHIPPED", value: "11+ products" },
+  { label: "// NAME", value: site.founder },
+  { label: "// BASE", value: "Warsaw, PL" },
+  { label: "// SINCE", value: `${site.shippingSince}` },
+  { label: "// LAB", value: `SV Lab · ${site.established}` },
 ];
 ---
 
 <section class="about reveal" id="about">
   <div class="container-page grid">
     <div class="copy">
-      <span class="mono-label">// ABOUT</span>
-      <h2>Solo. Operator. Sharp surface area.</h2>
+      <p class="section-index">
+        <span class="num">04</span>
+        <span>Operator</span>
+      </p>
+
+      <h2>One person accountable, all the way down.</h2>
+
       <p>
-        SV Lab is the individual entrepreneurship of <strong>Siarhei Sheleh</strong>
-        — also known as Sergey Sheleg. I'm based in Warsaw and I build, market,
-        and operate AI products on my own. Twelve years of shipping. Three live
-        products. One inbox: <a href="mailto:contact@svlab.online">contact@svlab.online</a>.
+        I'm <strong>{site.founder}</strong> — registered in Poland as
+        Siarhei Sheleh. I build, market, and operate products from Warsaw, and
+        I'm the one in the repo: no account manager between you and the work,
+        no handoff to a bench you never met.
       </p>
       <p>
-        My edge is owning the full stack a product needs to exist: <strong>research</strong>,
-        <strong>engineering</strong>, <strong>go-to-market</strong>,
-        <strong>marketing</strong>, and <strong>operations</strong>. Most teams
-        treat these as separate roles. As a solo operator, I treat them as one
-        loop — and ship faster because of it.
+        What I own end to end is the whole surface a product needs to exist:
+        <strong>research</strong>, <strong>engineering</strong>,
+        <strong>go-to-market</strong>, <strong>marketing</strong>, and
+        <strong>operations</strong>. Most orgs split these across five roles and
+        pay for the handoffs. I run them as one loop — and ship faster because
+        of it. That loop is what {ledgerStats.total} shipped products and every
+        consulting engagement run on.
       </p>
 
       <div class="about-actions">
@@ -32,13 +42,13 @@ const stats = [
           <span aria-hidden="true">→</span>
         </a>
         <a class="about-cta secondary" href="/about">
-          Read more about me
+          Full background
           <span aria-hidden="true">→</span>
         </a>
       </div>
     </div>
 
-    <aside class="grid-stats" aria-label="Lab profile">
+    <aside class="grid-stats" aria-label="Operator profile">
       {stats.map((s) => (
         <div class="stat-cell">
           <span class="mono-label">{s.label}</span>
@@ -53,7 +63,7 @@ const stats = [
   .about {
     position: relative;
     padding-block: clamp(4rem, 8vw, 7rem);
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
   }
 
   .grid {
@@ -71,13 +81,13 @@ const stats = [
   }
 
   .copy h2 {
-    margin-top: 1rem;
+    margin-top: 1.5rem;
     font-size: clamp(1.8rem, 3.4vw, 2.6rem);
     line-height: 1.1;
     letter-spacing: -0.02em;
     font-weight: 600;
     color: #fff;
-    max-width: 18ch;
+    max-width: 20ch;
   }
 
   .copy p {
@@ -91,17 +101,6 @@ const stats = [
   .copy strong {
     color: #fff;
     font-weight: 500;
-  }
-
-  .copy a {
-    color: #67e8f9;
-    text-decoration: none;
-    border-bottom: 1px solid rgba(103, 232, 249, 0.4);
-    transition: border-color 200ms ease;
-  }
-
-  .copy a:hover {
-    border-bottom-color: #67e8f9;
   }
 
   .copy .about-actions {
@@ -121,7 +120,6 @@ const stats = [
     letter-spacing: 0.1em;
     text-transform: uppercase;
     text-decoration: none;
-    border-bottom: none;
     transition: transform 200ms ease, color 200ms ease, filter 200ms ease,
       border-color 200ms ease;
   }
@@ -137,7 +135,6 @@ const stats = [
   .copy a.about-cta.primary:hover {
     transform: translateY(-1px);
     filter: brightness(1.05);
-    border-bottom-color: transparent;
   }
 
   .copy a.about-cta.secondary {
@@ -155,7 +152,7 @@ const stats = [
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     border: 1px solid var(--color-border);
-    border-radius: 1rem;
+    border-radius: 0.75rem;
     background: rgba(255, 255, 255, 0.02);
     overflow: hidden;
   }
@@ -178,7 +175,8 @@ const stats = [
   }
 
   .stat-val {
-    font-size: 1.25rem;
+    font-family: var(--font-mono);
+    font-size: 1.05rem;
     color: #fff;
     font-weight: 500;
     letter-spacing: -0.01em;

@@ -1,12 +1,12 @@
 # SV Lab — svlab.online
 
-Marketing site for **SV Lab**, the solo AI product lab of **Siarhei Sheleh** (Sergey Sheleg) from Warsaw, Poland.
-The site doubles as the portfolio for the lab's three live products (Prowl, CheckMyData, PrivateClawd), the career track record, the personal `/about` page, and the consulting front door at `/consulting` for AI advisory, AI transformation, and forward deployment engagements. All inquiries land at [contact@svlab.online](mailto:contact@svlab.online).
+Personal site of **Sergey Sheleg** (registered as Siarhei Sheleh) — product entrepreneur in Warsaw, Poland. **SV Lab** is the container he ships under.
+The site carries the open-source agent skills (`sshlg-skills`), the three live products (Prowl, CheckMyData, PrivateClawd), one ledger of everything shipped in 13 years, the `/about` page, and the consulting front door at `/consulting` for AI advisory, AI transformation, and forward deployment engagements. All inquiries land at [contact@svlab.online](mailto:contact@svlab.online).
 
 - **Stack:** [Astro 6](https://astro.build) · TypeScript · Tailwind CSS v4
 - **Hosting:** GitHub Pages (static) on the apex domain `svlab.online`
 - **DNS:** Cloudflare
-- **Author:** Siarhei Sheleh — `contact@svlab.online`
+- **Author:** Sergey Sheleg — `contact@svlab.online`
 
 ---
 
@@ -21,18 +21,19 @@ npm run dev        # http://localhost:4321
 Other scripts:
 
 ```bash
-npm run build      # type-check, regenerate per-page OG PNGs, build to ./dist
+npm run build      # type-check, regenerate per-page OG PNGs, build to ./dist, verify the output
+npm run check      # verify ./dist on its own (see scripts/check-site.mjs)
 npm run preview    # preview the production build locally
 ```
 
-The OG generator ([`scripts/build-og.mjs`](scripts/build-og.mjs)) is templated and emits one image per page (`og.png`, `og-about.png`, `og-consulting.png`, `og-consulting-ai-advisory.png`, `og-consulting-ai-transformation.png`, `og-consulting-forward-deployment.png`) — add a new entry to the `pages` array to wire a new page.
+The OG generator ([`scripts/build-og.mjs`](scripts/build-og.mjs)) is templated and emits one image per page (`og.png`, `og-about.png`, `og-consulting.png`, `og-consulting-ai-advisory.png`, `og-consulting-ai-transformation.png`, `og-consulting-forward-deployment.png`, `og-skills.png`) — add a new entry to the `pages` array to wire a new page.
 
 ## Routes
 
 | Route                               | Purpose                                                      |
 | ----------------------------------- | ------------------------------------------------------------ |
 | `/`                                 | Single-page lab overview: hero, about teaser, products, track record, capabilities, contact. |
-| `/about`                            | Personal page for Siarhei Sheleh — portrait, bio, disciplines, selected work, CTA. Emits a `Person` JSON-LD schema. |
+| `/about`                            | Personal page for Sergey Sheleg — ID card, bio, disciplines, selected work, CTA. Emits a `Person` JSON-LD schema. |
 | `/consulting`                       | Consulting hub: positioning, three service cards, forward-deployment callout, why-me strip, CTA. Emits a `ProfessionalService` JSON-LD schema. |
 | `/consulting/ai-advisory`           | Landing page for AI advisory engagements (apply AI to a specific use case fast). Emits `Service` + `FAQPage` JSON-LD schemas. |
 | `/consulting/ai-transformation`     | Landing page for AI transformation engagements (rewire processes, data, and org around AI). Emits `Service` + `FAQPage` JSON-LD schemas. |
@@ -57,8 +58,8 @@ src/
     404.astro                   # themed not-found
   components/
     Nav.astro · Hero.astro · About.astro       # home composition
-    Projects.astro · ProjectCard.astro
-    TrackRecord.astro           # career timeline (rows)
+    Skills.astro                # open-source agent skills (sshlg-skills)
+    Work.astro · ProjectCard.astro  # live products + the full ledger
     Capabilities.astro · Marquee.astro
     Contact.astro · Footer.astro
     AboutPage.astro             # full /about page (hero portrait + bio + disciplines + selected work + CTA)
@@ -85,6 +86,7 @@ public/
   about/portrait.svg            # placeholder portrait used on /about (replace with real photo, see below)
   robots.txt
 scripts/build-og.mjs            # templated SVG → per-page PNG OG generator (resvg-js)
+scripts/check-site.mjs          # post-build guard: pages, copy, links, anchors, JSON-LD, h1
 .github/workflows/deploy.yml    # build + publish to GitHub Pages
 ```
 
@@ -199,4 +201,4 @@ In the `svlab.online` zone:
 
 The source code in this repository is proprietary to SV Lab. Brand assets, copy, and logos belong to their respective owners.
 
-© SV Lab — Siarhei Sheleh, Poland.
+© SV Lab — Siarhei Sheleh (Sergey Sheleg), Poland.

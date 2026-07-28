@@ -1,16 +1,19 @@
 ---
 import { site } from "@/data/site";
-import { trackRecord, formatTrackYears } from "@/data/track-record";
+import { ledger, ledgerStats, formatLedgerYears } from "@/data/ledger";
 import GradientMesh from "./GradientMesh.astro";
 import GridBg from "./GridBg.astro";
 
-const selectedWork = trackRecord.slice(0, 6);
+const selectedWork = ledger.slice(0, 6);
 
 const stats = [
-  { label: "// FOUNDED", value: `SV Lab · ${site.established}` },
+  { label: "// SHIPPING SINCE", value: `${site.shippingSince}` },
   { label: "// HQ", value: site.location },
-  { label: "// MODE", value: "Solo operator" },
-  { label: "// SHIPPED", value: "11+ products · 12+ years" },
+  { label: "// LAB", value: `SV Lab · ${site.established}` },
+  {
+    label: "// SHIPPED",
+    value: `${ledgerStats.total} products · ${ledgerStats.live} live`,
+  },
 ];
 
 const disciplines = [
@@ -35,7 +38,7 @@ const disciplines = [
 const aboutCtaSubject = encodeURIComponent("Hello SV Lab · about page");
 const aboutCtaBody = encodeURIComponent(
   [
-    "Hi Siarhei,",
+    "Hi Sergey,",
     "",
     "I came in via the About page and I'd like to talk about ...",
     "",
@@ -52,19 +55,21 @@ const aboutCtaBody = encodeURIComponent(
     <div class="hero-copy">
       <span class="kicker mono-label">
         <span class="dot"></span>
-        // ABOUT · SIARHEI SHELEH
+        // ABOUT · {site.founder.toUpperCase()}
       </span>
 
       <h1 class="hero-title reveal">
-        Founder of <span class="gradient-text">SV Lab</span>.<br />
-        Solo AI operator.
+        {site.founder}.<br />
+        <span class="gradient-text">Still in the code.</span>
       </h1>
 
       <p class="hero-sub reveal">
-        I'm <strong>Siarhei Sheleh</strong> — also known as Sergey Sheleg. I
-        build, market, and operate AI products end-to-end from Warsaw, Poland.
-        Twelve years of shipping behind me, three live products in front of me,
-        and one inbox in the middle: <a href={`mailto:${site.email}`}>{site.email}</a>.
+        I'm <strong>{site.founder}</strong> — registered in Poland as
+        {" "}{site.founderAlternate}. Product entrepreneur in Warsaw:
+        {" "}{site.yearsExperience} years turning ideas into products people pay
+        for, across mobile, desktop, and web. {ledgerStats.live} of them are live
+        right now. One inbox in the middle:
+        {" "}<a href={`mailto:${site.email}`}>{site.email}</a>.
       </p>
 
       <div class="hero-actions reveal">
@@ -96,7 +101,7 @@ const aboutCtaBody = encodeURIComponent(
       <div class="portrait-frame glow-ring">
         <img
           src="/about/portrait.svg"
-          alt={`${site.founder} — founder of SV Lab`}
+          alt={`${site.founder} — ${site.role}, ${site.location}`}
           width="480"
           height="480"
           loading="eager"
@@ -104,7 +109,7 @@ const aboutCtaBody = encodeURIComponent(
         />
       </div>
       <span class="portrait-caption mono-label">
-        // {site.founder} · {site.alternateFounderName}
+        // {site.founder} · {site.founderAlternate}
       </span>
     </aside>
   </div>
@@ -113,33 +118,44 @@ const aboutCtaBody = encodeURIComponent(
 <section class="bio reveal">
   <div class="container-page bio-inner">
     <span class="mono-label">// BIO</span>
-    <h2>Twelve years of shipping. One operator. Whole loop.</h2>
+    <h2>{site.yearsExperience} years of shipping. One accountable owner.</h2>
 
     <div class="bio-prose">
       <p>
-        I started shipping internet products in 2013, working as a product
-        developer for clients in tech, agro, AI, and hardware. From 2015 to
-        2020 I led product and growth at <strong>Ultimate Guitar</strong>,
-        helping musicians worldwide find chords, tabs, and lessons. From there
-        I started co-founding and founding my own products: ESIMPlus,
-        Nicegram, WhatPlantIsThis, Genie AI, HyperLancer, and Degenphone.
+        I started shipping internet products in {site.shippingSince}, working as
+        a product developer for clients in tech, agro, AI, and hardware. From
+        2015 to 2020 I led product and growth at
+        {" "}<strong>Ultimate Guitar</strong>, helping musicians worldwide find
+        chords, tabs, and lessons. From there I started co-founding and founding
+        my own products: ESIMPlus, Nicegram, WhatPlantIsThis, Genie AI,
+        HyperLancer, and Degenphone.
       </p>
       <p>
-        In <strong>2024</strong> I formalized everything under SV Lab — a solo
-        AI product lab. Today it runs three live products:
-        <a href="https://prowl.chat" target="_blank" rel="noopener noreferrer">Prowl</a>
-        (an AI marketing-intelligence agent),
-        <a href="https://checkmydata.ai" target="_blank" rel="noopener noreferrer">CheckMyData</a>
-        (an open-source NL-to-SQL agent), and
-        <a href="https://privateclawd.com" target="_blank" rel="noopener noreferrer">PrivateClawd</a>
-        (a managed cloud for AI agents).
+        In <strong>{site.established}</strong> I formalized everything under
+        SV Lab. Today it runs
+        {" "}<a href="https://prowl.chat" target="_blank" rel="noopener noreferrer">Prowl</a>
+        {" "}(an AI marketing-intelligence agent),
+        {" "}<a href="https://checkmydata.ai" target="_blank" rel="noopener noreferrer">CheckMyData</a>
+        {" "}(an open-source NL-to-SQL agent), and
+        {" "}<a href="https://privateclawd.com" target="_blank" rel="noopener noreferrer">PrivateClawd</a>
+        {" "}(a managed cloud for AI agents).
       </p>
       <p>
-        My edge is owning the full stack a product needs to exist:
+        The newest thing out of the lab isn't a product for users — it's for
+        builders. <a href={site.skills.repo} target="_blank" rel="noopener noreferrer">{site.skills.name}</a>
+        {" "}takes everything I know about getting an idea to production —
+        discovery, gated delivery, product marketing, onboarding, retention —
+        and writes it down as skills a coding agent follows. It exists because
+        agents left alone produce volume, not products: code nobody can ship,
+        scale, or maintain. It installs into Claude Code, Cursor, Codex and a
+        dozen other agents with one command.
+      </p>
+      <p>
+        What I own end to end is the full surface a product needs to exist:
         <strong>research</strong>, <strong>engineering</strong>,
         <strong>go-to-market</strong>, <strong>marketing</strong>, and
-        <strong>operations</strong>. Most teams treat these as separate roles.
-        As a solo operator, I treat them as one loop — and ship faster because
+        <strong>operations</strong>. Most orgs split these across five roles and
+        pay for every handoff. I run them as one loop — and ship faster because
         of it. That same loop is what I bring to consulting and AI
         transformation engagements.
       </p>
@@ -171,8 +187,8 @@ const aboutCtaBody = encodeURIComponent(
       <span class="mono-label">// SELECTED WORK</span>
       <h2>Things I've shipped.</h2>
       <p>
-        A trimmed slice of the track record. Want the full list?
-        <a href="/#track-record">See all 8 →</a>
+        A trimmed slice of the ledger. Want the full list?
+        <a href="/#track-record">See all {ledgerStats.total} →</a>
       </p>
     </header>
 
@@ -187,7 +203,7 @@ const aboutCtaBody = encodeURIComponent(
               rel="noopener noreferrer"
             >
               <span class="idx mono-label">/{String(i + 1).padStart(2, "0")}</span>
-              <span class="years mono-label">{formatTrackYears(t)}</span>
+              <span class="years mono-label">{formatLedgerYears(t)}</span>
               <div class="body">
                 <div class="title-line">
                   <span class="name">{t.name}</span>
@@ -201,7 +217,7 @@ const aboutCtaBody = encodeURIComponent(
           ) : (
             <div class="row-inner is-static">
               <span class="idx mono-label">/{String(i + 1).padStart(2, "0")}</span>
-              <span class="years mono-label">{formatTrackYears(t)}</span>
+              <span class="years mono-label">{formatLedgerYears(t)}</span>
               <div class="body">
                 <div class="title-line">
                   <span class="name">{t.name}</span>

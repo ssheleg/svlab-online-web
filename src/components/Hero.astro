@@ -1,57 +1,61 @@
 ---
-import GradientMesh from "./GradientMesh.astro";
 import GridBg from "./GridBg.astro";
 import { site } from "@/data/site";
+import { ledgerStats } from "@/data/ledger";
+
+const strip = [
+  { label: "// YEARS", value: `${ledgerStats.years}+ shipping` },
+  { label: "// SHIPPED", value: `${ledgerStats.total} products` },
+  { label: "// LIVE", value: `${ledgerStats.live} running` },
+  { label: "// BASE", value: "Warsaw, PL" },
+];
 ---
 
 <section class="hero" id="top">
-  <GradientMesh variant="hero" />
   <GridBg fade="bottom" />
 
   <div class="container-page hero-inner">
-    <span class="kicker mono-label">
-      <span class="dot"></span>
-      // SV LAB · WARSAW, PL · EST. {site.established}
-    </span>
+    <p class="term-line prompt">
+      <span class="term-user">sergey@svlab</span>
+      <span>~</span>
+      <span>%</span>
+      <span class="term-cmd">whoami</span>
+      <span class="term-caret" aria-hidden="true"></span>
+    </p>
 
-    <h1 class="hero-title reveal">
-      A <span class="gradient-text">solo AI product lab</span><br />
-      from Poland.
-    </h1>
+    <h1 class="hero-title reveal">{site.founder}</h1>
+
+    <p class="hero-role mono-label reveal">{site.role}</p>
 
     <p class="hero-sub reveal">
-      I design, build, and scale agentic, data-native, growth-ready AI
-      products. Three live products today. Twelve years of shipping behind
-      them.
+      Product entrepreneur in Warsaw, Poland. {ledgerStats.years} years turning
+      ideas into products people actually pay for — mobile, desktop, web. I stay
+      in the work: research, the codebase, go-to-market, onboarding, retention.
+      <strong>SV Lab</strong> is where I ship it.
+    </p>
+
+    <p class="hero-thesis reveal">
+      <span class="thesis-key">// NOW:</span> making agents build products you
+      can ship, scale, and maintain — not neuroslop.
     </p>
 
     <div class="hero-actions reveal">
-      <a class="btn-primary" href="#products">
-        See the lab
+      <a class="btn-primary" href="#skills">
+        ls ./lab
         <span aria-hidden="true">↓</span>
       </a>
       <a class="btn-secondary" href={`mailto:${site.email}`}>
-        Get in touch
+        {site.email}
       </a>
     </div>
 
     <div class="hero-strip reveal" role="list">
-      <div class="strip-cell" role="listitem">
-        <span class="mono-label">// SHIPPED</span>
-        <span class="strip-val">11+ products</span>
-      </div>
-      <div class="strip-cell" role="listitem">
-        <span class="mono-label">// LIVE</span>
-        <span class="strip-val">3 active SV Lab</span>
-      </div>
-      <div class="strip-cell" role="listitem">
-        <span class="mono-label">// MODE</span>
-        <span class="strip-val">Solo operator</span>
-      </div>
-      <div class="strip-cell" role="listitem">
-        <span class="mono-label">// EXPERIENCE</span>
-        <span class="strip-val">12+ years</span>
-      </div>
+      {strip.map((cell) => (
+        <div class="strip-cell" role="listitem">
+          <span class="mono-label">{cell.label}</span>
+          <span class="strip-val">{cell.value}</span>
+        </div>
+      ))}
     </div>
   </div>
 </section>
@@ -60,8 +64,8 @@ import { site } from "@/data/site";
   .hero {
     position: relative;
     overflow: hidden;
-    padding-top: clamp(4rem, 9vw, 7rem);
-    padding-bottom: clamp(5rem, 12vw, 9rem);
+    padding-top: clamp(3.5rem, 8vw, 6rem);
+    padding-bottom: clamp(4rem, 10vw, 7rem);
   }
 
   .hero-inner {
@@ -69,46 +73,54 @@ import { site } from "@/data/site";
     z-index: 1;
   }
 
-  .kicker {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.55rem;
-    padding: 0.4rem 0.8rem;
-    border-radius: 999px;
-    border: 1px solid var(--color-border);
-    background: rgba(255, 255, 255, 0.02);
-    color: #c9d2e0;
-  }
-
-  .dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 999px;
-    background: #34d399;
-    box-shadow: 0 0 0 4px rgba(52, 211, 153, 0.18);
-    animation: pulse 2.4s ease-in-out infinite;
+  .prompt {
+    color: var(--color-fg-subtle);
   }
 
   .hero-title {
-    margin-top: 1.4rem;
-    font-size: clamp(2.4rem, 6.4vw, 5.2rem);
-    line-height: 1.02;
-    letter-spacing: -0.03em;
+    margin-top: 1.1rem;
+    font-size: clamp(2.8rem, 8vw, 6rem);
+    line-height: 1;
+    letter-spacing: -0.035em;
     font-weight: 600;
     color: #fff;
-    max-width: 18ch;
+  }
+
+  .hero-role {
+    margin-top: 0.85rem;
+    color: #67e8f9;
   }
 
   .hero-sub {
-    margin-top: 1.4rem;
-    max-width: 56ch;
+    margin-top: 1.5rem;
+    max-width: 62ch;
     color: var(--color-fg-muted);
-    font-size: clamp(1rem, 1.6vw, 1.2rem);
-    line-height: 1.5;
+    font-size: clamp(1rem, 1.5vw, 1.15rem);
+    line-height: 1.6;
+  }
+
+  .hero-sub strong {
+    color: #fff;
+    font-weight: 500;
+  }
+
+  .hero-thesis {
+    margin-top: 1.5rem;
+    max-width: 60ch;
+    padding-left: 1rem;
+    border-left: 2px solid rgba(163, 230, 53, 0.5);
+    font-family: var(--font-mono);
+    font-size: 0.88rem;
+    line-height: 1.65;
+    color: #d8dde6;
+  }
+
+  .thesis-key {
+    color: #a3e635;
   }
 
   .hero-actions {
-    margin-top: 2rem;
+    margin-top: 2.25rem;
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
@@ -120,7 +132,7 @@ import { site } from "@/data/site";
     grid-template-columns: repeat(2, 1fr);
     gap: 1.25rem;
     padding-top: 1.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
   }
 
   @media (min-width: 720px) {
@@ -136,8 +148,10 @@ import { site } from "@/data/site";
   }
 
   .strip-val {
-    font-size: 1.1rem;
+    font-family: var(--font-mono);
+    font-size: 1.02rem;
     color: #fff;
     font-weight: 500;
+    font-feature-settings: "tnum";
   }
 </style>

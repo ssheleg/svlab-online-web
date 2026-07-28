@@ -35,15 +35,15 @@ function renderSvg({ kicker, line1, line2, footerLeft, footerRight, accent }) {
       <stop offset="100%" stop-color="#0b101c"/>
     </linearGradient>
     <radialGradient id="glow1" cx="180" cy="120" r="380" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="${a.glow1}" stop-opacity="0.55"/>
+      <stop offset="0%" stop-color="${a.glow1}" stop-opacity="0.22"/>
       <stop offset="100%" stop-color="${a.glow1}" stop-opacity="0"/>
     </radialGradient>
     <radialGradient id="glow2" cx="1080" cy="180" r="420" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="${a.glow2}" stop-opacity="0.55"/>
+      <stop offset="0%" stop-color="${a.glow2}" stop-opacity="0.18"/>
       <stop offset="100%" stop-color="${a.glow2}" stop-opacity="0"/>
     </radialGradient>
     <radialGradient id="glow3" cx="700" cy="640" r="500" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="${a.glow3}" stop-opacity="0.4"/>
+      <stop offset="0%" stop-color="${a.glow3}" stop-opacity="0.14"/>
       <stop offset="100%" stop-color="${a.glow3}" stop-opacity="0"/>
     </radialGradient>
     <linearGradient id="title" x1="0" y1="0" x2="1" y2="0">
@@ -69,11 +69,11 @@ function renderSvg({ kicker, line1, line2, footerLeft, footerRight, accent }) {
   <rect width="1200" height="630" fill="url(#glow3)"/>
 
   <g transform="translate(80, 80)">
-    <rect x="0" y="0" width="64" height="64" rx="14" fill="#0f1524" stroke="url(#markGrad)" stroke-width="2"/>
-    <path d="M20 23C20 19.134 23.134 16 27 16H35C38.866 16 42 19.134 42 23C42 26.866 38.866 30 35 30H27C23.134 30 20 33.134 20 37V41C20 44.866 23.134 48 27 48H37C40.866 48 44 44.866 44 41"
-          stroke="url(#markGrad)" stroke-width="3.5" stroke-linecap="round" fill="none"/>
-    <text x="84" y="32" fill="#ffffff" font-family="ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600" letter-spacing="-0.02em">SV Lab</text>
-    <text x="84" y="56" fill="#5b6577" font-family="ui-monospace, monospace" font-size="14" letter-spacing="0.06em">/ svlab.online</text>
+    <rect x="0" y="0" width="64" height="64" rx="14" fill="#0f1524" stroke="rgba(34,211,238,0.55)" stroke-width="2"/>
+    <path d="M18 23L27 32L18 41" stroke="#67e8f9" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <path d="M33 42H46" stroke="#a3e635" stroke-width="3.8" stroke-linecap="round" fill="none"/>
+    <text x="84" y="32" fill="#ffffff" font-family="ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600" letter-spacing="-0.02em">Sergey Sheleg</text>
+    <text x="84" y="56" fill="#5b6577" font-family="ui-monospace, monospace" font-size="14" letter-spacing="0.06em">SV LAB · WARSAW, PL</text>
   </g>
 
   <text x="80" y="280" fill="#9aa3b2" font-family="ui-monospace, monospace" font-size="20" letter-spacing="0.18em">${escapeXml(kicker)}</text>
@@ -99,21 +99,30 @@ function renderSvg({ kicker, line1, line2, footerLeft, footerRight, accent }) {
 const pages = [
   {
     out: "og.png",
-    kicker: "// AN AI PRODUCT LAB · WARSAW, PL",
-    line1: "An AI product lab",
-    line2: "from Poland.",
-    footerLeft: { label: "3 LIVE PRODUCTS", width: 220 },
-    footerRight: { label: "PROWL · CHECKMYDATA · PRIVATECLAWD", width: 460 },
+    kicker: "// PRODUCT ENTREPRENEUR · WARSAW, PL",
+    line1: "Sergey Sheleg.",
+    line2: "Still in the code.",
+    footerLeft: { label: "13 YEARS SHIPPING", width: 240 },
+    footerRight: { label: "12 PRODUCTS · 9 STILL LIVE", width: 360 },
     accent: "brand",
   },
   {
     out: "og-about.png",
-    kicker: "// ABOUT · SIARHEI SHELEH · SERGEY SHELEG",
-    line1: "Founder of SV Lab.",
-    line2: "Solo AI operator.",
-    footerLeft: { label: "12+ YEARS", width: 170 },
-    footerRight: { label: "11+ PRODUCTS · WARSAW · CONTACT@SVLAB.ONLINE", width: 540 },
+    kicker: "// ABOUT · SERGEY SHELEG · SIARHEI SHELEH",
+    line1: "13 years of shipping.",
+    line2: "One accountable owner.",
+    footerLeft: { label: "WARSAW, PL", width: 190 },
+    footerRight: { label: "MOBILE · DESKTOP · WEB · AI", width: 370 },
     accent: "brand",
+  },
+  {
+    out: "og-skills.png",
+    kicker: "// OPEN SOURCE · SSHLG-SKILLS",
+    line1: "Agents that ship products,",
+    line2: "not neuroslop.",
+    footerLeft: { label: "4 SKILLS · MIT", width: 220 },
+    footerRight: { label: "CLAUDE CODE · CURSOR · CODEX · 12+ AGENTS", width: 520 },
+    accent: "lime",
   },
   {
     out: "og-consulting.png",

@@ -23,6 +23,7 @@
   --color-cyan: #22d3ee;
   --color-lime: #a3e635;
   --color-violet: #a78bfa;
+  --color-amber: #fbbf24;
   --color-emerald: #34d399;
 
   --shadow-glow-cyan: 0 0 0 1px rgba(34, 211, 238, 0.25),
@@ -77,6 +78,63 @@
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--color-fg-muted);
+  }
+
+  /* Terminal-grade primitives — monospace as structure, not decoration. */
+
+  /* Shell prompt line: `sergey@svlab ~ %` followed by the command. */
+  .term-line {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5ch;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    letter-spacing: 0.02em;
+    color: var(--color-fg-subtle);
+  }
+
+  .term-line .term-user {
+    color: var(--color-emerald);
+  }
+
+  .term-line .term-cmd {
+    color: var(--color-fg);
+  }
+
+  .term-caret {
+    display: inline-block;
+    width: 0.55ch;
+    height: 1em;
+    translate: 0 0.12em;
+    background: var(--color-cyan);
+    animation: caret 1.15s steps(1) infinite;
+  }
+
+  /* Section header: `01 ── SKILLS` with a hairline running to the edge. */
+  .section-index {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-fg-subtle);
+  }
+
+  .section-index .num {
+    color: var(--color-cyan);
+  }
+
+  .section-index::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      var(--color-border-strong),
+      transparent
+    );
   }
 
   .glow-ring {
@@ -216,6 +274,17 @@
   .reveal.is-visible {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes caret {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
   }
 }
 

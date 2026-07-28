@@ -100,7 +100,7 @@ export const consultingServices: Record<
       },
       {
         q: "Do you sign NDAs and DPAs?",
-        a: "Yes. I work under NDA by default, and I'm comfortable with GDPR / data-processing addenda. I'm based in Poland and invoice as a registered EU entity (VAT PL5223265821).",
+        a: "Yes. I work under NDA by default, and I'm comfortable with GDPR / data-processing addenda. I'm based in Poland and invoice as a registered EU entity; VAT details come with the contract.",
       },
       {
         q: "What if AI isn't actually the right answer?",
@@ -114,7 +114,7 @@ export const consultingServices: Record<
     cta: {
       subject: "Consulting · AI advisory · SV Lab",
       body: [
-        "Hi Siarhei,",
+        "Hi Sergey,",
         "",
         "I'd like to discuss an AI advisory engagement.",
         "",
@@ -129,7 +129,7 @@ export const consultingServices: Record<
     meta: {
       title: "AI advisory · SV Lab",
       description:
-        "Independent AI advisory by Siarhei Sheleh: opportunity mapping, working prototypes, vendor-free recommendations. Apply AI where it moves the business — in weeks, not quarters.",
+        "Independent AI advisory by Sergey Sheleg: opportunity mapping, working prototypes, vendor-free recommendations. Apply AI where it moves the business — in weeks, not quarters.",
     },
   },
 
@@ -212,7 +212,7 @@ export const consultingServices: Record<
       },
       {
         q: "Do you bring a team?",
-        a: "I work as a solo operator with selected partners brought in only when the workload demands it (design, specialised data engineering). You stay accountable to one person, not a delivery org.",
+        a: "I do the work myself, with selected partners brought in only when the workload demands it (design, specialised data engineering). You stay accountable to one person, not a delivery org.",
       },
       {
         q: "What about change management?",
@@ -220,7 +220,7 @@ export const consultingServices: Record<
       },
       {
         q: "Where are you based and how do you invoice?",
-        a: "Warsaw, Poland. I invoice as a registered EU entity (NIP 5223265821 / VAT PL5223265821). Engagements are remote-first with on-site weeks when useful.",
+        a: "Warsaw, Poland. I invoice as a registered EU entity; the NIP and VAT numbers come with the contract and every invoice. Engagements are remote-first with on-site weeks when useful.",
       },
       {
         q: "Can you embed directly in our team instead?",
@@ -230,7 +230,7 @@ export const consultingServices: Record<
     cta: {
       subject: "Consulting · AI transformation · SV Lab",
       body: [
-        "Hi Siarhei,",
+        "Hi Sergey,",
         "",
         "I'd like to discuss an AI transformation engagement.",
         "",
@@ -246,7 +246,7 @@ export const consultingServices: Record<
     meta: {
       title: "AI transformation · SV Lab",
       description:
-        "End-to-end AI transformation by Siarhei Sheleh: process redesign, data infrastructure, and org rewiring shipped as production systems — not slides.",
+        "End-to-end AI transformation by Sergey Sheleg: process redesign, data infrastructure, and org rewiring shipped as production systems — not slides.",
     },
   },
 
@@ -328,7 +328,7 @@ export const consultingServices: Record<
       },
       {
         q: "What about security and access to our systems?",
-        a: "I work under NDA by default and follow your access policy — least-privilege credentials, your devices or VDI if required, deploys into your VPC so data never leaves your perimeter. I invoice as a registered EU entity (NIP 5223265821 / VAT PL5223265821) and sign DPAs.",
+        a: "I work under NDA by default and follow your access policy — least-privilege credentials, your devices or VDI if required, deploys into your VPC so data never leaves your perimeter. I invoice as a registered EU entity — NIP and VAT on the contract — and sign DPAs.",
       },
       {
         q: "How long is a typical engagement?",
@@ -338,7 +338,7 @@ export const consultingServices: Record<
     cta: {
       subject: "Consulting · Forward deployment · SV Lab",
       body: [
-        "Hi Siarhei,",
+        "Hi Sergey,",
         "",
         "I'd like to discuss a forward deployment engagement.",
         "",
@@ -355,7 +355,7 @@ export const consultingServices: Record<
     meta: {
       title: "Forward deployment · SV Lab",
       description:
-        "Forward deployed engineering by Siarhei Sheleh: an embedded AI engineer shipping production systems inside your own team, stack, and infrastructure — with full handoff to an internal owner.",
+        "Forward deployed engineering by Sergey Sheleg: an embedded AI engineer shipping production systems inside your own team, stack, and infrastructure — with full handoff to an internal owner.",
     },
   },
 };

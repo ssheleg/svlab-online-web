@@ -1,0 +1,345 @@
+---
+import ProjectCard from "./ProjectCard.astro";
+import { projects } from "@/data/projects";
+import { ledger, ledgerStats, formatLedgerYears } from "@/data/ledger";
+
+// `sshlg-skills` is a live SV Lab project and belongs in the ledger below, but
+// its detail card lives in the Skills section — it isn't repeated here.
+const liveProducts = projects.filter((p) => p.slug !== "sshlg-skills");
+---
+
+<section class="work" id="products">
+  <div class="container-page inner">
+    <p class="section-index reveal">
+      <span class="num">02</span>
+      <span>Live products</span>
+    </p>
+
+    <div class="head reveal">
+      <h2>Running right now.</h2>
+      <p>
+        Three products live under SV Lab today — built, marketed, and operated
+        by me. Each one is in production with paying users, not a demo.
+      </p>
+    </div>
+
+    <div class="grid">
+      {liveProducts.map((project, i) => (
+        <div class="cell reveal">
+          <ProjectCard project={project} index={i} />
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="ledger-section" id="track-record">
+  <div class="container-page inner">
+    <p class="section-index reveal">
+      <span class="num">03</span>
+      <span>The ledger</span>
+    </p>
+
+    <div class="head reveal">
+      <h2>Everything shipped, in order.</h2>
+      <p>
+        {ledgerStats.total} products across consumer, AI, fintech, travel, developer
+        tools, and Web3 — {ledgerStats.live} still live and operating.
+        {ledgerStats.years} years, newest first.
+      </p>
+    </div>
+
+    <ol class="rows" aria-label="Everything shipped">
+      {ledger.map((e, i) => {
+        const isLive = e.yearEnd === "present";
+        const Row = e.url ? "a" : "div";
+        const rowProps = e.url
+          ? {
+              href: e.url,
+              target: "_blank",
+              rel: "noopener noreferrer",
+              class: "row-inner is-link",
+            }
+          : { class: "row-inner is-static" };
+        return (
+          <li class="row reveal" data-slug={e.slug}>
+            <Row {...rowProps}>
+              <span class="idx mono-label">/{String(i + 1).padStart(2, "0")}</span>
+              <span class="years mono-label">{formatLedgerYears(e)}</span>
+              <div class="body">
+                <div class="title-line">
+                  <span class="name">{e.name}</span>
+                  {e.domain && <span class="dom mono-label">{e.domain}</span>}
+                  {e.featured && <span class="badge">SV LAB</span>}
+                  <span class:list={["status", isLive ? "live" : "archived"]}>
+                    {isLive && <span class="dot" aria-hidden="true"></span>}
+                    {isLive ? "LIVE" : "ARCHIVED"}
+                  </span>
+                </div>
+                <p class="blurb">{e.blurb}</p>
+                <div class="meta-row">
+                  <span class="role mono-label">{e.role}</span>
+                  <span class="tags">
+                    {e.tags.map((tag) => <span class="tag">{tag}</span>)}
+                  </span>
+                </div>
+              </div>
+              {e.url && <span class="arrow" aria-hidden="true">↗</span>}
+            </Row>
+          </li>
+        );
+      })}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .work,
+  .ledger-section {
+    position: relative;
+    padding-block: clamp(4rem, 9vw, 7rem);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .head {
+    margin-top: 1.75rem;
+    max-width: 60ch;
+  }
+
+  .head h2 {
+    font-size: clamp(1.9rem, 3.6vw, 2.8rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .head p {
+    margin-top: 1rem;
+    color: var(--color-fg-muted);
+    line-height: 1.65;
+  }
+
+  .grid {
+    margin-top: 2.5rem;
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 760px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .cell {
+    display: flex;
+  }
+
+  .cell > :global(*) {
+    flex: 1;
+  }
+
+  /* Ledger table */
+  .rows {
+    margin-top: 2.25rem;
+    list-style: none;
+    padding: 0;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .row {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .row-inner {
+    display: grid;
+    grid-template-columns: auto auto 1fr auto;
+    align-items: start;
+    gap: 1.25rem;
+    padding: 1.3rem 1rem;
+    text-decoration: none;
+    color: inherit;
+    border-left: 2px solid transparent;
+    transition: background 200ms ease, border-color 200ms ease;
+  }
+
+  .row-inner.is-link:hover {
+    background: rgba(34, 211, 238, 0.04);
+    border-left-color: var(--color-cyan);
+  }
+
+  .row-inner.is-link:hover .arrow {
+    transform: translate(2px, -2px);
+    color: #67e8f9;
+  }
+
+  .row-inner.is-link:hover .name {
+    color: #fff;
+  }
+
+  .idx {
+    color: var(--color-fg-subtle);
+    padding-top: 0.25rem;
+    min-width: 2.5rem;
+  }
+
+  .years {
+    color: var(--color-fg);
+    padding-top: 0.25rem;
+    min-width: 8.5rem;
+    font-feature-settings: "tnum";
+  }
+
+  .body {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .title-line {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.6rem;
+  }
+
+  .name {
+    color: #f3f6fb;
+    font-size: 1.05rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    transition: color 200ms ease;
+  }
+
+  .dom {
+    color: var(--color-fg-subtle);
+  }
+
+  .badge {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.16em;
+    padding: 0.12rem 0.4rem;
+    border-radius: 0.25rem;
+    background: rgba(251, 191, 36, 0.1);
+    border: 1px solid rgba(251, 191, 36, 0.3);
+    color: #fbbf24;
+  }
+
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.12rem 0.45rem;
+    border-radius: 0.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.16em;
+  }
+
+  .status.live {
+    background: rgba(52, 211, 153, 0.1);
+    border: 1px solid rgba(52, 211, 153, 0.3);
+    color: #6ee7b7;
+  }
+
+  .status.archived {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--color-border);
+    color: var(--color-fg-subtle);
+  }
+
+  .status .dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 999px;
+    background: #34d399;
+  }
+
+  .blurb {
+    color: var(--color-fg-muted);
+    line-height: 1.55;
+    font-size: 0.94rem;
+    margin: 0;
+  }
+
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .role {
+    color: var(--color-fg-subtle);
+  }
+
+  .tags {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.06em;
+    padding: 0.15rem 0.45rem;
+    border-radius: 0.35rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--color-border);
+    color: var(--color-fg-muted);
+  }
+
+  .arrow {
+    font-family: var(--font-mono);
+    color: var(--color-fg-subtle);
+    padding-top: 0.2rem;
+    transition: transform 220ms ease, color 220ms ease;
+  }
+
+  @media (max-width: 700px) {
+    .row-inner {
+      grid-template-columns: 1fr auto;
+      grid-template-areas:
+        "idx arrow"
+        "years arrow"
+        "body body";
+      gap: 0.4rem;
+      padding: 1.25rem 0.5rem;
+    }
+
+    .idx {
+      grid-area: idx;
+    }
+
+    .years {
+      grid-area: years;
+      min-width: 0;
+    }
+
+    .body {
+      grid-area: body;
+      margin-top: 0.45rem;
+    }
+
+    .arrow {
+      grid-area: arrow;
+      align-self: start;
+    }
+  }
+</style>

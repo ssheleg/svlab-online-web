@@ -1,16 +1,15 @@
 ---
+import { site } from "@/data/site";
+
 interface Props {
   size?: number;
-  showWordmark?: boolean;
+  /** `full` shows the name + mono meta line; `compact` drops the meta line. */
+  variant?: "full" | "compact";
 }
-const { size = 28, showWordmark = true } = Astro.props;
+const { size = 30, variant = "full" } = Astro.props;
 ---
 
-<a
-  href="/"
-  class="logo"
-  aria-label="SV Lab — Home"
->
+<a href="/" class="shield" aria-label={`${site.founder} — home`}>
   <svg
     width={size}
     height={size}
@@ -20,70 +19,76 @@ const { size = 28, showWordmark = true } = Astro.props;
     role="img"
     aria-hidden="true"
   >
-    <defs>
-      <linearGradient id="lg-mark" x1="0" y1="0" x2="32" y2="32">
-        <stop offset="0%" stop-color="#22d3ee" />
-        <stop offset="50%" stop-color="#a78bfa" />
-        <stop offset="100%" stop-color="#a3e635" />
-      </linearGradient>
-    </defs>
     <rect
       x="1"
       y="1"
       width="30"
       height="30"
-      rx="8"
+      rx="7"
       fill="rgba(15, 21, 36, 0.9)"
-      stroke="url(#lg-mark)"
-      stroke-width="1.5"
+      stroke="rgba(34, 211, 238, 0.55)"
+      stroke-width="1.25"
     />
     <path
-      d="M10 11.5C10 9.567 11.567 8 13.5 8H17.5C19.433 8 21 9.567 21 11.5V11.5C21 13.433 19.433 15 17.5 15H13.5C11.567 15 10 16.567 10 18.5V20.5C10 22.433 11.567 24 13.5 24H18.5C20.433 24 22 22.433 22 20.5"
-      stroke="url(#lg-mark)"
-      stroke-width="1.75"
+      d="M9 11.5L13.5 16L9 20.5"
+      stroke="#67e8f9"
+      stroke-width="1.9"
       stroke-linecap="round"
+      stroke-linejoin="round"
     />
+    <path d="M16.5 21H23" stroke="#a3e635" stroke-width="1.9" stroke-linecap="round" />
   </svg>
-  {showWordmark && (
-    <span class="wordmark">
-      <span class="brand">SV Lab</span>
-      <span class="brand-sub">/svlab.online</span>
-    </span>
-  )}
+
+  <span class="lockup">
+    <span class="name">{site.founder}</span>
+    {variant === "full" && (
+      <span class="meta">SV LAB · WARSAW, PL</span>
+    )}
+  </span>
 </a>
 
 <style>
-  .logo {
+  .shield {
     display: inline-flex;
     align-items: center;
-    gap: 0.65rem;
+    gap: 0.7rem;
     text-decoration: none;
     color: inherit;
+    -webkit-tap-highlight-color: transparent;
   }
 
-  .wordmark {
-    display: inline-flex;
-    align-items: baseline;
-    gap: 0.5rem;
+  .shield svg {
+    flex-shrink: 0;
   }
 
-  .brand {
+  .lockup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.12rem;
+    min-width: 0;
+  }
+
+  .name {
     font-weight: 600;
-    font-size: 1rem;
+    font-size: 0.98rem;
     letter-spacing: -0.01em;
     color: #fff;
+    line-height: 1.1;
+    white-space: nowrap;
   }
 
-  .brand-sub {
+  .meta {
     font-family: var(--font-mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.06em;
+    font-size: 0.64rem;
+    letter-spacing: 0.16em;
     color: var(--color-fg-subtle);
+    line-height: 1.1;
+    white-space: nowrap;
   }
 
-  @media (max-width: 1000px) {
-    .brand-sub {
-      display: none;
+  @media (hover: hover) and (pointer: fine) {
+    .shield:hover .meta {
+      color: #67e8f9;
     }
   }
 </style>

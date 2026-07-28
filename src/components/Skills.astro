@@ -1,0 +1,307 @@
+---
+import { site } from "@/data/site";
+import { ledgerStats } from "@/data/ledger";
+
+const skills = [
+  {
+    name: "task-pipeline",
+    repo: "https://github.com/ssheleg/task-pipeline",
+    what: "Intake grill that refuses vague work, then nine gated stages from docs and spec to deploy and post-deploy checks.",
+  },
+  {
+    name: "super-ux",
+    repo: "https://github.com/ssheleg/super-ux",
+    what: "Scenario-driven UX: personas and jobs, flows, screens, scenarios, audits — plus a linter that catches docs drifting from the code.",
+  },
+  {
+    name: "make-skill",
+    repo: "https://github.com/ssheleg/make-skill",
+    what: "Create, retrofit, and ship skills and plugins the proven way, so the toolchain itself stays maintainable.",
+  },
+  {
+    name: "sheleg-design",
+    repo: "https://github.com/ssheleg/sheleg-design-skill",
+    what: "Cinematic scroll-driven landing and hero design, plus product-UI style packs an agent can apply consistently.",
+  },
+];
+
+const agents = [
+  "Claude Code",
+  "Cursor",
+  "Codex",
+  "OpenCode",
+  "Gemini CLI",
+  "Windsurf",
+  "Zed",
+  "Kilo",
+  "Kimi",
+  "Hermes",
+  "OpenClaw",
+];
+---
+
+<section class="skills" id="skills">
+  <div class="container-page inner">
+    <p class="section-index reveal">
+      <span class="num">01</span>
+      <span>Open source</span>
+    </p>
+
+    <div class="head reveal">
+      <h2>
+        Agents that ship products,<br />
+        <span class="accent">not neuroslop.</span>
+      </h2>
+      <p>
+        An agent will happily generate ten thousand lines nobody can run,
+        scale, or maintain. {site.skills.name} is the correction: the way I take
+        an idea to production — discovery, gated delivery, product marketing,
+        onboarding, retention — written down as skills your coding agent
+        follows. {ledgerStats.years} years of product judgement, installed with
+        one command.
+      </p>
+    </div>
+
+    <div class="install reveal">
+      <span class="install-label mono-label">// INSTALL</span>
+      <code class="install-cmd">
+        <span class="term-user">$</span>
+        {site.skills.install}
+      </code>
+      <a
+        class="install-link"
+        href={site.skills.repo}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Repo
+        <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+
+    <ul class="grid" aria-label="Skills in the family">
+      {skills.map((s, i) => (
+        <li class="tile reveal">
+          <span class="tile-idx mono-label">/{String(i + 1).padStart(2, "0")}</span>
+          <a
+            class="tile-name"
+            href={s.repo}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {s.name}
+            <span class="ext" aria-hidden="true">↗</span>
+          </a>
+          <p class="tile-what">{s.what}</p>
+        </li>
+      ))}
+    </ul>
+
+    <div class="agents reveal">
+      <span class="mono-label">// RUNS IN</span>
+      <div class="agent-chips">
+        {agents.map((a) => <span class="chip">{a}</span>)}
+        <span class="chip is-more">+ more</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .skills {
+    position: relative;
+    padding-block: clamp(4rem, 9vw, 7rem);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .head {
+    margin-top: 1.75rem;
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 960px) {
+    .head {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 3rem;
+      align-items: start;
+    }
+  }
+
+  .head h2 {
+    font-size: clamp(1.9rem, 3.8vw, 2.9rem);
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .accent {
+    color: #fbbf24;
+  }
+
+  .head p {
+    color: var(--color-fg-muted);
+    line-height: 1.7;
+    max-width: 62ch;
+  }
+
+  .install {
+    margin-top: 2.25rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1rem;
+    padding: 0.9rem 1.1rem;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 0.6rem;
+    background: rgba(251, 191, 36, 0.04);
+  }
+
+  .install-label {
+    color: #fbbf24;
+  }
+
+  .install-cmd {
+    font-family: var(--font-mono);
+    font-size: 0.86rem;
+    color: #fff;
+    display: inline-flex;
+    gap: 0.75ch;
+    align-items: baseline;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+  }
+
+  .install-cmd::-webkit-scrollbar {
+    display: none;
+  }
+
+  .install-cmd .term-user {
+    color: var(--color-emerald);
+  }
+
+  .install-link {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #fbbf24;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: transform 200ms ease;
+  }
+
+  .install-link:hover {
+    transform: translateX(2px);
+  }
+
+  .grid {
+    margin-top: 2rem;
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 1px;
+    grid-template-columns: 1fr;
+    background: var(--color-border);
+    border: 1px solid var(--color-border);
+    border-radius: 0.75rem;
+    overflow: hidden;
+  }
+
+  @media (min-width: 700px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .tile {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    padding: 1.4rem 1.25rem;
+    background: var(--color-bg);
+    transition: background 240ms ease;
+  }
+
+  .tile:hover {
+    background: var(--color-bg-2);
+  }
+
+  .tile-idx {
+    color: var(--color-fg-subtle);
+  }
+
+  .tile-name {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    color: #fff;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: color 200ms ease;
+  }
+
+  .tile-name:hover {
+    color: #fbbf24;
+  }
+
+  .ext {
+    color: var(--color-fg-subtle);
+    font-size: 0.8rem;
+  }
+
+  .tile-what {
+    color: var(--color-fg-muted);
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+
+  .agents {
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1rem;
+  }
+
+  .agent-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .chip {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    padding: 0.25rem 0.55rem;
+    border-radius: 0.35rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--color-border);
+    color: var(--color-fg-muted);
+  }
+
+  .chip.is-more {
+    color: var(--color-fg-subtle);
+    border-style: dashed;
+  }
+</style>
