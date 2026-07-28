@@ -1,0 +1,478 @@
+---
+import { skillFamily, openSourceProjects } from "@/data/open-source";
+import { ledgerStats } from "@/data/ledger";
+---
+
+<section class="os" id="skills">
+  <div class="container-page inner">
+    <p class="section-index reveal">
+      <span class="num">02</span>
+      <span>Open source</span>
+    </p>
+
+    <div class="head reveal">
+      <h2>
+        Shipped in the open,<br />
+        <span class="accent">used by millions.</span>
+      </h2>
+      <p>
+        Two things I keep public: the client tens of millions of people run
+        every day, and the skill family that teaches coding agents how I take an
+        idea to production.
+      </p>
+    </div>
+
+    <!-- Open-source products -->
+    {openSourceProjects.map((p) => (
+      <article class="project reveal">
+        <div class="project-metric">
+          <span class="metric-val">{p.metric}</span>
+          <span class="metric-label mono-label">{p.metricLabel}</span>
+        </div>
+
+        <div class="project-body">
+          <div class="project-title">
+            <a href={p.repo} target="_blank" rel="noopener noreferrer">
+              {p.name}
+              <span class="ext" aria-hidden="true">↗</span>
+            </a>
+            <span class="lic">{p.license}</span>
+          </div>
+          <p class="project-blurb">{p.blurb}</p>
+          <div class="project-meta">
+            <span class="role mono-label">{p.role}</span>
+            <span class="platforms">
+              {p.platforms.map((pl) => (
+                <a
+                  class="platform"
+                  href={pl.repo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {pl.label}
+                </a>
+              ))}
+            </span>
+          </div>
+        </div>
+      </article>
+    ))}
+
+    <!-- Skill family -->
+    <div class="family reveal">
+      <div class="family-head">
+        <h3>{skillFamily.name}</h3>
+        <span class="lic">{skillFamily.license}</span>
+        <span class="count mono-label">
+          {skillFamily.skills.length} skills · {ledgerStats.years} years of
+          product judgement
+        </span>
+      </div>
+      <p class="family-blurb">{skillFamily.blurb}</p>
+    </div>
+
+    <div class="install reveal">
+      <span class="install-label mono-label">// INSTALL</span>
+      <code class="install-cmd">
+        <span class="term-user">$</span>
+        {skillFamily.install}
+      </code>
+      <a
+        class="install-link"
+        href={skillFamily.repo}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Repo
+        <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+
+    <ul class="grid" aria-label="Skills in the family">
+      {skillFamily.skills.map((s, i) => (
+        <li class="tile reveal">
+          <span class="tile-idx mono-label">
+            /{String(i + 1).padStart(2, "0")}
+            {s.isNew && <span class="new-flag">NEW</span>}
+          </span>
+          <a
+            class="tile-name"
+            href={s.repo}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {s.name}
+            <span class="ext" aria-hidden="true">↗</span>
+          </a>
+          <p class="tile-what">{s.what}</p>
+        </li>
+      ))}
+    </ul>
+
+    <div class="agents reveal">
+      <span class="mono-label">// RUNS IN</span>
+      <div class="agent-chips">
+        {skillFamily.agents.map((a) => <span class="chip">{a}</span>)}
+        <span class="chip is-more">+ more</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .os {
+    position: relative;
+    padding-block: clamp(4rem, 9vw, 7rem);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .head {
+    margin-top: 1.75rem;
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 960px) {
+    .head {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 3rem;
+      align-items: start;
+    }
+  }
+
+  .head h2 {
+    font-size: clamp(1.9rem, 3.8vw, 2.9rem);
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .accent {
+    color: #fbbf24;
+  }
+
+  .head p {
+    color: var(--color-fg-muted);
+    line-height: 1.7;
+    max-width: 62ch;
+  }
+
+  /* Open-source product row */
+  .project {
+    margin-top: 2.25rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    padding: 1.5rem;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 0.75rem;
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  @media (min-width: 760px) {
+    .project {
+      grid-template-columns: minmax(0, 12rem) minmax(0, 1fr);
+      gap: 2rem;
+      align-items: center;
+    }
+  }
+
+  .project-metric {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .metric-val {
+    font-family: var(--font-mono);
+    font-size: clamp(2rem, 4vw, 2.9rem);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: #a3e635;
+    font-feature-settings: "tnum";
+  }
+
+  .metric-label {
+    color: var(--color-fg-muted);
+  }
+
+  .project-title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.65rem;
+  }
+
+  .project-title a {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #fff;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: color 200ms ease;
+  }
+
+  .project-title a:hover {
+    color: #a3e635;
+  }
+
+  .lic {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    padding: 0.15rem 0.45rem;
+    border-radius: 0.25rem;
+    border: 1px solid var(--color-border-strong);
+    color: var(--color-fg-muted);
+  }
+
+  .project-blurb {
+    margin-top: 0.6rem;
+    color: var(--color-fg-muted);
+    line-height: 1.6;
+    max-width: 62ch;
+  }
+
+  .project-meta {
+    margin-top: 0.85rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem 1rem;
+  }
+
+  .role {
+    color: var(--color-fg-subtle);
+  }
+
+  .platforms {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .platform {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.35rem;
+    border: 1px solid var(--color-border);
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--color-fg-muted);
+    text-decoration: none;
+    transition: border-color 200ms ease, color 200ms ease;
+  }
+
+  .platform:hover {
+    border-color: rgba(163, 230, 53, 0.45);
+    color: #bef264;
+  }
+
+  /* Skill family */
+  .family {
+    margin-top: 2.75rem;
+  }
+
+  .family-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.65rem 0.9rem;
+  }
+
+  .family-head h3 {
+    font-family: var(--font-mono);
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .count {
+    color: var(--color-fg-subtle);
+  }
+
+  .family-blurb {
+    margin-top: 0.75rem;
+    color: var(--color-fg-muted);
+    line-height: 1.65;
+    max-width: 68ch;
+  }
+
+  .install {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1rem;
+    padding: 0.9rem 1.1rem;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 0.6rem;
+    background: rgba(251, 191, 36, 0.04);
+  }
+
+  .install-label {
+    color: #fbbf24;
+  }
+
+  .install-cmd {
+    font-family: var(--font-mono);
+    font-size: 0.86rem;
+    color: #fff;
+    display: inline-flex;
+    gap: 0.75ch;
+    align-items: baseline;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+  }
+
+  .install-cmd::-webkit-scrollbar {
+    display: none;
+  }
+
+  .install-cmd .term-user {
+    color: var(--color-emerald);
+  }
+
+  .install-link {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #fbbf24;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: transform 200ms ease;
+  }
+
+  .install-link:hover {
+    transform: translateX(2px);
+  }
+
+  .grid {
+    margin-top: 1.5rem;
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 1px;
+    grid-template-columns: 1fr;
+    background: var(--color-border);
+    border: 1px solid var(--color-border);
+    border-radius: 0.75rem;
+    overflow: hidden;
+  }
+
+  @media (min-width: 700px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .grid {
+      grid-template-columns: repeat(5, 1fr);
+    }
+  }
+
+  .tile {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    padding: 1.4rem 1.25rem;
+    background: var(--color-bg);
+    transition: background 240ms ease;
+  }
+
+  .tile:hover {
+    background: var(--color-bg-2);
+  }
+
+  .tile-idx {
+    color: var(--color-fg-subtle);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .new-flag {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.16em;
+    padding: 0.1rem 0.35rem;
+    border-radius: 0.25rem;
+    background: rgba(251, 191, 36, 0.12);
+    border: 1px solid rgba(251, 191, 36, 0.35);
+    color: #fbbf24;
+  }
+
+  .tile-name {
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    color: #fff;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: color 200ms ease;
+  }
+
+  .tile-name:hover {
+    color: #fbbf24;
+  }
+
+  .ext {
+    color: var(--color-fg-subtle);
+    font-size: 0.8rem;
+  }
+
+  .tile-what {
+    color: var(--color-fg-muted);
+    font-size: 0.88rem;
+    line-height: 1.55;
+  }
+
+  .agents {
+    margin-top: 1.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1rem;
+  }
+
+  .agent-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .chip {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    padding: 0.25rem 0.55rem;
+    border-radius: 0.35rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--color-border);
+    color: var(--color-fg-muted);
+  }
+
+  .chip.is-more {
+    color: var(--color-fg-subtle);
+    border-style: dashed;
+  }
+</style>

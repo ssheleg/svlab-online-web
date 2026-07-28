@@ -28,11 +28,20 @@ const strip = [
     <p class="hero-role mono-label reveal">{site.role}</p>
 
     <p class="hero-sub reveal">
-      Product entrepreneur in Warsaw, Poland. {ledgerStats.years} years turning
-      ideas into products people actually pay for — mobile, desktop, web. I stay
-      in the work: research, the codebase, go-to-market, onboarding, retention.
+      Technical entrepreneur in Warsaw, Poland. {ledgerStats.years} years
+      building and launching products used by
+      <strong>millions of people</strong> — mobile, desktop, web. I stay in the
+      technical work: <strong>AI integrations and agent systems</strong>,
+      marketing and research tooling, growth and retention mechanics, and the
+      go-to-market that puts it all in front of users.
       <strong>SV Lab</strong> is where I ship it.
     </p>
+
+    <ul class="hero-expertise reveal" aria-label="Areas of expertise">
+      {site.expertise.map((item) => (
+        <li>{item}</li>
+      ))}
+    </ul>
 
     <p class="hero-thesis reveal">
       <span class="thesis-key">// NOW:</span> making agents build products you
@@ -102,6 +111,28 @@ const strip = [
   .hero-sub strong {
     color: #fff;
     font-weight: 500;
+  }
+
+  .hero-expertise {
+    margin-top: 1.5rem;
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    max-width: 66ch;
+  }
+
+  .hero-expertise li {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.35rem;
+    border: 1px solid var(--color-border);
+    background: rgba(255, 255, 255, 0.02);
+    color: var(--color-fg-muted);
   }
 
   .hero-thesis {

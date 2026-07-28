@@ -8,6 +8,11 @@ export type TrackItem = {
   role: string;
   blurb: string;
   tags: string[];
+  /**
+   * Headline number for the row, e.g. "56M+ organic installs". Only set it
+   * where the figure is verified — an empty cell reads better than a guess.
+   */
+  metric?: string;
 };
 
 export const trackRecord: TrackItem[] = [
@@ -52,8 +57,9 @@ export const trackRecord: TrackItem[] = [
     yearStart: 2021,
     yearEnd: "present",
     role: "Co-creator · growth",
-    blurb: "Privacy-first Telegram client with superior UX.",
-    tags: ["messaging", "privacy"],
+    blurb: "Privacy-first Telegram client with superior UX. Open source on iOS, Android, and desktop.",
+    tags: ["messaging", "privacy", "open source"],
+    metric: "56M+ organic installs",
   },
   {
     slug: "whatplantisthis",

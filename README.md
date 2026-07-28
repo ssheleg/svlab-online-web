@@ -1,7 +1,7 @@
 # SV Lab — svlab.online
 
-Personal site of **Sergey Sheleg** (registered as Siarhei Sheleh) — product entrepreneur in Warsaw, Poland. **SV Lab** is the container he ships under.
-The site carries the open-source agent skills (`sshlg-skills`), the three live products (Prowl, CheckMyData, PrivateClawd), one ledger of everything shipped in 13 years, the `/about` page, and the consulting front door at `/consulting` for AI advisory, AI transformation, and forward deployment engagements. All inquiries land at [contact@svlab.online](mailto:contact@svlab.online).
+Personal site of **Sergey Sheleg** (registered as Siarhei Sheleh) — technical entrepreneur in Warsaw, Poland. **SV Lab** is the container he ships under.
+The home page runs one spine — **01 About me → 02 Open source → 03 AI agent products → 04 Track record → 05 Capabilities**. It carries the open-source work (Nicegram, `sshlg-skills`), the three live agent products (Prowl, CheckMyData, PrivateClawd), one ledger of everything shipped in 13 years, the `/about` page, and the consulting front door at `/consulting` for AI advisory, AI transformation, and forward deployment engagements. All inquiries land at [contact@svlab.online](mailto:contact@svlab.online).
 
 - **Stack:** [Astro 6](https://astro.build) · TypeScript · Tailwind CSS v4
 - **Hosting:** GitHub Pages (static) on the apex domain `svlab.online`
@@ -58,8 +58,8 @@ src/
     404.astro                   # themed not-found
   components/
     Nav.astro · Hero.astro · About.astro       # home composition
-    Skills.astro                # open-source agent skills (sshlg-skills)
-    Work.astro · ProjectCard.astro  # live products + the full ledger
+    OpenSource.astro            # Nicegram + the sshlg-skills family
+    Work.astro · ProjectCard.astro  # AI agent products + the track-record ledger
     Capabilities.astro · Marquee.astro
     Contact.astro · Footer.astro
     AboutPage.astro             # full /about page (hero portrait + bio + disciplines + selected work + CTA)

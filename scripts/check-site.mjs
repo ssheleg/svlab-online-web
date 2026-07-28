@@ -41,7 +41,29 @@ const FORBIDDEN = [
 ];
 
 const REQUIRED_EVERYWHERE = [NAME];
-const REQUIRED_HOME = ["sshlg-skills", "13 years", "neuroslop"];
+const REQUIRED_HOME = [
+  "sshlg-skills",
+  "seo-aeo-audit",
+  "13 years",
+  "neuroslop",
+  "Nicegram",
+  "56M+",
+  // Section spine — the page must read as About me → Open source → products →
+  // Track record, in that order (order itself is asserted below).
+  "About me",
+  "Open source",
+  "AI agent products",
+  "Track record",
+];
+
+// Section labels in the order they must appear on the home page.
+const HOME_SECTION_ORDER = [
+  "About me",
+  "Open source",
+  "AI agent products",
+  "Track record",
+  "Capabilities",
+];
 
 const failures = [];
 const fail = (where, why) => failures.push(`${where} → ${why}`);
@@ -104,10 +126,31 @@ for (const [route, page] of pages) {
     if (!html.includes(need)) fail(route, `missing required string "${need}"`);
   }
   if (route === "/") {
+    const text = visibleText(html);
     for (const need of REQUIRED_HOME) {
-      if (!visibleText(html).includes(need)) {
-        fail(route, `home page missing "${need}"`);
+      if (!text.includes(need)) fail(route, `home page missing "${need}"`);
+    }
+
+    // Section spine, in order. Each label must appear after the previous one.
+    let cursor = -1;
+    for (const label of HOME_SECTION_ORDER) {
+      const at = text.indexOf(`>${label}<`, cursor + 1);
+      if (at === -1) {
+        fail(route, `section label "${label}" missing or out of order`);
+        break;
       }
+      cursor = at;
+    }
+
+    // Section indices must run 01..05 with no gaps or repeats.
+    const nums = [...html.matchAll(/<span class="num"[^>]*>(\d+)<\/span>/g)].map(
+      (m) => m[1],
+    );
+    const expected = HOME_SECTION_ORDER.map((_, i) =>
+      String(i + 1).padStart(2, "0"),
+    );
+    if (nums.join(",") !== expected.join(",")) {
+      fail(route, `section numbers are [${nums}], expected [${expected}]`);
     }
   }
 

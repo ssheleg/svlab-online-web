@@ -11,15 +11,15 @@ const liveProducts = projects.filter((p) => p.slug !== "sshlg-skills");
 <section class="work" id="products">
   <div class="container-page inner">
     <p class="section-index reveal">
-      <span class="num">02</span>
-      <span>Live products</span>
+      <span class="num">03</span>
+      <span>AI agent products</span>
     </p>
 
     <div class="head reveal">
       <h2>Running right now.</h2>
       <p>
-        Three products live under SV Lab today — built, marketed, and operated
-        by me. Each one is in production with paying users, not a demo.
+        Three agent products live under SV Lab today — built, marketed, and
+        operated by me. Each one is in production with paying users, not a demo.
       </p>
     </div>
 
@@ -36,8 +36,8 @@ const liveProducts = projects.filter((p) => p.slug !== "sshlg-skills");
 <section class="ledger-section" id="track-record">
   <div class="container-page inner">
     <p class="section-index reveal">
-      <span class="num">03</span>
-      <span>The ledger</span>
+      <span class="num">04</span>
+      <span>Track record</span>
     </p>
 
     <div class="head reveal">
@@ -77,6 +77,7 @@ const liveProducts = projects.filter((p) => p.slug !== "sshlg-skills");
                   </span>
                 </div>
                 <p class="blurb">{e.blurb}</p>
+                {e.metric && <p class="metric">{e.metric}</p>}
                 <div class="meta-row">
                   <span class="role mono-label">{e.role}</span>
                   <span class="tags">
@@ -275,6 +276,15 @@ const liveProducts = projects.filter((p) => p.slug !== "sshlg-skills");
     line-height: 1.55;
     font-size: 0.94rem;
     margin: 0;
+  }
+
+  .metric {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+    color: #a3e635;
+    font-feature-settings: "tnum";
   }
 
   .meta-row {

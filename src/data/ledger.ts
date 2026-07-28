@@ -15,6 +15,8 @@ export type LedgerEntry = {
   role: string;
   blurb: string;
   tags: string[];
+  /** Verified headline number for the row, when there is one. */
+  metric?: string;
   /** Live SV Lab work, rendered as a detail card above the table. */
   featured: boolean;
 };
@@ -42,6 +44,7 @@ const fromTrackRecord: LedgerEntry[] = trackRecord.map((t) => ({
   role: t.role,
   blurb: t.blurb,
   tags: t.tags,
+  metric: t.metric,
   featured: false,
 }));
 

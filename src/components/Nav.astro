@@ -13,13 +13,18 @@ type Link = { label: string; href: string; match: (p: string) => boolean };
 // Only true page-level routes (Consulting, About) get the active state.
 const links: Link[] = [
   {
-    label: "Skills",
+    label: "Open source",
     href: "/#skills",
     match: () => false,
   },
   {
-    label: "Work",
+    label: "Products",
     href: "/#products",
+    match: () => false,
+  },
+  {
+    label: "Track record",
+    href: "/#track-record",
     match: () => false,
   },
   {
@@ -69,7 +74,7 @@ const ctaAria = `Email ${site.email}`;
     </a>
   </div>
 
-  <!-- Below 900px the primary links don't fit next to the shield, status, and
+  <!-- Below 1180px the primary links don't fit next to the shield, status, and
        email. Instead of hiding navigation behind a JS menu, they drop into a
        scrollable strip that stays one tap away. -->
   <nav class="links-mobile" aria-label="Sections">
@@ -251,7 +256,7 @@ const ctaAria = `Email ${site.email}`;
     min-width: 100%;
   }
 
-  @media (min-width: 900px) {
+  @media (min-width: 1180px) {
     .links {
       display: inline-flex;
     }
@@ -263,8 +268,8 @@ const ctaAria = `Email ${site.email}`;
     }
   }
 
-  /* Below 900px the nav links collapse; the shield, status, and email stay. */
-  @media (max-width: 899px) {
+  /* Below 1180px the nav links collapse; the shield, status, and email stay. */
+  @media (max-width: 1179px) {
     .nav-row {
       gap: 0.65rem;
     }

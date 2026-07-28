@@ -5,10 +5,20 @@ export const site = {
   // and stays in schema.org `alternateName` so both spellings resolve in search.
   founder: "Sergey Sheleg",
   founderAlternate: "Siarhei Sheleh",
-  role: "Product entrepreneur · hands-on builder",
+  role: "Technical entrepreneur · products used by millions",
   tagline: "Products shipped end to end from Warsaw.",
   description:
-    "Sergey Sheleg — product entrepreneur in Warsaw, Poland. 13 years turning ideas into shipped products across mobile, desktop, and web. SV Lab is where he ships them: three live AI products and an open-source skill family for coding agents.",
+    "Sergey Sheleg — technical entrepreneur in Warsaw, Poland. 13 years building and launching products used by millions: AI integrations and agent systems, marketing and research tooling, growth and retention mechanics, and the go-to-market that puts them in front of users.",
+  // The expertise strip under the hero lede. Order is deliberate: what he
+  // builds, what he builds it with, and how it reaches users.
+  expertise: [
+    "Product engineering",
+    "AI integrations",
+    "Agent systems",
+    "Marketing & research tools",
+    "Growth & retention",
+    "Go-to-market",
+  ],
   // Both literals, not derived from the build date: a build-time
   // `getFullYear()` makes the output non-reproducible. Review together yearly.
   shippingSince: 2013,
