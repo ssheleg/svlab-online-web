@@ -90,7 +90,9 @@ export const trackRecord: TrackItem[] = [
     role: "Product · growth · monetization",
     blurb: "Built and monetized the Ultimate Guitar mobile apps and launched an AI-powered learning product for the world's largest musician platform.",
     tags: ["consumer", "music", "ai-learning"],
-    metric: "350M+ MAU · #1 platform for musicians",
+    // "users", not "MAU": the public Muse Group figure is total users, and the
+    // narrower claim is the one that survives a buyer checking it.
+    metric: "350M+ users · #1 platform for musicians",
   },
   {
     slug: "product-developer",
