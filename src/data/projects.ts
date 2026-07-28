@@ -43,16 +43,16 @@ export const projects: Project[] = [
     yearStart: 2025,
     yearEnd: "present",
     status: "live",
-    category: "Marketing intelligence",
-    tagline: "235+ recon tools, orchestrated into one strategy report.",
+    category: "Agent intelligence · MCP",
+    tagline: "One MCP endpoint. 408 market-intelligence tools for your agents.",
     description:
-      "An AI competitive-intelligence agent that pulls SEO, ads, funnels, reviews, pricing, and market signals across 235+ tools, then synthesizes them into an 8-module strategy report delivered as an interactive brief, infographic, PDF, slide deck, and video.",
+      "The research layer for coding agents. Connect one MCP to Cursor, Claude Code, Codex — or any MCP client — and the agent can call 408 SEO, ads, SERP, review, and market-data tools with real numbers, cross-referenced into a 12-module strategy report shipped as an interactive brief, infographic, PDF, deck, and video. Billed per call from a USD wallet, with a $5 starter credit.",
     highlights: [
-      "235+ orchestrated recon tools across 50+ data sources",
-      "8-module intelligence brief with battlecards & 14/30/90 plan",
-      "5 deliverables: interactive report, infographic, PDF, PPTX, video",
+      "408 intelligence tools behind one endpoint — SEO, ads, SERP, reviews, trends",
+      "12 modules to a sourced brief in ~10 minutes, in 5 output formats",
+      "Pay-per-call wallet with per-key scopes, spend caps, and IP allowlists",
     ],
-    stack: ["TypeScript", "Next.js", "LLM orchestration", "Stripe", "MCP"],
+    stack: ["MCP", "TypeScript", "Next.js", "LLM orchestration", "Stripe"],
     accent: "cyan",
   },
   {
