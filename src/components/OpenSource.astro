@@ -1,5 +1,5 @@
 ---
-import { skillFamily, openSourceProjects } from "@/data/open-source";
+import { skillFamily, platformProjects } from "@/data/open-source";
 import { ledgerStats } from "@/data/ledger";
 ---
 
@@ -16,47 +16,55 @@ import { ledgerStats } from "@/data/ledger";
         <span class="accent">used by millions.</span>
       </h2>
       <p>
-        Two things I keep public: the client tens of millions of people run
-        every day, and the skill family that teaches coding agents how I take an
-        idea to production.
+        Two lines of public work. The <strong>Nicegram platform</strong> — an
+        open-source client tens of millions of people run every day, plus the
+        business layer now entering early access. And
+        {" "}<strong>{skillFamily.name}</strong>, the skill family that teaches
+        coding agents how I take an idea to production.
       </p>
     </div>
 
-    <!-- Open-source products -->
-    {openSourceProjects.map((p) => (
-      <article class="project reveal">
-        <div class="project-metric">
-          <span class="metric-val">{p.metric}</span>
-          <span class="metric-label mono-label">{p.metricLabel}</span>
-        </div>
+    <!-- The Nicegram platform: open-source client + the business layer on top -->
+    <div class="platform-grid">
+      {platformProjects.map((p) => (
+        <article class="project reveal">
+          {p.metric ? (
+            <div class="project-metric">
+              <span class="metric-val">{p.metric}</span>
+              <span class="metric-label mono-label">{p.metricLabel}</span>
+            </div>
+          ) : (
+            <div class="project-metric is-empty" aria-hidden="true"></div>
+          )}
 
-        <div class="project-body">
-          <div class="project-title">
-            <a href={p.repo} target="_blank" rel="noopener noreferrer">
-              {p.name}
-              <span class="ext" aria-hidden="true">↗</span>
-            </a>
-            <span class="lic">{p.license}</span>
+          <div class="project-body">
+            <div class="project-title">
+              <a href={p.href} target="_blank" rel="noopener noreferrer">
+                {p.name}
+                <span class="ext" aria-hidden="true">↗</span>
+              </a>
+              <span class="lic">{p.badge}</span>
+            </div>
+            <p class="project-blurb">{p.blurb}</p>
+            <div class="project-meta">
+              <span class="role mono-label">{p.role}</span>
+              <span class="platforms">
+                {p.links.map((l) => (
+                  <a
+                    class="platform"
+                    href={l.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {l.label}
+                  </a>
+                ))}
+              </span>
+            </div>
           </div>
-          <p class="project-blurb">{p.blurb}</p>
-          <div class="project-meta">
-            <span class="role mono-label">{p.role}</span>
-            <span class="platforms">
-              {p.platforms.map((pl) => (
-                <a
-                  class="platform"
-                  href={pl.repo}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {pl.label}
-                </a>
-              ))}
-            </span>
-          </div>
-        </div>
-      </article>
-    ))}
+        </article>
+      ))}
+    </div>
 
     <!-- Skill family -->
     <div class="family reveal">
@@ -164,30 +172,48 @@ import { ledgerStats } from "@/data/ledger";
     max-width: 62ch;
   }
 
-  /* Open-source product row */
-  .project {
+  /* Nicegram platform cards */
+  .platform-grid {
     margin-top: 2.25rem;
     display: grid;
     grid-template-columns: 1fr;
-    gap: 1.25rem;
+    gap: 1rem;
+  }
+
+  @media (min-width: 1000px) {
+    .platform-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .project {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
     padding: 1.5rem;
     border: 1px solid var(--color-border-strong);
     border-radius: 0.75rem;
     background: rgba(255, 255, 255, 0.02);
   }
 
-  @media (min-width: 760px) {
-    .project {
-      grid-template-columns: minmax(0, 12rem) minmax(0, 1fr);
-      gap: 2rem;
-      align-items: center;
-    }
-  }
-
   .project-metric {
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
+  }
+
+  /* Keeps the two cards' titles on the same baseline when only one has a
+     headline figure. Collapses on narrow screens, where they stack anyway. */
+  .project-metric.is-empty {
+    display: none;
+  }
+
+  @media (min-width: 1000px) {
+    .project-metric.is-empty {
+      display: block;
+      /* Matches the figure block: clamped numeral + 0.25rem gap + label. */
+      min-height: calc(clamp(2rem, 4vw, 2.9rem) + 0.25rem + 1.05rem);
+    }
   }
 
   .metric-val {

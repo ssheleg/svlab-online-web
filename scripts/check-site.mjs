@@ -47,7 +47,10 @@ const REQUIRED_HOME = [
   "13 years",
   "neuroslop",
   "Nicegram",
+  "Nicegram Business",
   "56M+",
+  "350M+",
+  "eSIM Plus",
   // Section spine — the page must read as About me → Open source → products →
   // Track record, in that order (order itself is asserted below).
   "About me",

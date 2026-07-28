@@ -1,7 +1,7 @@
 ---
 import ProjectCard from "./ProjectCard.astro";
 import { projects } from "@/data/projects";
-import { ledger, ledgerStats, formatLedgerYears } from "@/data/ledger";
+import { ledger, ledgerStats, formatLedgerYears, badgeFor } from "@/data/ledger";
 
 // `sshlg-skills` is a live SV Lab project and belongs in the ledger below, but
 // its detail card lives in the Skills section — it isn't repeated here.
@@ -51,7 +51,15 @@ const liveProducts = projects.filter((p) => p.slug !== "sshlg-skills");
 
     <ol class="rows" aria-label="Everything shipped">
       {ledger.map((e, i) => {
-        const isLive = e.yearEnd === "present";
+        const isEarly = e.status === "early-access";
+        const isLive = e.yearEnd === "present" && !isEarly;
+        const statusLabel = isEarly
+          ? "EARLY ACCESS"
+          : isLive
+            ? "LIVE"
+            : "ARCHIVED";
+        const statusClass = isEarly ? "early" : isLive ? "live" : "archived";
+        const badge = badgeFor(e);
         const Row = e.url ? "a" : "div";
         const rowProps = e.url
           ? {
@@ -70,10 +78,12 @@ const liveProducts = projects.filter((p) => p.slug !== "sshlg-skills");
                 <div class="title-line">
                   <span class="name">{e.name}</span>
                   {e.domain && <span class="dom mono-label">{e.domain}</span>}
-                  {e.featured && <span class="badge">SV LAB</span>}
-                  <span class:list={["status", isLive ? "live" : "archived"]}>
+                  {badge && (
+                    <span class:list={["badge", `badge-${e.kind}`]}>{badge}</span>
+                  )}
+                  <span class:list={["status", statusClass]}>
                     {isLive && <span class="dot" aria-hidden="true"></span>}
-                    {isLive ? "LIVE" : "ARCHIVED"}
+                    {statusLabel}
                   </span>
                 </div>
                 <p class="blurb">{e.blurb}</p>
@@ -236,6 +246,16 @@ const liveProducts = projects.filter((p) => p.slug !== "sshlg-skills");
     letter-spacing: 0.16em;
     padding: 0.12rem 0.4rem;
     border-radius: 0.25rem;
+    white-space: nowrap;
+  }
+
+  .badge-ai-product {
+    background: rgba(34, 211, 238, 0.1);
+    border: 1px solid rgba(34, 211, 238, 0.3);
+    color: #67e8f9;
+  }
+
+  .badge-open-source {
     background: rgba(251, 191, 36, 0.1);
     border: 1px solid rgba(251, 191, 36, 0.3);
     color: #fbbf24;
@@ -256,6 +276,12 @@ const liveProducts = projects.filter((p) => p.slug !== "sshlg-skills");
     background: rgba(52, 211, 153, 0.1);
     border: 1px solid rgba(52, 211, 153, 0.3);
     color: #6ee7b7;
+  }
+
+  .status.early {
+    background: rgba(167, 139, 250, 0.1);
+    border: 1px solid rgba(167, 139, 250, 0.3);
+    color: #c4b5fd;
   }
 
   .status.archived {

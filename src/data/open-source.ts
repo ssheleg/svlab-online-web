@@ -58,33 +58,46 @@ export const skillFamily = {
   ],
 };
 
-export type OpenSourceProject = {
+export type PlatformProject = {
   slug: string;
   name: string;
-  repo: string;
-  license: string;
+  href: string;
+  /** License badge for open-source work, or a status badge for what isn't. */
+  badge: string;
   role: string;
-  metric: string;
-  metricLabel: string;
+  /** Headline figure. Omitted where no verified number is public. */
+  metric?: string;
+  metricLabel?: string;
   blurb: string;
-  platforms: { label: string; repo: string }[];
+  links: { label: string; href: string }[];
 };
 
-export const openSourceProjects: OpenSourceProject[] = [
+/** The Nicegram platform: the open-source client and the business layer on top. */
+export const platformProjects: PlatformProject[] = [
   {
     slug: "nicegram",
     name: "Nicegram",
-    repo: "https://github.com/nicegram",
-    license: "GPL-2.0",
+    href: "https://nicegram.app",
+    badge: "GPL-2.0",
     role: "Co-creator · growth",
     metric: "56M+",
     metricLabel: "organic installs",
     blurb:
       "Privacy-first Telegram client with superior UX, open source on iOS, Android, and desktop. Grown to tens of millions of users organically — no paid acquisition.",
-    platforms: [
-      { label: "iOS", repo: "https://github.com/nicegram/Nicegram-iOS" },
-      { label: "Android", repo: "https://github.com/nicegram/Nicegram-Android" },
-      { label: "Desktop", repo: "https://github.com/nicegram/nicegram-desktop" },
+    links: [
+      { label: "iOS", href: "https://github.com/nicegram/Nicegram-iOS" },
+      { label: "Android", href: "https://github.com/nicegram/Nicegram-Android" },
+      { label: "Desktop", href: "https://github.com/nicegram/nicegram-desktop" },
     ],
+  },
+  {
+    slug: "nicegram-business",
+    name: "Nicegram Business",
+    href: "https://business.nicegram.app",
+    badge: "EARLY ACCESS",
+    role: "Co-creator · product",
+    blurb:
+      "Nicegram OS — the AI business layer for Telegram-native teams. Company-owned accounts, delegated access, retained chat history, approved AI agents with a controlled context layer, and CRM sync. Revoke a seat and the deals stay with the company.",
+    links: [{ label: "business.nicegram.app", href: "https://business.nicegram.app" }],
   },
 ];

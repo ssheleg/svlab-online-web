@@ -17,9 +17,23 @@ export type LedgerEntry = {
   tags: string[];
   /** Verified headline number for the row, when there is one. */
   metric?: string;
+  /** Drives the row badge: which part of the site the entry belongs to. */
+  kind: "ai-product" | "open-source" | "work";
+  /** Set where "live" would overstate it. Excluded from the live count. */
+  status?: "early-access";
   /** Live SV Lab work, rendered as a detail card above the table. */
   featured: boolean;
 };
+
+const BADGES: Record<LedgerEntry["kind"], string | null> = {
+  "ai-product": "AI PRODUCT",
+  "open-source": "OPEN SOURCE",
+  work: null,
+};
+
+export function badgeFor(e: LedgerEntry): string | null {
+  return BADGES[e.kind];
+}
 
 const fromProjects: LedgerEntry[] = projects.map((p) => ({
   slug: p.slug,
@@ -31,6 +45,7 @@ const fromProjects: LedgerEntry[] = projects.map((p) => ({
   role: "Build · GTM · ops",
   blurb: p.tagline,
   tags: [p.category],
+  kind: p.slug === "sshlg-skills" ? "open-source" : "ai-product",
   featured: true,
 }));
 
@@ -45,6 +60,8 @@ const fromTrackRecord: LedgerEntry[] = trackRecord.map((t) => ({
   blurb: t.blurb,
   tags: t.tags,
   metric: t.metric,
+  kind: t.tags.includes("open source") ? "open-source" : "work",
+  status: t.status,
   featured: false,
 }));
 
@@ -61,7 +78,9 @@ export const featuredLedger: LedgerEntry[] = ledger.filter((e) => e.featured);
 
 export const ledgerStats = {
   total: ledger.length,
-  live: ledger.filter((e) => e.yearEnd === "present").length,
+  live: ledger.filter(
+    (e) => e.yearEnd === "present" && e.status !== "early-access",
+  ).length,
   featured: featuredLedger.length,
   years: site.yearsExperience,
 };
