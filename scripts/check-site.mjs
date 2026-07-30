@@ -44,6 +44,7 @@ const REQUIRED_EVERYWHERE = [NAME];
 const REQUIRED_HOME = [
   "sshlg-skills",
   "seo-aeo-audit",
+  "agent-sync",
   "13 years",
   "neuroslop",
   "Nicegram",
