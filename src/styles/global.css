@@ -82,7 +82,7 @@
 
   /* Terminal-grade primitives — monospace as structure, not decoration. */
 
-  /* Shell prompt line: `sergey@svlab ~ %` followed by the command. */
+  /* Shell prompt line: `siarhei@svlab ~ %` followed by the command. */
   .term-line {
     display: inline-flex;
     align-items: center;

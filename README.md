@@ -1,12 +1,12 @@
 # SV Lab — svlab.online
 
-Personal site of **Sergey Sheleg** (registered as Siarhei Sheleh) — technical entrepreneur in Warsaw, Poland. **SV Lab** is the container he ships under.
+Personal site of **Siarhei Sheleh** — technical entrepreneur in Warsaw, Poland. **SV Lab** is the container he ships under.
 The home page runs one spine — **01 About me → 02 Open source → 03 AI agent products → 04 Track record → 05 Capabilities**. It carries the open-source work (Nicegram, `sshlg-skills`), the three live agent products (Prowl, CheckMyData, PrivateClawd), one ledger of everything shipped in 13 years, the `/about` page, and the consulting front door at `/consulting` for AI advisory, AI transformation, and forward deployment engagements. All inquiries land at [contact@svlab.online](mailto:contact@svlab.online).
 
 - **Stack:** [Astro 6](https://astro.build) · TypeScript · Tailwind CSS v4
 - **Hosting:** GitHub Pages (static) on the apex domain `svlab.online`
 - **DNS:** Cloudflare
-- **Author:** Sergey Sheleg — `contact@svlab.online`
+- **Author:** Siarhei Sheleh — `contact@svlab.online`
 
 ---
 
@@ -33,7 +33,7 @@ The OG generator ([`scripts/build-og.mjs`](scripts/build-og.mjs)) is templated a
 | Route                               | Purpose                                                      |
 | ----------------------------------- | ------------------------------------------------------------ |
 | `/`                                 | Single-page lab overview: hero, about teaser, products, track record, capabilities, contact. |
-| `/about`                            | Personal page for Sergey Sheleg — ID card, bio, disciplines, selected work, CTA. Emits a `Person` JSON-LD schema. |
+| `/about`                            | Personal page for Siarhei Sheleh — ID card, bio, disciplines, selected work, CTA. Emits a `Person` JSON-LD schema. |
 | `/consulting`                       | Consulting hub: positioning, three service cards, forward-deployment callout, why-me strip, CTA. Emits a `ProfessionalService` JSON-LD schema. |
 | `/consulting/ai-advisory`           | Landing page for AI advisory engagements (apply AI to a specific use case fast). Emits `Service` + `FAQPage` JSON-LD schemas. |
 | `/consulting/ai-transformation`     | Landing page for AI transformation engagements (rewire processes, data, and org around AI). Emits `Service` + `FAQPage` JSON-LD schemas. |
@@ -201,4 +201,4 @@ In the `svlab.online` zone:
 
 The source code in this repository is proprietary to SV Lab. Brand assets, copy, and logos belong to their respective owners.
 
-© SV Lab — Siarhei Sheleh (Sergey Sheleg), Poland.
+© SV Lab — Siarhei Sheleh, Poland.

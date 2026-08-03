@@ -72,7 +72,7 @@ function renderSvg({ kicker, line1, line2, footerLeft, footerRight, accent }) {
     <rect x="0" y="0" width="64" height="64" rx="14" fill="#0f1524" stroke="rgba(34,211,238,0.55)" stroke-width="2"/>
     <path d="M18 23L27 32L18 41" stroke="#67e8f9" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
     <path d="M33 42H46" stroke="#a3e635" stroke-width="3.8" stroke-linecap="round" fill="none"/>
-    <text x="84" y="32" fill="#ffffff" font-family="ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600" letter-spacing="-0.02em">Sergey Sheleg</text>
+    <text x="84" y="32" fill="#ffffff" font-family="ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600" letter-spacing="-0.02em">Siarhei Sheleh</text>
     <text x="84" y="56" fill="#5b6577" font-family="ui-monospace, monospace" font-size="14" letter-spacing="0.06em">SV LAB · WARSAW, PL</text>
   </g>
 
@@ -100,7 +100,7 @@ const pages = [
   {
     out: "og.png",
     kicker: "// PRODUCT ENTREPRENEUR · WARSAW, PL",
-    line1: "Sergey Sheleg.",
+    line1: "Siarhei Sheleh.",
     line2: "Still in the code.",
     footerLeft: { label: "13 YEARS SHIPPING", width: 240 },
     footerRight: { label: "12 PRODUCTS · 9 STILL LIVE", width: 360 },
@@ -108,7 +108,7 @@ const pages = [
   },
   {
     out: "og-about.png",
-    kicker: "// ABOUT · SERGEY SHELEG · SIARHEI SHELEH",
+    kicker: "// ABOUT · SIARHEI SHELEH · WARSAW, PL",
     line1: "13 years of shipping.",
     line2: "One accountable owner.",
     footerLeft: { label: "WARSAW, PL", width: 190 },

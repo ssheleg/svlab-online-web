@@ -114,7 +114,7 @@ export const consultingServices: Record<
     cta: {
       subject: "Consulting · AI advisory · SV Lab",
       body: [
-        "Hi Sergey,",
+        "Hi Siarhei,",
         "",
         "I'd like to discuss an AI advisory engagement.",
         "",
@@ -129,7 +129,7 @@ export const consultingServices: Record<
     meta: {
       title: "AI advisory · SV Lab",
       description:
-        "Independent AI advisory by Sergey Sheleg: opportunity mapping, working prototypes, vendor-free recommendations. Apply AI where it moves the business — in weeks, not quarters.",
+        "Independent AI advisory by Siarhei Sheleh: opportunity mapping, working prototypes, vendor-free recommendations. Apply AI where it moves the business — in weeks, not quarters.",
     },
   },
 
@@ -230,7 +230,7 @@ export const consultingServices: Record<
     cta: {
       subject: "Consulting · AI transformation · SV Lab",
       body: [
-        "Hi Sergey,",
+        "Hi Siarhei,",
         "",
         "I'd like to discuss an AI transformation engagement.",
         "",
@@ -246,7 +246,7 @@ export const consultingServices: Record<
     meta: {
       title: "AI transformation · SV Lab",
       description:
-        "End-to-end AI transformation by Sergey Sheleg: process redesign, data infrastructure, and org rewiring shipped as production systems — not slides.",
+        "End-to-end AI transformation by Siarhei Sheleh: process redesign, data infrastructure, and org rewiring shipped as production systems — not slides.",
     },
   },
 
@@ -338,7 +338,7 @@ export const consultingServices: Record<
     cta: {
       subject: "Consulting · Forward deployment · SV Lab",
       body: [
-        "Hi Sergey,",
+        "Hi Siarhei,",
         "",
         "I'd like to discuss a forward deployment engagement.",
         "",
@@ -355,7 +355,7 @@ export const consultingServices: Record<
     meta: {
       title: "Forward deployment · SV Lab",
       description:
-        "Forward deployed engineering by Sergey Sheleg: an embedded AI engineer shipping production systems inside your own team, stack, and infrastructure — with full handoff to an internal owner.",
+        "Forward deployed engineering by Siarhei Sheleh: an embedded AI engineer shipping production systems inside your own team, stack, and infrastructure — with full handoff to an internal owner.",
     },
   },
 };

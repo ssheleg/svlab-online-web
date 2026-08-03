@@ -1,7 +1,14 @@
 # SV Lab site — person-first, terminal-grade repositioning
 
 Date: 2026-07-28
-Status: approved (owner: Sergey Sheleg)
+Status: approved, shipped (owner: Siarhei Sheleh)
+
+> **Superseded on 2026-08-03 — display name.** This document records the
+> original decision to display `Sergey Sheleg` and keep `Siarhei Sheleh` as the
+> alternate. That call was reversed: the site now displays the registered form
+> `Siarhei Sheleh` everywhere, and `Sergey Sheleg` survives only in schema.org
+> `alternateName`. Everything else below still holds. Left unedited as the
+> record of what was decided at the time.
 
 ## Problem
 

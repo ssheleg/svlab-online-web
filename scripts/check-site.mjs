@@ -15,7 +15,10 @@ import { dirname, join, resolve, relative, sep } from "node:path";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const distDir = resolve(__dirname, "../dist");
 
-const NAME = "Sergey Sheleg";
+const NAME = "Siarhei Sheleh";
+// Previously published spelling. Allowed only inside JSON-LD (`alternateName`,
+// so the old spelling still resolves in search) — never in rendered copy.
+const SCHEMA_ONLY_NAME = "Sergey Sheleg";
 
 const EXPECTED_PAGES = [
   "/",
@@ -39,6 +42,10 @@ const FORBIDDEN = [
   "Rajmunda",
   "5223265821",
 ];
+
+// Strings that must not survive anywhere a reader can see them — metadata and
+// attributes included. Checked against the document with JSON-LD stripped out.
+const FORBIDDEN_VISIBLE = [SCHEMA_ONLY_NAME, "Sergey", "sergey"];
 
 const REQUIRED_EVERYWHERE = [NAME];
 const REQUIRED_HOME = [
@@ -118,11 +125,16 @@ const visibleText = (html) =>
 
 for (const [route, page] of pages) {
   const { html } = page;
+  const text = visibleText(html);
 
   // 2. forbidden strings — checked against the whole document, including
   // metadata and JSON-LD, since those are published too.
   for (const bad of FORBIDDEN) {
     if (html.includes(bad)) fail(route, `contains forbidden string "${bad}"`);
+  }
+  // ...and the retired spelling, which survives in JSON-LD only.
+  for (const bad of FORBIDDEN_VISIBLE) {
+    if (text.includes(bad)) fail(route, `renders retired string "${bad}"`);
   }
 
   // 3. required strings
@@ -130,7 +142,6 @@ for (const [route, page] of pages) {
     if (!html.includes(need)) fail(route, `missing required string "${need}"`);
   }
   if (route === "/") {
-    const text = visibleText(html);
     for (const need of REQUIRED_HOME) {
       if (!text.includes(need)) fail(route, `home page missing "${need}"`);
     }
@@ -178,6 +189,13 @@ for (const [route, page] of pages) {
       hasPerson = true;
       if (parsed.name !== NAME) {
         fail(route, `Person schema name is "${parsed.name}", expected "${NAME}"`);
+      }
+      // The retired spelling must stay reachable for search, and only here.
+      if (parsed.alternateName !== SCHEMA_ONLY_NAME) {
+        fail(
+          route,
+          `Person alternateName is "${parsed.alternateName}", expected "${SCHEMA_ONLY_NAME}"`,
+        );
       }
     }
   }

@@ -1,14 +1,16 @@
 export const site = {
   name: "SV Lab",
   legalName: "SV Lab — Siarhei Sheleh",
-  // Displayed everywhere. `founderAlternate` is the registered transliteration
-  // and stays in schema.org `alternateName` so both spellings resolve in search.
-  founder: "Sergey Sheleg",
-  founderAlternate: "Siarhei Sheleh",
+  // Displayed everywhere: the registered form, matching the sole proprietorship.
+  // `founderAlternate` is the previously published transliteration and lives
+  // only in schema.org `alternateName` so the old spelling still resolves in
+  // search — it is deliberately absent from visible copy.
+  founder: "Siarhei Sheleh",
+  founderAlternate: "Sergey Sheleg",
   role: "Technical entrepreneur · products used by millions",
   tagline: "Products shipped end to end from Warsaw.",
   description:
-    "Sergey Sheleg — technical entrepreneur in Warsaw, Poland. 13 years building and launching products used by millions: AI integrations and agent systems, marketing and research tooling, growth and retention mechanics, and the go-to-market that puts them in front of users.",
+    "Siarhei Sheleh — technical entrepreneur in Warsaw, Poland. 13 years building and launching products used by millions: AI integrations and agent systems, marketing and research tooling, growth and retention mechanics, and the go-to-market that puts them in front of users.",
   // The expertise strip under the hero lede. Order is deliberate: what he
   // builds, what he builds it with, and how it reaches users.
   expertise: [
@@ -41,7 +43,7 @@ export const site = {
   // Retained for invoicing and contracts. Nothing renders these — the public
   // site deliberately does not publish the address or tax identifiers.
   legal: {
-    entity: "SV Lab — Siarhei Sheleh (Sergey Sheleg)",
+    entity: "SV Lab — Siarhei Sheleh",
     streetAddress: "Rajmunda 35",
     postalCode: "03-606",
     city: "Warsaw",
