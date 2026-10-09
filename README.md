@@ -21,7 +21,8 @@ npm run dev        # http://localhost:4321
 Other scripts:
 
 ```bash
-npm run build      # type-check, regenerate per-page OG PNGs, build to ./dist, verify the output
+npm test           # unit tests (node --test, no dependencies) — also the first step of `npm run build`
+npm run build      # run tests, type-check, regenerate per-page OG PNGs, build to ./dist, verify the output
 npm run check      # verify ./dist on its own (see scripts/check-site.mjs)
 npm run preview    # preview the production build locally
 ```
@@ -73,6 +74,8 @@ src/
     capabilities.ts             # capability tiles
     consulting.ts               # SOT for /consulting services (advisory + transformation + forward deployment): hero, outcomes, proofs, process, FAQ, CTA, meta
   styles/global.css             # Tailwind v4 @theme tokens, design system
+  lib/aptabase.js               # product analytics client (self-hosted Aptabase), loaded by BaseLayout
+tests/aptabase.test.mjs         # node --test unit tests for the analytics client
 public/
   CNAME                         # svlab.online (required by GitHub Pages)
   favicon.svg
@@ -86,7 +89,7 @@ public/
   about/portrait.svg            # placeholder portrait used on /about (replace with real photo, see below)
   robots.txt
 scripts/build-og.mjs            # templated SVG → per-page PNG OG generator (resvg-js)
-scripts/check-site.mjs          # post-build guard: pages, copy, links, anchors, JSON-LD, h1
+scripts/check-site.mjs          # post-build guard: pages, copy, links, anchors, JSON-LD, h1, analytics key injected
 .github/workflows/deploy.yml    # build + publish to GitHub Pages
 ```
 
@@ -170,6 +173,13 @@ In the `svlab.online` zone:
 **Email:** the `mailto:contact@svlab.online` link relies on whatever MX records are already configured for the zone — this site does not change them.
 
 ---
+
+## Analytics
+
+Page views and link clicks go to the operator's self-hosted [Aptabase](https://aptabase.com) at `https://analytics.sshlg.me` (EU), app **SV Lab**. No cookies, nothing stored in the browser, no personal data. Details, events and the key procedure: [`docs/analytics.md`](docs/analytics.md).
+
+- **Release only on `svlab.online`.** Any other host — `localhost`, `www.svlab.online`, a preview — sends Debug events (`isDebug: true`).
+- Events: `page_view`, `contact_click` (any `mailto:` link), `outbound_click` (destination host only), `cta_click` (internal CTA buttons).
 
 ## SEO + AI search
 
