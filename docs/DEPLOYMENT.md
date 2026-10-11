@@ -13,9 +13,10 @@
 
 ## Pre-deploy gate
 Commands that must pass before deploying:
-- Type check + build: `npm run build` (runs `astro check` then `astro build`; `prebuild` regenerates OG PNGs)
+- Type check + build: `npm run build` (runs `npm test`, `astro check`, `astro build`, then `scripts/check-site.mjs`; `prebuild` regenerates OG PNGs)
 - Lint: none configured
-- Tests: none configured
+- Tests: `npm test` — `node --test tests/*.test.mjs` (analytics client), also run inside `npm run build`
+- `check-site.mjs` fails the build if the Aptabase App Key placeholder was not replaced (see [`analytics.md`](analytics.md))
 
 ## Deploy steps
 1. Ensure working tree is clean on `main` with all release commits.
@@ -34,6 +35,7 @@ Commands that must pass before deploying:
 
 ## Post-deploy verification
 - Health check URL: `https://svlab.online/` → expected HTTP 200 and updated footer/content
+- Analytics: open `https://svlab.online/`, then `scripts/stats.sh 1 "SV Lab"` in `sshlg-analytics` shows `release.events` > 0 (see [`analytics.md`](analytics.md))
 - CI: workflow name `Deploy site to GitHub Pages` — `gh run list --workflow=deploy.yml --limit 3`
 - Custom domain: GitHub Pages settings should show published at `https://svlab.online`
 

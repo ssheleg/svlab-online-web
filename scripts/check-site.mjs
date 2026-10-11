@@ -8,6 +8,7 @@
 //   4. every internal link resolves to a real page and a real anchor
 //   5. every JSON-LD block parses, and each page carries a Person schema
 //   6. exactly one <h1> per page
+//   7. the Aptabase client ships with a real App Key, not the placeholder
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join, resolve, relative, sep } from "node:path";
@@ -227,6 +228,30 @@ for (const [route, page] of pages) {
     if (anchor && !target.ids.has(anchor)) {
       fail(route, `link "${href}" points to a missing anchor #${anchor}`);
     }
+  }
+}
+
+// 7. analytics. The client is bundled into dist/ (inline or as an asset); it
+// must carry an App Key in Aptabase's format and never the un-injected
+// placeholder, which would silently send nothing. The key is never printed.
+{
+  const shipped = [];
+  const collect = (dir) => {
+    for (const entry of readdirSync(dir)) {
+      const full = join(dir, entry);
+      if (statSync(full).isDirectory()) collect(full);
+      else if (/\.(html|js|mjs)$/.test(entry)) shipped.push(readFileSync(full, "utf8"));
+    }
+  };
+  collect(distDir);
+  const all = shipped.join("\n");
+  if (!all.includes("https://analytics.sshlg.me")) {
+    fail("dist", "Aptabase client is not bundled (no analytics.sshlg.me)");
+  }
+  if (all.includes("__APTABASE_APP_KEY__")) {
+    fail("dist", "Aptabase App Key placeholder was not replaced — run the injection (docs/analytics.md)");
+  } else if (!/["']A-[A-Z]{2}-\d{10}["']/.test(all)) {
+    fail("dist", "no Aptabase App Key in the expected format");
   }
 }
 

@@ -175,5 +175,11 @@ const productSchemas = projects.map((p) => ({
         .querySelectorAll(".reveal")
         .forEach((el) => observer.observe(el));
     </script>
+
+    <!-- Product analytics: self-hosted Aptabase, no cookies, no personal data (src/lib/aptabase.js). -->
+    <script>
+      import { install } from "@/lib/aptabase.js";
+      install(window);
+    </script>
   </body>
 </html>
