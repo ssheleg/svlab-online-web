@@ -35,7 +35,7 @@ Commands that must pass before deploying:
 
 ## Post-deploy verification
 - Health check URL: `https://svlab.online/` → expected HTTP 200 and updated footer/content
-- Analytics: open `https://svlab.online/`, then `scripts/stats.sh 1 "SV Lab"` in `sshlg-analytics` shows `release.events` > 0 (see [`analytics.md`](analytics.md))
+- Analytics: open `https://svlab.online/`, then `scripts/stats.sh 1 "SV Lab"` in `sshlg-analytics` shows `release.events` > 0 (see [`analytics.md`](analytics.md)); growth's `events.list` for app `svlab` (production) shows `page_view` installs > 0
 - CI: workflow name `Deploy site to GitHub Pages` — `gh run list --workflow=deploy.yml --limit 3`
 - Custom domain: GitHub Pages settings should show published at `https://svlab.online`
 

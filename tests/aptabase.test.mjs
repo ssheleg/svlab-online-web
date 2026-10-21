@@ -5,20 +5,45 @@ import assert from "node:assert/strict";
 import {
   createAptabase,
   describeLinkClick,
+  environmentForHost,
   isDebugHost,
+  randomUuid,
   scalarProps,
   templatePath,
 } from "../src/lib/aptabase.js";
 
 const TEST_KEY = "A-SH-0000000000";
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
 
-function browser({ host = "svlab.online", pathname = "/", statuses = [], appKey = TEST_KEY } = {}) {
+/** Storage that records every touch: the client must never use it. */
+function spyStorage(touched) {
+  const spy = (op) => () => {
+    touched.push(op);
+    return null;
+  };
+  return { getItem: spy("getItem"), setItem: spy("setItem"), removeItem: spy("removeItem"), clear: spy("clear") };
+}
+
+/** The growth identity props, checked and removed, so the rest can be compared exactly. */
+function identity(e) {
+  const { iid, environment, ...rest } = e.props;
+  assert.match(iid, UUID, "every event carries a lowercase UUID iid");
+  assert.ok(environment === "production" || environment === "sandbox", `environment ${environment}`);
+  assert.equal(environment === "production", e.systemProps.isDebug === false, "environment agrees with isDebug");
+  return { iid, environment, rest };
+}
+
+function browser({ host = "svlab.online", pathname = "/", statuses = [], appKey = TEST_KEY, crypto = globalThis.crypto } = {}) {
   const sent = [];
   const timers = [];
+  const touched = [];
   let clock = Date.parse("2026-10-09T12:00:00Z");
   const win = {
     location: { hostname: host, pathname, href: `https://${host}${pathname}` },
     navigator: { language: "pl-PL" },
+    crypto,
+    localStorage: spyStorage(touched),
+    sessionStorage: spyStorage(touched),
     setTimeout: (fn) => {
       timers.push(fn);
       return timers.length;
@@ -31,7 +56,7 @@ function browser({ host = "svlab.online", pathname = "/", statuses = [], appKey 
     },
   };
   const a = createAptabase({ win, appKey, now: () => clock, random: () => 0.5 });
-  return { a, sent, win, timers, advance: (ms) => (clock += ms) };
+  return { a, sent, win, timers, touched, advance: (ms) => (clock += ms) };
 }
 
 /** A fake <a> inside a fake landmark, enough for describeLinkClick. */
@@ -85,7 +110,9 @@ test("page_view: wire format, one per path, templated, no query string", async (
   assert.match(e.sessionId, /^\d{18}$/);
   assert.equal(e.timestamp, "2026-10-09T12:00:00.000Z");
   assert.deepEqual(e.systemProps, { isDebug: false, locale: "pl-PL", osName: "", appVersion: "", sdkVersion: "svlab-web@1.0.0" });
-  assert.deepEqual(e.props, { page: "/consulting/ai-advisory" });
+  const { environment, rest } = identity(e);
+  assert.equal(environment, "production");
+  assert.deepEqual(rest, { page: "/consulting/ai-advisory" });
   assert.equal(templatePath("/x/3f2a9c1e-4b7d-4e2a-9c1e-4b7d4e2a9c1e?email=a@b.c#top"), "/x/:id");
 });
 
@@ -107,7 +134,7 @@ test("props: scalars only; personal-data keys, e-mails and URLs never leave", as
   });
   await b.a.flush();
   const e = b.sent[0].events[0];
-  assert.deepEqual(e.props, { section: "contact", count: 2, first: true, page: "/" });
+  assert.deepEqual(identity(e).rest, { section: "contact", count: 2, first: true, page: "/" });
   const flat = JSON.stringify(b.sent);
   for (const planted of ["visitor@example.com", "Ann", "hello there", "Book a call", "acme", "evil.example", "me@example.com"]) {
     assert.ok(!flat.includes(planted), planted);
@@ -145,7 +172,7 @@ test("onClick tracks the click through the same privacy filter", async () => {
   await b.a.flush();
   const e = b.sent[0].events[0];
   assert.equal(e.eventName, "contact_click");
-  assert.deepEqual(e.props, { section: "contact", page: "/" });
+  assert.deepEqual(identity(e).rest, { section: "contact", page: "/" });
   assert.ok(!JSON.stringify(b.sent).includes("contact@"));
 });
 
@@ -216,4 +243,68 @@ test("the queue is bounded at 100 events", () => {
   b.win.fetch = () => new Promise(() => {}); // a request that never answers keeps the batch in flight
   for (let i = 0; i < 130; i++) b.a.track("e" + i, {});
   assert.equal(b.a.queue().length, 100);
+});
+
+test("growth identity: every event leaves the sink with iid and environment", async () => {
+  for (const [host, env] of [["svlab.online", "production"], ["localhost", "sandbox"], ["www.svlab.online", "sandbox"], ["ssheleg.github.io", "sandbox"]]) {
+    assert.equal(environmentForHost(host), env, host);
+    const b = browser({ host });
+    b.a.pageView();
+    b.a.track("contact_click", { section: "contact" });
+    b.a.track("outbound_click", { destination: "prowl.chat", section: "footer" });
+    await b.a.flush();
+    const events = b.sent.flatMap((s) => s.events);
+    assert.equal(events.length, 3, host);
+    for (const e of events) {
+      const { environment } = identity(e);
+      assert.equal(environment, env, `${host} ${e.eventName}`);
+    }
+    assert.equal(new Set(events.map((e) => e.props.iid)).size, 1, "one iid per session");
+  }
+});
+
+test("growth identity: a caller can neither set nor remove iid and environment", async () => {
+  const b = browser({ host: "localhost" });
+  b.a.track("contact_click", { iid: "00000000-0000-4000-8000-000000000000", environment: "production", IID: "x", Environment: "production", section: "nav" });
+  await b.a.flush();
+  const e = b.sent[0].events[0];
+  const { iid, environment, rest } = identity(e);
+  assert.notEqual(iid, "00000000-0000-4000-8000-000000000000");
+  assert.equal(environment, "sandbox");
+  assert.equal(e.systemProps.isDebug, true);
+  assert.deepEqual(rest, { section: "nav", page: "/" });
+  assert.deepEqual(scalarProps({ iid: "a", environment: "b", ok: 1 }), { ok: 1 });
+});
+
+test("growth identity: the iid lives with the session in memory and is never stored", async () => {
+  const b = browser({ statuses: [200, 200, 200] });
+  b.a.track("a", {});
+  const first = b.a.queue().at(-1).body;
+  b.advance(30 * 60 * 1000);
+  b.a.track("b", {});
+  assert.equal(b.a.queue().at(-1).body.props.iid, first.props.iid, "same session, same iid");
+  b.advance(61 * 60 * 1000);
+  b.a.track("c", {});
+  const rotated = b.a.queue().at(-1).body;
+  assert.notEqual(rotated.sessionId, first.sessionId);
+  assert.notEqual(rotated.props.iid, first.props.iid, "a new session gets a new iid");
+  assert.match(rotated.props.iid, UUID);
+  await b.a.flush();
+  assert.deepEqual(b.touched, [], "no localStorage or sessionStorage access");
+  const other = browser();
+  other.a.track("a", {});
+  assert.notEqual(other.a.queue().at(-1).body.props.iid, first.props.iid, "another page load, another iid");
+});
+
+test("growth identity: without crypto there is no iid, and nothing is sent", async () => {
+  const b = browser({ crypto: null });
+  b.a.pageView();
+  b.a.track("contact_click", { section: "contact" });
+  await b.a.flush();
+  assert.equal(b.sent.length, 0);
+  assert.equal(b.a.queue().length, 0);
+  assert.equal(randomUuid(undefined), null);
+  const fallback = randomUuid({ getRandomValues: (a) => globalThis.crypto.getRandomValues(a) });
+  assert.match(fallback, UUID);
+  assert.equal(fallback[14], "4", "UUID v4");
 });

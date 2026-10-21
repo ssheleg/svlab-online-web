@@ -176,7 +176,7 @@ In the `svlab.online` zone:
 
 ## Analytics
 
-Page views and link clicks go to the operator's self-hosted [Aptabase](https://aptabase.com) at `https://analytics.sshlg.me` (EU), app **SV Lab**. No cookies, nothing stored in the browser, no personal data. Details, events and the key procedure: [`docs/analytics.md`](docs/analytics.md).
+Page views and link clicks go to the operator's self-hosted [Aptabase](https://aptabase.com) at `https://analytics.sshlg.me` (EU), app **SV Lab**. No cookies, nothing stored in the browser, no personal data. Every event carries a random per-session `iid` held in memory and an `environment` (`production` only on `svlab.online`), so the operator's growth service can count it. Details, events and the key procedure: [`docs/analytics.md`](docs/analytics.md).
 
 - **Release only on `svlab.online`.** Any other host — `localhost`, `www.svlab.online`, a preview — sends Debug events (`isDebug: true`).
 - Events: `page_view`, `contact_click` (any `mailto:` link), `outbound_click` (destination host only), `cta_click` (internal CTA buttons).

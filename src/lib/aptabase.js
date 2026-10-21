@@ -8,6 +8,13 @@
 // - Build mode: Release only on the canonical host `svlab.online`. Every other
 //   host — localhost, `www.` (it 301s to the apex), a preview — is Debug
 //   (`isDebug: true`), so the dashboard's Release view counts real visitors only.
+// - Growth identity: every event carries `iid` and `environment`, attached in
+//   `track` and nowhere else; a caller cannot set or forget them. `environment`
+//   is `production` exactly on `svlab.online` and agrees with `isDebug`. `iid` is
+//   a random UUID made for analytics only, held in memory with the same
+//   lifetime as the session id and replaced when the session rotates. It is
+//   never stored, so the site still keeps nothing in the browser and needs no
+//   consent banner (decision in docs/analytics.md, "Growth identity").
 // - No personal data: props are scalars (string ≤ 180, finite number,
 //   boolean); keys that could carry personal data or free text are dropped, and
 //   so is any string holding `@` or a URL. Paths are sent as templates, never
@@ -36,9 +43,36 @@ const PRIVATE_KEY =
   /(e?mail|phone|password|token|secret|query|prompt|message|text|content|body|subject|url|link|address|(^|_)(name|key|ip)($|_))/i;
 const CTA_CLASSES = ["btn-primary", "btn-secondary", "about-cta", "hub-card", "fde-strip", "cta"];
 
-/** The one build-mode rule: Release (false) exactly on the production host. */
+/** Growth's environment: `production` exactly on the production host, `sandbox` anywhere else. */
+export function environmentForHost(hostname) {
+  return hostname === PRODUCTION_HOST ? "production" : "sandbox";
+}
+
+/** The one build-mode rule: Release (false) exactly when the environment is production. */
 export function isDebugHost(hostname) {
-  return hostname !== PRODUCTION_HOST;
+  return environmentForHost(hostname) !== "production";
+}
+
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+
+/** A random lowercase UUID v4 from the page's crypto, or null when the page has none. */
+export function randomUuid(cryptoImpl) {
+  try {
+    if (cryptoImpl && typeof cryptoImpl.randomUUID === "function") {
+      const id = String(cryptoImpl.randomUUID()).toLowerCase();
+      if (UUID.test(id)) return id;
+    }
+    if (cryptoImpl && typeof cryptoImpl.getRandomValues === "function") {
+      const b = cryptoImpl.getRandomValues(new Uint8Array(16));
+      b[6] = (b[6] & 0x0f) | 0x40;
+      b[8] = (b[8] & 0x3f) | 0x80;
+      const h = Array.from(b, (x) => x.toString(16).padStart(2, "0")).join("");
+      return `${h.slice(0, 8)}-${h.slice(8, 12)}-${h.slice(12, 16)}-${h.slice(16, 20)}-${h.slice(20)}`;
+    }
+  } catch {
+    /* no usable crypto: no iid, so nothing is sent */
+  }
+  return null;
 }
 
 /** A path as its template: ids, hashes and long tokens become `:id`; query and hash are dropped. */
@@ -60,12 +94,15 @@ export function templatePath(path) {
   );
 }
 
-/** Scalar product facts only: personal-data keys and strings with `@` or a URL never leave. */
+/**
+ * Scalar product facts only: personal-data keys and strings with `@` or a URL
+ * never leave. `iid` and `environment` belong to the sink and are dropped here.
+ */
 export function scalarProps(params) {
   const out = {};
   if (!params || typeof params !== "object") return out;
   for (const k of Object.keys(params)) {
-    if (!k || k.length > 40 || PRIVATE_KEY.test(k)) continue;
+    if (!k || k.length > 40 || PRIVATE_KEY.test(k) || /^(iid|environment)$/i.test(k)) continue;
     const v = params[k];
     if (typeof v === "string") {
       if (/@|https?:|\/\/|mailto:/i.test(v)) continue;
@@ -122,7 +159,7 @@ export function createAptabase({ win, appKey, now = () => Date.now(), random = M
   let queue = [];
   let timer = null;
   let inflight = false;
-  const session = { id: "", last: 0 };
+  const session = { id: "", iid: null, last: 0 };
   let lastPath = "";
   const enabled = /^A-[A-Z]{2}-\d{10}$/i.test(String(appKey || ""));
 
@@ -134,14 +171,16 @@ export function createAptabase({ win, appKey, now = () => Date.now(), random = M
     }
   };
 
-  function sessionId() {
+  /** The current session, rotated after an hour idle; its `iid` is born and dies with it. */
+  function touchSession() {
     const t = now();
     if (!session.id || t - session.last > SESSION_IDLE_MS) {
       // The SDKs' numeric form: unix seconds × 10^8 + 8 random digits.
       session.id = String(Math.floor(t / 1000)) + String(Math.floor(1e7 + random() * 9e7));
+      session.iid = randomUuid(win.crypto);
     }
     session.last = t;
-    return session.id;
+    return session;
   }
 
   function schedule() {
@@ -152,19 +191,29 @@ export function createAptabase({ win, appKey, now = () => Date.now(), random = M
     }, FLUSH_MS);
   }
 
+  /**
+   * The one sink every event passes through. `iid` and `environment` are set
+   * here, after the caller's props, so no call site can set or forget them;
+   * without an `iid` (no crypto) nothing is queued at all.
+   */
   function track(name, params) {
     if (!name || !enabled) return;
+    const current = touchSession();
+    if (!current.iid) return;
+    const environment = environmentForHost(hostname());
     const props = scalarProps(params);
     props.page = templatePath(win.location && win.location.pathname);
+    props.iid = current.iid;
+    props.environment = environment;
     queue.push({
       at: now(),
       attempts: 0,
       body: {
         timestamp: new Date(now()).toISOString(),
-        sessionId: sessionId(),
+        sessionId: current.id,
         eventName: String(name).slice(0, 60),
         systemProps: {
-          isDebug: isDebugHost(hostname()),
+          isDebug: environment !== "production",
           locale: ((win.navigator && win.navigator.language) || "").slice(0, 10),
           osName: "",
           appVersion: "",
