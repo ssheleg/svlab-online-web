@@ -1,7 +1,7 @@
 # SV Lab — svlab.online
 
 Personal site of **Siarhei Sheleh** — technical entrepreneur in Warsaw, Poland. **SV Lab** is the container he ships under.
-The home page runs one spine — **01 About me → 02 Open source → 03 AI agent products → 04 Track record → 05 Capabilities**. It carries the open-source work (Nicegram, `sshlg-skills`), the three live agent products (Prowl, CheckMyData, PrivateClawd), one ledger of everything shipped in 13 years, the `/about` page, and the consulting front door at `/consulting` for AI advisory, AI transformation, and forward deployment engagements. All inquiries land at [contact@svlab.online](mailto:contact@svlab.online).
+The home page runs one spine: **01 About me → 02 Open source → 03 AI agent products → 04 Track record → 05 Capabilities**. It carries the open-source work (Nicegram, `sshlg-skills`), the live agent products (Prowl and PrivateClawd), a track record of the other projects shipped in 13 years (each product appears on the page once), the `/about` page, and the consulting front door at `/consulting` for AI advisory, AI transformation, and forward deployment engagements. All inquiries land at [contact@svlab.online](mailto:contact@svlab.online).
 
 - **Stack:** [Astro 6](https://astro.build) · TypeScript · Tailwind CSS v4
 - **Hosting:** GitHub Pages (static) on the apex domain `svlab.online`
@@ -47,7 +47,7 @@ All "Book a consultation" buttons render as pre-filled `mailto:` links — no ba
 
 ```
 src/
-  layouts/BaseLayout.astro      # <head>, OG, JSON-LD (Organization + SoftwareApplication × 3, plus per-page extraSchemas)
+  layouts/BaseLayout.astro      # <head>, OG, JSON-LD (Organization + one SoftwareApplication per projects.ts entry, plus per-page extraSchemas)
   pages/
     index.astro                 # home (lab overview)
     about.astro                 # /about — emits Person JSON-LD
@@ -60,7 +60,7 @@ src/
   components/
     Nav.astro · Hero.astro · About.astro       # home composition
     OpenSource.astro            # Nicegram + the sshlg-skills family
-    Work.astro · ProjectCard.astro  # AI agent products + the track-record ledger
+    Work.astro · ProjectCard.astro  # AI agent products + "Other projects" (ledger rows with no card above)
     Capabilities.astro · Marquee.astro
     Contact.astro · Footer.astro
     AboutPage.astro             # full /about page (hero portrait + bio + disciplines + selected work + CTA)
@@ -69,8 +69,8 @@ src/
     GradientMesh.astro · GridBg.astro · Logo.astro
   data/
     site.ts                     # name, email, founder, legal entity (JSON-LD still uses address/NIP/VAT)
-    projects.ts                 # SOT for live SV Lab products (3 cards)
-    track-record.ts             # SOT for career projects (8 rows)
+    projects.ts                 # SOT for live SV Lab projects; `agentProducts` drives every "N agent products" figure
+    track-record.ts             # SOT for career projects
     capabilities.ts             # capability tiles
     consulting.ts               # SOT for /consulting services (advisory + transformation + forward deployment): hero, outcomes, proofs, process, FAQ, CTA, meta
   styles/global.css             # Tailwind v4 @theme tokens, design system

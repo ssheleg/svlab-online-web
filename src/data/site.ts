@@ -25,6 +25,15 @@ export const site = {
   // `getFullYear()` makes the output non-reproducible. Review together yearly.
   shippingSince: 2013,
   yearsExperience: 13,
+  // Mobile apps built across the whole career, Android and iOS, employment
+  // included, and how many of them were sold. Owner-stated 2026-10-21 ("20+
+  // mobile apps, Android and iOS, and 3 sold"), replacing "3 iOS products built
+  // and sold" on sshlg.me the same day. Self-reported: no public list backs the
+  // floor, so it prints as a floor ("20+"), never as an exact count. The sold
+  // apps are not rows in this site's ledger, so the 3 is a literal here.
+  // Source row: sshlg-me docs/brand/facts.md § Person, "Mobile apps built".
+  mobileAppsBuilt: "20+",
+  mobileAppsSold: 3,
   // Header status LED. Deliberately date-free so it never goes stale.
   availability: "AVAILABLE",
   availabilityDetail: "Available for consulting",

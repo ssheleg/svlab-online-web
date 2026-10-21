@@ -9,6 +9,9 @@
 //   5. every JSON-LD block parses, and each page carries a Person schema
 //   6. exactly one <h1> per page
 //   7. the Aptabase client ships with a real App Key, not the placeholder
+//   8. the home OG image's "N PRODUCTS · M STILL LIVE" label matches the counts
+//      the home page renders (the PNG is generated before the build, so it
+//      cannot read the data; this keeps its literal honest)
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join, resolve, relative, sep } from "node:path";
@@ -42,6 +45,25 @@ const FORBIDDEN = [
   "Twelve years",
   "Rajmunda",
   "5223265821",
+  // Retired 2026-10-21. CheckMyData is no longer presented anywhere on the
+  // site, and these Prowl and PrivateClawd figures were superseded by the
+  // products' own pages (sources: docs/handoffs/2026-10-21-facts-refresh.md).
+  "CheckMyData",
+  "checkmydata",
+  "NL-to-SQL",
+  "NL → SQL",
+  "408 tools",
+  "408 market",
+  "408 intelligence",
+  "448 tools",
+  "448 market",
+  "12-module",
+  "$5 starter",
+  "60 seconds",
+  "60-second",
+  "dedicated VM",
+  "dedicated, isolated VM",
+  "3 iOS products",
 ];
 
 // Strings that must not survive anywhere a reader can see them — metadata and
@@ -66,7 +88,17 @@ const REQUIRED_HOME = [
   "Open source",
   "AI agent products",
   "Track record",
+  // Current product facts, re-read from prowl.chat and privateclawd.com on
+  // 2026-10-21.
+  "444 market-intelligence tools",
+  "17 providers",
+  "$15 starter credit",
+  "private container of its own",
+  "Other projects",
 ];
+
+// Required on /about: the mobile count, owner-stated 2026-10-21.
+const REQUIRED_ABOUT = ["20+ mobile apps", "for Android and iOS, and 3 of them were sold"];
 
 // Section labels in the order they must appear on the home page.
 const HOME_SECTION_ORDER = [
@@ -142,9 +174,30 @@ for (const [route, page] of pages) {
   for (const need of REQUIRED_EVERYWHERE) {
     if (!html.includes(need)) fail(route, `missing required string "${need}"`);
   }
+  if (route === "/about") {
+    for (const need of REQUIRED_ABOUT) {
+      if (!html.includes(need)) fail(route, `about page missing "${need}"`);
+    }
+  }
   if (route === "/") {
     for (const need of REQUIRED_HOME) {
       if (!text.includes(need)) fail(route, `home page missing "${need}"`);
+    }
+
+    // 8. the home OG label against the rendered hero strip.
+    const shipped = text.match(/\/\/ SHIPPED<\/[^>]+>\s*<[^>]+>(\d+) products</);
+    const live = text.match(/\/\/ LIVE<\/[^>]+>\s*<[^>]+>(\d+) running</);
+    const ogSrc = readFileSync(resolve(__dirname, "build-og.mjs"), "utf8");
+    const og = ogSrc.match(/"(\d+) PRODUCTS · (\d+) STILL LIVE"/);
+    if (!shipped || !live) {
+      fail(route, "hero strip SHIPPED/LIVE values not found");
+    } else if (!og) {
+      fail("scripts/build-og.mjs", 'no "N PRODUCTS · M STILL LIVE" label found');
+    } else if (og[1] !== shipped[1] || og[2] !== live[1]) {
+      fail(
+        "scripts/build-og.mjs",
+        `OG label says ${og[1]} products · ${og[2]} live, the page renders ${shipped[1]} · ${live[1]}`,
+      );
     }
 
     // Section spine, in order. Each label must appear after the previous one.

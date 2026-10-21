@@ -4,6 +4,7 @@
 import { projects } from "./projects";
 import { trackRecord } from "./track-record";
 import { site } from "./site";
+import { platformProjects } from "./open-source";
 
 export type LedgerEntry = {
   slug: string;
@@ -75,6 +76,22 @@ export const ledger: LedgerEntry[] = [...fromProjects, ...fromTrackRecord].sort(
 );
 
 export const featuredLedger: LedgerEntry[] = ledger.filter((e) => e.featured);
+
+/**
+ * Every slug that already has a card higher up the home page: the SV Lab
+ * projects (agent products and sshlg-skills) and the Nicegram platform cards in
+ * the Open source section. The track-record list shows the rest, so each
+ * product appears on the page once (2026-10-21, mirroring sshlg.me's
+ * "Other projects"). `ledgerStats` still counts the whole ledger.
+ */
+const shownAsCard = new Set<string>([
+  ...featuredLedger.map((e) => e.slug),
+  ...platformProjects.map((p) => p.slug),
+]);
+
+export const otherLedger: LedgerEntry[] = ledger.filter(
+  (e) => !shownAsCard.has(e.slug),
+);
 
 export const ledgerStats = {
   total: ledger.length,

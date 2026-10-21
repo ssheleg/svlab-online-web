@@ -5,7 +5,7 @@ import {
   getProductsForService,
   getTrackRecordForService,
 } from "@/data/consulting";
-import { formatYears } from "@/data/projects";
+import { agentProducts, formatYears } from "@/data/projects";
 import { formatTrackYears } from "@/data/track-record";
 import GradientMesh from "./GradientMesh.astro";
 import GridBg from "./GridBg.astro";
@@ -194,9 +194,10 @@ const isNumeric = (s: string) => /\d/.test(s);
       <span class="mono-label">// PROOFS · WHY ME</span>
       <h2>I don't pitch AI from a slide deck.</h2>
       <p>
-        SV Lab runs three live AI products in production today, on top of a
-        12-year track record of shipping internet products end-to-end. Below:
-        the work most relevant to this engagement.
+        SV Lab runs {agentProducts.length} live AI products in production
+        today, on top of a {site.yearsExperience}-year track record of shipping
+        internet products end to end. Below: the work most relevant to this
+        engagement.
       </p>
     </header>
 

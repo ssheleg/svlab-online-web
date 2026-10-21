@@ -7,7 +7,8 @@ import GridBg from "@/components/GridBg.astro";
 import ConsultingHubCard from "@/components/ConsultingHubCard.astro";
 import { site } from "@/data/site";
 import { consultingServices } from "@/data/consulting";
-import { projects } from "@/data/projects";
+import { projects, agentProducts } from "@/data/projects";
+import { trackRecord } from "@/data/track-record";
 
 const advisory = consultingServices["ai-advisory"];
 const transformation = consultingServices["ai-transformation"];
@@ -184,15 +185,15 @@ const offerSchema = {
 
         <div class="why-line" role="list" aria-label="Operator metrics">
           <span class="why-pill" role="listitem">
-            <span class="why-pill-num">3</span>
+            <span class="why-pill-num">{agentProducts.length}</span>
             <span class="why-pill-label mono-label">live AI products</span>
           </span>
           <span class="why-pill" role="listitem">
-            <span class="why-pill-num">11+</span>
+            <span class="why-pill-num">{trackRecord.length}</span>
             <span class="why-pill-label mono-label">prior shipped</span>
           </span>
           <span class="why-pill" role="listitem">
-            <span class="why-pill-num">12+</span>
+            <span class="why-pill-num">{site.yearsExperience}</span>
             <span class="why-pill-label mono-label">years</span>
           </span>
           <span class="why-pill" role="listitem">
