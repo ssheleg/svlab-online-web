@@ -8,7 +8,8 @@ build-mode rule are owned by the `sshlg-analytics` repository, `docs/client-cont
 
 - Client: [`src/lib/aptabase.js`](../src/lib/aptabase.js), first-party, no dependencies. Loaded by
   [`src/layouts/BaseLayout.astro`](../src/layouts/BaseLayout.astro) on every page (Astro inlines it).
-- No cookies, no `localStorage`; the session id lives in memory and rotates after 1 h idle.
+- No cookies, no `localStorage`, no `sessionStorage`; the session id and the growth `iid` live in
+  memory and rotate together after 1 h idle.
 - `POST /api/v0/events` with header `App-Key`, at most 25 events per batch, flushed after 5 s, on
   `pagehide` and when the tab is hidden (`fetch` with `keepalive`). Retries only on a network error,
   `429` or `5xx`, three attempts; any other `4xx` is dropped; nothing older than 24 h is sent.
@@ -20,9 +21,36 @@ build-mode rule are owned by the `sshlg-analytics` repository, `docs/client-cont
 `localhost`, `www.`, `ssheleg.github.io`, a preview — sends Debug events, which the Aptabase
 dashboard shows only in Debug mode. One function, `isDebugHost`, with a table test.
 
+## Growth identity (`iid`, `environment`)
+
+The operator's growth service reads this app (slug `svlab`) from the same Aptabase and counts an
+event only when its props carry `iid` (a lowercase UUID) and `environment` (exactly `production` or
+`sandbox`). Before 2026-10-21 the site sent neither, so growth's charts for SV Lab read zero.
+
+- **Attached in one place.** `track` in `src/lib/aptabase.js` is the only sink; it sets `iid` and
+  `environment` after the caller's props, and `scalarProps` drops any caller key named `iid` or
+  `environment` (any letter case). No call site can set or forget them.
+- **`environment`** is `production` exactly on `svlab.online` (`environmentForHost`), `sandbox` on
+  every other host, and `isDebug` is derived from it, so the two always agree.
+- **`iid`** is a random UUID v4 from the page's `crypto`, made for analytics only (never a user id,
+  e-mail, hash or device id). It is born with the in-memory session and replaced when the session
+  rotates. A page without `crypto` gets no `iid` and sends nothing.
+
+**Decision (2026-10-21): no consent switch, `iid` per session in memory.** The site has no cookie
+banner and no privacy page, and its analytics promise is "no cookies, nothing stored in the
+browser". A stable install id would have to be stored (`localStorage`), which for an EU site needs
+the visitor's consent and so a banner. An in-memory `iid` with the session's lifetime adds no
+storage and no new linkage: it is a second random token beside the session id that already ships.
+The cost: this is a multi-page site, so each page load starts a new session and a new `iid`;
+growth's "installs" for SV Lab therefore count page-load sessions, not people, and a funnel joins
+only events of the same page (a `page_view` and the clicks on it). If people-level counts are ever
+wanted, add a consent switch first, make the `iid` on opt-in, delete it on opt-out, and describe it
+on a privacy page in the same change.
+
 ## Events
 
-Every event carries `page` (the path as a template, never a query string or hash).
+Every event carries `page` (the path as a template, never a query string or hash), plus `iid` and
+`environment` (above).
 
 | Event | When | Props |
 |---|---|---|
@@ -55,8 +83,12 @@ un-injected placeholder. Tests build their clients with a fake key.
 
 ## Checks
 
-- `npm test` — 12 unit tests (`tests/aptabase.test.mjs`); part of `npm run build`.
+- `npm test`: 16 unit tests (`tests/aptabase.test.mjs`); part of `npm run build`. Four of them
+  guard the growth identity: removing the `iid` line from `track` fails 6 tests, removing the
+  `environment` line fails 5 (checked 2026-10-21).
 - After a deploy: open `https://svlab.online/`, then in `sshlg-analytics` run
-  `scripts/stats.sh 1 "SV Lab"`: `release.events` grows. Before the merge, on 2026-10-09 a Debug
+  `scripts/stats.sh 1 "SV Lab"`: `release.events` grows, and in growth
+  `growth.analytics.events.list` for app `svlab`, environment `production`, shows `page_view` with
+  installs above zero. Before the merge, on 2026-10-09 a Debug
   event sent through this client with the real key returned `200` and showed as `debug.events: 1`,
   `release.events: 0`.
