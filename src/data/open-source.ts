@@ -85,10 +85,10 @@ export const platformProjects: PlatformProject[] = [
     href: "https://nicegram.app",
     badge: "GPL-2.0",
     role: "Co-founder · growth",
-    metric: "56M+",
-    metricLabel: "organic installs",
+    metric: "61M+",
+    metricLabel: "installs, company-reported",
     blurb:
-      "Privacy-first Telegram client with superior UX, open source on iOS, Android, and desktop. Grown to tens of millions of users organically — no paid acquisition.",
+      "Privacy-first Telegram client, open source on iOS, Android and desktop. 61M+ installs, as reported by Nicegram on 24 June 2026.",
     links: [
       { label: "iOS", href: "https://github.com/nicegram/Nicegram-iOS" },
       { label: "Android", href: "https://github.com/nicegram/Nicegram-Android" },
