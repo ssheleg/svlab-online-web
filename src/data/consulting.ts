@@ -13,7 +13,7 @@ export type ConsultingService = {
     icon: "clock" | "target" | "trend-down" | "shield" | "layers" | "cube" | "users" | "spark";
   }[];
   proofs: {
-    products: ("prowl" | "checkmydata" | "privateclawd")[];
+    products: ("prowl" | "privateclawd")[];
     trackRecord: string[];
   };
   process: { step: string; title: string; body: string }[];
@@ -65,7 +65,7 @@ export const consultingServices: Record<
       },
     ],
     proofs: {
-      products: ["prowl", "checkmydata"],
+      products: ["prowl", "privateclawd"],
       trackRecord: ["hyperlancer", "genie-ai", "ultimate-guitar"],
     },
     process: [
@@ -172,7 +172,7 @@ export const consultingServices: Record<
       },
     ],
     proofs: {
-      products: ["privateclawd", "checkmydata", "prowl"],
+      products: ["privateclawd", "prowl"],
       trackRecord: ["esimplus", "nicegram", "ultimate-guitar"],
     },
     process: [

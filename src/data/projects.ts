@@ -44,36 +44,22 @@ export const projects: Project[] = [
     yearEnd: "present",
     status: "live",
     category: "Agent intelligence · MCP",
-    tagline: "One MCP endpoint. 408 market-intelligence tools for your agents.",
+    // Every figure re-read from prowl.chat on 2026-10-21 (curl of the live page):
+    // "444 market data tools across 17 providers", "33 modules in the
+    // catalogue", "up to 16 intelligence modules per report", "deep ≈ $17",
+    // "$15 starter credit". Superseded on this site: 408 tools, 12 modules,
+    // 5 formats, a $5 starter credit. sshlg.me moved from 448 to 444 the same
+    // day. Sources and dates: docs/handoffs/2026-10-21-facts-refresh.md.
+    tagline: "444 market-intelligence tools behind one MCP endpoint.",
     description:
-      "The research layer for coding agents. Connect one MCP to Cursor, Claude Code, Codex — or any MCP client — and the agent can call 408 SEO, ads, SERP, review, and market-data tools with real numbers, cross-referenced into a 12-module strategy report shipped as an interactive brief, infographic, PDF, deck, and video. Billed per call from a USD wallet, with a $5 starter credit.",
+      "The research layer for coding agents. Connect one MCP endpoint to Cursor, Claude Code, Codex or any other MCP client, and the agent can call 444 market data tools across 17 providers (SEO, ads, SERP, app stores, reviews and trends) and get real numbers back. For a bigger question it combines up to 16 of the 33 catalogue modules into one sourced report. Billed per call from a USD wallet: a deep report costs about $17 in credits, and a new account starts with a $15 starter credit.",
     highlights: [
-      "408 intelligence tools behind one endpoint — SEO, ads, SERP, reviews, trends",
-      "12 modules to a sourced brief in ~10 minutes, in 5 output formats",
-      "Pay-per-call wallet with per-key scopes, spend caps, and IP allowlists",
+      "444 tools across 17 providers behind one endpoint: SEO, ads, SERP, reviews, trends",
+      "33 modules in the catalogue, up to 16 combined in one report",
+      "Pay-per-call wallet with per-key scopes, spend limits and IP allowlists",
     ],
     stack: ["MCP", "TypeScript", "Next.js", "LLM orchestration", "Stripe"],
     accent: "cyan",
-  },
-  {
-    slug: "checkmydata",
-    name: "CheckMyData",
-    domain: "checkmydata.ai",
-    url: "https://checkmydata.ai",
-    yearStart: 2025,
-    yearEnd: "present",
-    status: "live",
-    category: "Open-source · NL → SQL",
-    tagline: "ChatGPT for your database.",
-    description:
-      "Open-source, MIT-licensed agent that turns plain-English questions into queries, executes them across PostgreSQL, MySQL, ClickHouse, and MongoDB, and explains results with auto-generated charts. Privacy-first by design and fully self-hostable.",
-    highlights: [
-      "Multi-DB: PostgreSQL · MySQL · ClickHouse · MongoDB",
-      "Indexes your codebase so queries match real business logic",
-      "MIT-licensed, self-hostable, zero telemetry",
-    ],
-    stack: ["TypeScript", "Postgres", "Docker", "LLM agents", "Open source"],
-    accent: "lime",
   },
   {
     slug: "privateclawd",
@@ -84,18 +70,31 @@ export const projects: Project[] = [
     yearEnd: "present",
     status: "live",
     category: "AI agent cloud",
-    tagline: "Your first AI employee, deployed in 60 seconds.",
+    // Rewritten 2026-10-21 from privateclawd.com, which no longer says "60
+    // seconds" or "dedicated VM": "Managed hosting for your OpenClaw agent, a
+    // private container of its own, always on, no VPS and no Docker" and
+    // "Deploy OpenClaw agents in minutes, no terminal required".
+    tagline: "Managed hosting for an OpenClaw agent, in a private container of its own.",
     description:
-      "Managed cloud for OpenClaw AI agents. Each customer gets an isolated VM with browser automation, code execution, multi-channel messaging (Telegram, WhatsApp, Discord, Slack, web), built-in budget guardrails, and prompt-injection defense — no servers, no DevOps.",
+      "Managed hosting for OpenClaw AI agents. Each agent runs always on, in a private, isolated container of its own, with browser automation, code execution, messaging channels (Telegram, WhatsApp, Discord, Slack, web), budget guardrails and prompt-injection defense. No servers to run and no DevOps.",
     highlights: [
-      "60-second deploy on dedicated, isolated VMs — 24/7 uptime",
-      "Token caps, loop detection, auto-pause — no runaway bills",
-      "Prompt-injection & link-preview exfiltration defense built-in",
+      "Deploy in minutes, with no terminal, VPS or Docker to set up",
+      "Token caps, loop detection, auto-pause: no runaway bills",
+      "Prompt-injection and link-preview exfiltration defense built in",
     ],
-    stack: ["Cloud orchestration", "Docker", "OpenClaw", "Stripe", "Edge"],
+    stack: ["Cloud orchestration", "Containers", "OpenClaw", "Stripe", "Edge"],
     accent: "violet",
   },
 ];
+
+/**
+ * The agent products shown as cards under "AI agent products". `sshlg-skills`
+ * is a live project too, but its card lives in the Open source section. Every
+ * "N agent products" figure on the site derives from this list, never a literal.
+ */
+export const agentProducts: Project[] = projects.filter(
+  (p) => p.slug !== "sshlg-skills",
+);
 
 export function formatYears(p: Project): string {
   if (p.yearEnd === "present") return `${p.yearStart} → Present`;

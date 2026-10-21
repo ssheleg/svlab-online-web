@@ -103,7 +103,10 @@ const pages = [
     line1: "Siarhei Sheleh.",
     line2: "Still in the code.",
     footerLeft: { label: "13 YEARS SHIPPING", width: 240 },
-    footerRight: { label: "12 PRODUCTS · 9 STILL LIVE", width: 360 },
+    // The two counts are copies of ledgerStats (this script runs before the
+    // build and cannot import the TypeScript data); check-site.mjs fails the
+    // build when they differ from what the home page renders.
+    footerRight: { label: "10 PRODUCTS · 6 STILL LIVE", width: 360 },
     accent: "brand",
   },
   {

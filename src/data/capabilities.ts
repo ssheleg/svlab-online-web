@@ -38,7 +38,7 @@ export const capabilities: Capability[] = [
   {
     title: "AI products",
     description:
-      "Agentic systems, NL-to-SQL interfaces, managed cloud for agents, and the open-source skills that keep agent output maintainable.",
+      "Agentic systems, market-intelligence tooling over MCP, managed hosting for agents, and the open-source skills that keep agent output maintainable.",
     icon: "cloud",
   },
 ];

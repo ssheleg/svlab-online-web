@@ -1,11 +1,13 @@
 ---
 import ProjectCard from "./ProjectCard.astro";
-import { projects } from "@/data/projects";
-import { ledger, ledgerStats, formatLedgerYears, badgeFor } from "@/data/ledger";
+import { agentProducts } from "@/data/projects";
+import { otherLedger, ledgerStats, formatLedgerYears, badgeFor } from "@/data/ledger";
 
-// `sshlg-skills` is a live SV Lab project and belongs in the ledger below, but
-// its detail card lives in the Skills section — it isn't repeated here.
-const liveProducts = projects.filter((p) => p.slug !== "sshlg-skills");
+// `sshlg-skills` is a live SV Lab project, but its detail card lives in the
+// Open source section, so `agentProducts` leaves it out. The track-record list
+// below shows only what has no card above (`otherLedger`), so no product is
+// listed twice on the page.
+const liveProducts = agentProducts;
 ---
 
 <section class="work" id="products">
@@ -18,12 +20,13 @@ const liveProducts = projects.filter((p) => p.slug !== "sshlg-skills");
     <div class="head reveal">
       <h2>Running right now.</h2>
       <p>
-        Three agent products live under SV Lab today — built, marketed, and
-        operated by me. Each one is in production with paying users, not a demo.
+        SV Lab runs {agentProducts.length} agent products today, built,
+        marketed and operated by me. Each one is in production with paying
+        users, not a demo.
       </p>
     </div>
 
-    <div class="grid">
+    <div class="grid" style={`--cols: ${Math.min(3, liveProducts.length)}`}>
       {liveProducts.map((project, i) => (
         <div class="cell reveal">
           <ProjectCard project={project} index={i} />
@@ -41,16 +44,17 @@ const liveProducts = projects.filter((p) => p.slug !== "sshlg-skills");
     </p>
 
     <div class="head reveal">
-      <h2>Everything shipped, in order.</h2>
+      <h2>Other projects, in order.</h2>
       <p>
-        {ledgerStats.total} products across consumer, AI, fintech, travel, developer
-        tools, and Web3 — {ledgerStats.live} still live and operating.
-        {ledgerStats.years} years, newest first.
+        {ledgerStats.total} products shipped across consumer, AI, fintech,
+        travel, developer tools and Web3 over {ledgerStats.years} years, and
+        {ledgerStats.live} of them still live and operating. The ones with a
+        card above are not repeated here. The rest, newest first:
       </p>
     </div>
 
-    <ol class="rows" aria-label="Everything shipped">
-      {ledger.map((e, i) => {
+    <ol class="rows" aria-label="Other projects">
+      {otherLedger.map((e, i) => {
         const isEarly = e.status === "early-access";
         const isLive = e.yearEnd === "present" && !isEarly;
         const statusLabel = isEarly
@@ -149,9 +153,11 @@ const liveProducts = projects.filter((p) => p.slug !== "sshlg-skills");
     }
   }
 
+  /* As many columns as cards, up to three: two products fill the row
+     instead of leaving an empty third column. */
   @media (min-width: 1100px) {
     .grid {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(var(--cols, 3), 1fr);
     }
   }
 
