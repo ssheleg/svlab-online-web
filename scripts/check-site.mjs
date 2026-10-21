@@ -56,6 +56,10 @@ const FORBIDDEN = [
   "408 market",
   "408 intelligence",
   "448 tools",
+  // Retired 2026-10-21: no source for the organic share or for no paid
+  // acquisition; Nicegram reports a total (see REQUIRED_HOME).
+  "56M+",
+  "organic installs",
   "448 market",
   "12-module",
   "$5 starter",
@@ -79,7 +83,10 @@ const REQUIRED_HOME = [
   "neuroslop",
   "Nicegram",
   "Nicegram Business",
-  "56M+",
+  // Nicegram's own figure (t.me/nicegramapp/973, 2026-06-24), a total. The
+  // earlier "56M+ organic installs" had no source for "organic" or for "no
+  // paid acquisition", and is forbidden below.
+  "61M+",
   "350M+",
   "eSIM Plus",
   // Section spine — the page must read as About me → Open source → products →

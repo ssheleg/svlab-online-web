@@ -9,7 +9,7 @@ export type TrackItem = {
   blurb: string;
   tags: string[];
   /**
-   * Headline number for the row, e.g. "56M+ organic installs". Only set it
+   * Headline number for the row, e.g. "61M+ installs, company-reported". Only set it
    * where the figure is verified — an empty cell reads better than a guess.
    */
   metric?: string;
@@ -56,7 +56,7 @@ export const trackRecord: TrackItem[] = [
     role: "Co-founder · growth",
     blurb: "Privacy-first Telegram client with superior UX. Open source on iOS, Android, and desktop.",
     tags: ["messaging", "privacy", "open source"],
-    metric: "56M+ organic installs",
+    metric: "61M+ installs, company-reported",
   },
   {
     slug: "whatplantisthis",
